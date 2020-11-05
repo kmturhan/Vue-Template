@@ -1,3 +1,4 @@
+const { Object } = require('core-js');
 const express = require('express');
 const mqtt = require('mqtt');
 
@@ -16,7 +17,7 @@ client.on('connect', function () {
       
     })
 });
-
+var selectedTvID, selectedSerialNumber;
 client.on('message', function (topic, message) {
     // message is Buffer
     
@@ -35,7 +36,7 @@ client.on('message', function (topic, message) {
 
     console.log('TETETETS',jsonData);
     console.log('TOKEN : '+ token + 'TOPIC : '+ topicName);
-
+    
     switch(topicName){
         case 'home/' + token :
             console.log('Home Channel');
@@ -88,8 +89,21 @@ client.on('message', function (topic, message) {
         case 'home/attributes/' + token :
             console.log('Attr Channel');
             var jsonID = Object.keys(jsonData);
-            console.log(jsonID);
-            var tvid = jsonID[0].split('tvId')[1];
+            console.log('ATTR : ',jsonID);
+            console.log('ATTR2 : ',jsonData)
+            console.log(selectedTvID);
+            console.log(selectedSerialNumber);
+            var testArray = {km:'RemoteLock',ka:'TvStatus',kf:'VoiceValue',kh:'BrightnessValue'}
+            
+            var selectedPinKey = testArray[Object.keys(jsonData.params)];
+            
+            console.log('KEY ',selectedPinKey)
+            console.log('VALUE ',jsonData.params[Object.keys(jsonData.params)]);
+            sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+            db.all(sql,[jsonData.params[Object.keys(jsonData.params)],token,selectedTvID,selectedSerialNumber],(err,rows)=>{
+                console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
+            })   
+           
             //var tvStatus = jsonData[jsonID].tvdurum;
 
             //console.log('TV STATUS ', parseInt(tvStatus));
@@ -114,10 +128,6 @@ client.on('message', function (topic, message) {
                 console.log(token,tvid, tvStatus)
             }*/
             //console.log(jsonData[jsonID].tvdurum);
-            
-            console.log(jsonData);
-
-            
             
             break;
         case 'home/create/'+token:
@@ -215,7 +225,8 @@ router.get('/loadDevices', (req,res)=>{
 
 router.post('/test',function(req,res){
     
-    
+    selectedTvID = req.body.params.tvId;
+    selectedSerialNumber = req.body.params.tvSerial;
     console.log('test : ',req.body);
     client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 })

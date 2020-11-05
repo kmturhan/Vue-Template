@@ -12,7 +12,7 @@
 						<v-data-table :headers="headersForTransactionList" :items="deviceList"
 							hide-default-footer>
 							<template v-slot:item="{ item }">
-								<button @click="postData" data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" :checked="item.TvStatus == 1" :data-serial-number="item.Serial_Number" data-on="01" data-off="00">TEST</button>
+								
 								<tr>
 									<td>{{ item.ID }}</td>
 									<td class="text-nowrap">
@@ -22,10 +22,12 @@
 									<td class="text-nowrap">{{ item.TvID }}</td>
 									<td>
 									<v-col cols="12" sm="4" md="4" class="col-height-auto">
+										<span>AÇIK</span>
 										<v-switch color="red darken-3" value="red darken-3" hide-details @click="postData" data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" :checked="item.TvStatus == 1" :data-serial-number="item.Serial_Number" data-on="01" data-off="00"></v-switch>
 									</v-col>
 									</td>
 									<td>
+										<span>AÇIK</span>
 										<v-switch color="red darken-3" value="red darken-3" hide-details @click="postData" data-pin="km" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" :checked="item.RemoteLock == 1" :data-serial-number="item.Serial_Number" data-on="01" data-off="00"></v-switch>
 									</td>
 									<td role="test" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
@@ -58,7 +60,12 @@
 .v-input__slot {
 	margin-bottom: 0;
 }
-
+.v-slider--horizontal .v-slider__track-container {
+	top: 75% !important;
+}
+.v-slider__thumb-container {
+	top: 75% !important;
+}
 </style>
 <script>
 
@@ -254,7 +261,8 @@ export default {
 			
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
-			
+			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
+			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 			setTimeout(() => {
 				
 			axios.post('http://localhost:5000/api/test',{
@@ -262,9 +270,8 @@ export default {
 				method:"rpcCommand",
 				params: {
 					tvSerial:serialNumber,
-					command:'ka',
-					value: '50',
-					tvId:'2',
+					command:command,
+					tvId:tvID,
 					swc: '1',
 					cmd: 'gc',
 					on:'01',
