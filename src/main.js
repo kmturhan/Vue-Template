@@ -20,6 +20,8 @@ import InstantSearch from 'vue-instantsearch'
 import VueVideoPlayer from 'vue-video-player';
 import Croppa from 'vue-croppa';
 import axios from 'axios';
+window.$ = require('jquery')
+window.JQuery = require('jquery')
 // global components
 import GlobalComponents from './globalComponents'
 // router

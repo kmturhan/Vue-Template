@@ -71,90 +71,11 @@
                
             </stats-card-v6>
          </v-row>
-         <v-row>
-				<app-card
-					:heading="$t('message.projectStatus')"
-					colClasses="col-xl-8 col-lg-8 col-md-6 col-sm-12 col-12"
-					customClasses="mb-0"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-				>
-					<project-status-v3></project-status-v3> 
-				</app-card>
+         
 
-				<app-card
-					:heading="$t('message.sales')"
-					colClasses="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12"
-					customClasses="mb-0"
-					contentCustomClass="text-center"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-					>
-					<sales></sales> 
-				</app-card>
-         </v-row>
+			
 
-			<v-row>
-				<app-card
-					:heading="$t('message.upcomingEvents')"
-					colClasses="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-					customClasses="mb-0"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-				>
-					<upcoming-events></upcoming-events>
-				</app-card>
-            <app-card
-					:heading="$t('message.ongoingProjects')"
-					colClasses="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-					customClasses="mb-0"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-				>
-					<ongoing-projects></ongoing-projects>
-				</app-card>
-            <app-card
-					:heading="$t('message.projectStatus')"
-					colClasses="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12"
-					customClasses="mb-0"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-					:footer="false"
-				>
-					<project-status-v2></project-status-v2>
-				</app-card>
-			</v-row>
-
-         <v-row>
-            <app-card
-					:heading="$t('message.notifications')"
-					colClasses="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12"
-					customClasses="mb-0 notification-card-wrap"
-					:fullBlock="true"
-					:fullScreen="true"
-					:reloadable="true"
-					:closeable="true"
-					:footer="true"
-				>
-               <notifications-card></notifications-card>
-					<div slot="footer" class="text-center">
-						<v-btn class="ma-0" color="white" large>View All Notifications</v-btn>
-					</div>
-				</app-card>
-				<v-col xl="8" lg="8" md="7" sm="12" cols="12" class="pa-0">
-					<chat></chat>
-				</v-col>
-			</v-row>
+         
 
          <v-row>
             <app-card
@@ -168,32 +89,16 @@
 		</v-container>
 	</div>
 </template>
-
 <script>
 
-import UpcomingEvents from 'Components//Widgets/UpcomingEvents'
-import OngoingProjects from 'Components//Widgets/OngoingProjects'
-import ProjectStatusV2 from 'Components//Widgets/ProjectStatusV2'
-import Chat from "Components/Widgets/Chat";
-import NotificationsCard from 'Components/Widgets/NotificationsCard'
 import TabsAndTable from 'Components/Widgets/TabsAndTable'
 import LineChartV3 from "Components/Charts/LineChartV3";
 import StatsCardV6 from "Components/StatsCardV6/StatsCardV6";
-import Sales from 'Components/Charts/PieChartWithLegend'
-import ProjectStatusV3 from 'Components/Charts/ColumnChartWithImages'
-
 export default {
    components:{
-      UpcomingEvents,
-      OngoingProjects,
-      ProjectStatusV2,
-      Chat,
-      NotificationsCard,
       TabsAndTable,
       LineChartV3,
-      StatsCardV6,
-      Sales,
-      ProjectStatusV3
+      StatsCardV6
    },
    data() {
     return {

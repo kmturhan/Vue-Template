@@ -61,12 +61,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // src/main.js
-// global components
-// router
-// store
-// firebase
-// include all css files
-// messages
+window.$ = require('jquery');
+window.JQuery = require('jquery'); // global components
+
 _vue["default"].config.productionTip = false; // navigation guards before each
 
 _router["default"].beforeEach(function (to, from, next) {

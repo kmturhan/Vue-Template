@@ -88,6 +88,8 @@ client.on('message', function (topic, message) {
             break;
         case 'home/attributes/' + token :
             console.log('Attr Channel');
+            
+            
             var jsonID = Object.keys(jsonData);
             console.log('ATTR : ',jsonID);
             console.log('ATTR2 : ',jsonData)
