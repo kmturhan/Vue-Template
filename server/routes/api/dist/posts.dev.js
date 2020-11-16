@@ -7,16 +7,33 @@ var express = require('express');
 
 var mqtt = require('mqtt');
 
+var fs = require('fs');
+
+var caCRT = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/ca.crt');
+var mosCRT = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/mosquitto.crt');
+var mosKEY = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/mosquitto.key');
+console.log('POSTS');
+console.log('CACRT : ', caCRT);
+console.log('MOSCRT : ', mosCRT);
+console.log('MOSKEY : ', mosKEY);
+var PORT = 9883;
+var HOST = 'mqttServer';
+var opts = {
+  rejectUnauthorized: false,
+  username: 'labrus',
+  password: '112233',
+  connectTimeout: 5000,
+  ca: [caCRT],
+  key: mosKEY,
+  cert: mosCRT
+};
+
 var sqlite3 = require('sqlite3').verbose();
 
 var db = new sqlite3.Database('./db.db');
-var client = mqtt.connect({
-  host: '194.169.120.9',
-  port: 1883,
-  username: 'labrus',
-  password: '112233'
-});
+var client = mqtt.connect('wss://194.169.120.9:9883', opts);
 client.on('connect', function () {
+  console.log('connect');
   client.subscribe('home', function () {});
   client.subscribe('#', function () {});
 });
@@ -88,20 +105,27 @@ client.on('message', function (topic, message) {
       console.log('Attr Channel');
       var jsonID = Object.keys(jsonData);
       console.log('ATTR : ', jsonID);
-      console.log('ATTR2 : ', jsonData);
+      console.log('ATTR2 : ', jsonData); //console.log('DX : ',jsonData.params.dx.split(','));
+
       console.log(selectedTvID);
       console.log(selectedSerialNumber);
       var testArray = {
         km: 'RemoteLock',
         ka: 'TvStatus',
         kf: 'VoiceValue',
-        kh: 'BrightnessValue'
+        kh: 'BrightnessValue',
+        dx: 'PictureMode'
       };
       var selectedPinKey = testArray[Object.keys(jsonData.params)];
+      var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
+      console.log('TVID : ', arrayIDValue[0]);
+      console.log('VALUE : ', arrayIDValue[1]);
+      selectedTvID = arrayIDValue[0];
+      var selectedPinValue = arrayIDValue[1];
       console.log('KEY ', selectedPinKey);
       console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
       sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
-      db.all(sql, [jsonData.params[Object.keys(jsonData.params)], token, selectedTvID, selectedSerialNumber], function (err, rows) {
+      db.all(sql, [selectedPinValue, token, selectedTvID, selectedSerialNumber], function (err, rows) {
         console.log("Token : ", token, "TVID : ", selectedTvID, "Serial Number : ", selectedSerialNumber, 'KEY : ', selectedPinKey);
       }); //var tvStatus = jsonData[jsonID].tvdurum;
       //console.log('TV STATUS ', parseInt(tvStatus));

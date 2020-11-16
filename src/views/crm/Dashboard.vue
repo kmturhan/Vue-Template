@@ -5,19 +5,19 @@
          <v-row class="border-rad-sm overflow-hidden crm-stats-card-wrap">
             <stats-card-v6
                class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
-               :title="visitors.title"
-               :viewer="visitors.viewer"
                :icon= "visitors.icon"
                :trade="visitors.trade"
                :bgColor="visitors.card_color"
+               :openDevice="visitors.trade"
+               :closeDevice="visitors.closeDevice"
               >
 					
-						<line-chart-v3
+						<!--<line-chart-v3
 							:label="visitors.label"
                      :style="{height: '80px',width:'100%', position: 'relative'}"
 							:dataSet= "visitors.chartData"
 							:labels="visitors.chartLabel"
-						></line-chart-v3>
+						></line-chart-v3>-->
 					
 				</stats-card-v6>
             <stats-card-v6
@@ -94,6 +94,7 @@
 import TabsAndTable from 'Components/Widgets/TabsAndTable'
 import LineChartV3 from "Components/Charts/LineChartV3";
 import StatsCardV6 from "Components/StatsCardV6/StatsCardV6";
+import axios from 'axios';
 export default {
    components:{
       TabsAndTable,
@@ -102,6 +103,9 @@ export default {
    },
    data() {
     return {
+      deviceList: [],
+      openDevice: [],
+      closeDevice: [], 
       blog: {
         id: 3,
         thumbnail: "/static/img/blog-3.jpg",
@@ -113,12 +117,14 @@ export default {
          card_color : "primary",
          icon : "zmdi zmdi-account-add",
          title : "Visitors",
-         viewer : "+ 41",
-         trade : "30",
+         viewer : this.openDevice,
+         
          chartLabel : ['A', 'B', 'C', 'D', 'E'],
          label:"Visitors",
          bgColor:"primary",
-         chartData : [30, 5, 26,10,30]
+         chartData : [30, 5, 26,10,30],
+         openDevice: this.openDevice,
+         closeDevice: this.closeDevice
       },
       revenue:{
          card_color : "success",
@@ -138,7 +144,7 @@ export default {
          trade : "80",
          chartLabel : ['A', 'B', 'C', 'D', 'E'],
          label:"Sales",
-         chartData : [ 30, 5, 26,10,30 ]
+         chartData : [ 30, 5, 26,10, 30 ]
       },
       deals: {
          card_color : "error",
@@ -150,8 +156,28 @@ export default {
          label:"Deals",
          chartData : [1, 26, 8,22,1]
       }
+      
     };
-  }
+    
+  },
+  created() {
+         this.deviceList = [];
+			axios.get('http://localhost:5000/api/loadDevices').then(resp => {
+				resp.data.forEach(item => {
+               console.log(item.TvStatus)
+               if(item.TvStatus == 0) {
+                  this.closeDevice.push(item)
+               }else{
+                  this.openDevice.push(item);
+               }
+					this.deviceList.push(item);
+				});
+            
+            console.log('OPENDEVICE : ',this.openDevice);
+				console.log(this.deviceList)
+			});
+   }
+  
  
 };
 </script>

@@ -35,7 +35,7 @@ const GlobalComponents = {
       Vue.component('appSectionLoader', AppSectionLoader);
       Vue.component('pageTitleBar', PageTitleBar);
       Vue.component('rotateSquare2', RotateSquare2);
-       Vue.component('cryptoSlider', CryptoSlider);
+      Vue.component('cryptoSlider', CryptoSlider);
    }
 }
 

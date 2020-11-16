@@ -12,7 +12,8 @@
       </div>
       <div class="d-custom-flex align-items-center justify-space-between">
          <span>{{ viewer }}</span>
-         <span>{{ $t('message.trade') }} : {{ trade }} %</span>
+         <span>{{ $t('message.trade') }} : {{ openDevice }} %</span>
+         <span>{{ CloseDevice }}</span>
       </div>
       </div>
 	</app-card>
@@ -20,6 +21,6 @@
 
 <script>
 export default {
-  props: ["title", "viewer", "trade", "dataSet", "icon", "color", "labels", "extraClass", "bgColor"]
+  props: ["title", "viewer", "trade", "dataSet", "icon", "color", "labels", "extraClass", "bgColor", "openDevice", "closeDevice"]
 };
 </script>

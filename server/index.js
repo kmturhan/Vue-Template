@@ -10,6 +10,7 @@ app.use(cors());
 const posts = require('./routes/api/posts');
 const { post } = require('./routes/api/posts');
 
+
 app.use('/api/posts',posts);
 app.use('/api/',posts);
 
