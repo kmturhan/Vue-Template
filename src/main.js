@@ -20,7 +20,13 @@ import InstantSearch from 'vue-instantsearch'
 import VueVideoPlayer from 'vue-video-player';
 import Croppa from 'vue-croppa';
 import axios from 'axios';
-
+import VueMqtt from 'vue-mqtt';
+var options = {
+	rejectUnauthorized: false,
+    username: 'labrus',
+    password: '112233',
+}
+Vue.use(VueMqtt,'ws://194.169.120.9:9883',options)
 window.$ = require('jquery');
 window.JQuery = require('jquery');
 

@@ -13,7 +13,7 @@
       <div class="d-custom-flex align-items-center justify-space-between">
          <span>{{ viewer }}</span>
          <span>{{ $t('message.trade') }} : {{ openDevice }} %</span>
-         <span>{{ CloseDevice }}</span>
+         <span>{{  }}</span>
       </div>
       </div>
 	</app-card>

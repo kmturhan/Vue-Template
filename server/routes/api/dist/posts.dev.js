@@ -22,16 +22,13 @@ var opts = {
   rejectUnauthorized: false,
   username: 'labrus',
   password: '112233',
-  connectTimeout: 5000,
-  ca: [caCRT],
-  key: mosKEY,
-  cert: mosCRT
+  connectTimeout: 5000
 };
 
 var sqlite3 = require('sqlite3').verbose();
 
 var db = new sqlite3.Database('./db.db');
-var client = mqtt.connect('wss://194.169.120.9:9883', opts);
+var client = mqtt.connect('ws://194.169.120.9:9883', opts);
 client.on('connect', function () {
   console.log('connect');
   client.subscribe('home', function () {});
@@ -154,12 +151,38 @@ client.on('message', function (topic, message) {
 
       break;
 
+    case 'home/attributesUp/' + token:
+      console.log('AttributesUp Channel');
+      var dataArray = jsonData.params.up.split(',');
+      var TvID = dataArray[0];
+      var tvDurum = dataArray[1];
+      var nosignal = dataArray[2];
+      var temperature = dataArray[3];
+      var firmwareVersion = dataArray[4];
+
+      if (tvDurum == 0) {
+        sql = "UPDATE Device_Status SET TvStatus = 0 WHERE Token = ? AND TvID = ?";
+        db.all(sql, [token, TvID], function (err, rows) {
+          console.log("Success AttributesUp Update : " + "Token : ", token, "TVID : ", selectedTvID, "Serial Number : ", selectedSerialNumber, 'KEY : ', selectedPinKey);
+        });
+      } else {
+        sql = "UPDATE Device_Status SET TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
+        db.all(sql, [nosignal, temperature, firmwareVersion, token, TvID], function (err, rows) {
+          console.log("Success AttributesUp Update ALL");
+        });
+      }
+
+      console.log('TVID : ', TvID, 'TvDurum : ', tvDurum, 'No Signal : ', nosignal, 'Temp : ', temperature, 'firmwareVersion : ', firmwareVersion);
+      break;
+
     case 'home/create/' + token:
       console.log('Home2 Channel');
       var jsonTvIdList = [];
       var dbTvIdList = [];
       var arraySerialNumber = [];
       var dbSerialNumber = [];
+      var ipAddress = jsonData.params.ip;
+      var tvBrand = jsonData.params.tvModel;
       jsonTvIdList = jsonData.params.tvIds.split(',');
       jsonTvIdList.splice(jsonTvIdList.length - 1, 1);
       arraySerialNumber = jsonData.params.tvSerial.split(',');
@@ -170,8 +193,8 @@ client.on('message', function (topic, message) {
         console.log(jsonTvIdList[index]);
         db.all(sql, [token, item], function (err, rows) {
           if (rows.length == 0) {
-            sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number) VALUES (?,?,?)";
-            db.all(sql, [token, jsonTvIdList[index], item], function (err, rows) {
+            sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
+            db.all(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {
               console.log("Token : ", token, "TVID : ", jsonTvIdList[index], "Serial Number : ", item);
             });
           }
@@ -242,6 +265,16 @@ router.get('/loadDevices', function (req, res) {
     selectedSerialNumber = req.body.params.tvSerial;
     console.log('test : ', req.body);
     client.publish("home/telemetry/" + req.body.token, JSON.stringify(req.body));
+  });
+  router.post('/detectDevices', function (req, res) {
+    console.log('DETECT DEVICES : ' + req.body.token);
+    client.publish("home/telemetry/" + req.body.token, JSON.stringify(req.body)).then(function (response, request) {
+      console.log('SUCCESS POST', response);
+      console.log('SUCCESS REQUEST : ', request);
+      response.end();
+    })["catch"](function (err) {
+      console.log(err);
+    });
   });
 });
 module.exports = router;

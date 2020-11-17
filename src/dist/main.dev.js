@@ -42,6 +42,8 @@ var _vueCroppa = _interopRequireDefault(require("vue-croppa"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _vueMqtt = _interopRequireDefault(require("vue-mqtt"));
+
 var _globalComponents = _interopRequireDefault(require("./globalComponents"));
 
 var _router = _interopRequireDefault(require("./router"));
@@ -61,6 +63,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // src/main.js
+var options = {
+  rejectUnauthorized: false,
+  username: 'labrus',
+  password: '112233'
+};
+
+_vue["default"].use(_vueMqtt["default"], 'ws://194.169.120.9:9883', options);
+
 window.$ = require('jquery');
 window.JQuery = require('jquery'); // global components
 
