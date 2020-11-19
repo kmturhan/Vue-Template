@@ -71,11 +71,6 @@
                
             </stats-card-v6>
          </v-row>
-         
-
-			
-
-         
 
          <v-row>
             <app-card

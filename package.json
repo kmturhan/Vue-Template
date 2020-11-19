@@ -13,6 +13,7 @@
     "@types/leaflet": "^1.5.1",
     "algoliasearch": "^4.1.0",
     "auth0-js": "^9.11.3",
+    "aws-sdk": "^2.794.0",
     "axios": "^0.19.2",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.8.0",

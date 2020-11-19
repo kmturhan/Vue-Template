@@ -45,12 +45,12 @@ export default {
     return {
       categories: 
         {
-         'message.general': "zmdi zmdi-view-dashboard",
-         'message.modules': "zmdi zmdi-widgets",
-         'message.components':"zmdi zmdi-view-carousel",
-         'message.applications': "zmdi zmdi-assignment-check",
-         'message.features':"zmdi zmdi-wrench",
-         'message.extensions':"zmdi zmdi-file"
+         'message.general': "zmdi zmdi-view-crm",
+         //'message.modules': "zmdi zmdi-widgets",
+         //'message.components':"zmdi zmdi-view-carousel",
+         //'message.applications': "zmdi zmdi-assignment-check",
+         //'message.features':"zmdi zmdi-wrench",
+         //'message.extensions':"zmdi zmdi-file"
        }
     }
   },

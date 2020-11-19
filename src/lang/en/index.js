@@ -517,7 +517,7 @@ export default {
   hospitalAdministration:"Hospital Administration",
   revenue:"Revenue",
   deals:"Deals",
-  transactionList:"Transaction List",
+  transactionList:"Device List",
   transferReport:"Transfer Report",
   expenseCategory:"Expense Category",
   allClients:"All Clients",

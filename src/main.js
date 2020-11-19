@@ -22,17 +22,12 @@ import Croppa from 'vue-croppa';
 import axios from 'axios';
 import VueMqtt from 'vue-mqtt';
 var options = {
-	rejectUnauthorized: false,
     username: 'labrus',
     password: '112233',
 }
-Vue.use(VueMqtt,'ws://194.169.120.9:9883',options)
+Vue.use(VueMqtt,'wss://mqtts.labrus.com:8083',options)
 window.$ = require('jquery');
 window.JQuery = require('jquery');
-
-
-
-
 
 // global components
 import GlobalComponents from './globalComponents'

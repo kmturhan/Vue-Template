@@ -64,12 +64,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 // src/main.js
 var options = {
-  rejectUnauthorized: false,
   username: 'labrus',
   password: '112233'
 };
 
-_vue["default"].use(_vueMqtt["default"], 'ws://194.169.120.9:9883', options);
+_vue["default"].use(_vueMqtt["default"], 'wss://mqtts.labrus.com:8083', options);
 
 window.$ = require('jquery');
 window.JQuery = require('jquery'); // global components

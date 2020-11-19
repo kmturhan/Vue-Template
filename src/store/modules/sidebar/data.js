@@ -2,22 +2,24 @@
 export const menus = {
 	'message.general': [
 		{
-			action: 'zmdi-view-dashboard',
-			title: 'message.dashboard',
+			action: 'zmdi-view-crm',
+			title: 'message.crm',
 			active: true,
+			items: null,
 			label: 'New',
-			items: [
-				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true,label: 'Old' },
-				{ title: 'message.crm', path: '/default/dashboard/crm',label: 'New', exact: true},
-				{ title: 'message.crypto', path: '/mini/dashboard/crypto',label: 'New', exact: true},
-				{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true,label: 'Old' },
-				{ title: 'message.magazine', path: '/horizontal/dashboard/magazine', exact: true,label: 'Old' },
-				{ title: 'message.news', path: '/boxed-v2/dashboard/news', exact: true,label: 'Old' },
-				{ title: 'message.agency', path: '/boxed/dashboard/agency', exact: true,label: 'Old' },
-				{ title: 'message.saas', path: '/horizontal/dashboard/saas', exact: true,label: 'Old' }
-			]
+			path: '/dashboard/crm',
+			//items: [
+				//{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true,label: 'Old' },
+				//{ title: 'message.crm', path: '/default/dashboard/crm',label: 'New', exact: true},
+				//{ title: 'message.crypto', path: '/mini/dashboard/crypto',label: 'New', exact: true},
+				//{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true,label: 'Old' },
+				//{ title: 'message.magazine', path: '/horizontal/dashboard/magazine', exact: true,label: 'Old' },
+				//{ title: 'message.news', path: '/boxed-v2/dashboard/news', exact: true,label: 'Old' },
+				//{ title: 'message.agency', path: '/boxed/dashboard/agency', exact: true,label: 'Old' },
+				//{ title: 'message.saas', path: '/horizontal/dashboard/saas', exact: true,label: 'Old' }
+			//]
 		},
-		{
+		/*{
 			action: 'zmdi-balance-wallet',
 			title: 'message.crypto',
 			active: false,
@@ -27,8 +29,8 @@ export const menus = {
 				{ title: 'message.wallet', path: '/crypto/wallet',label: 'New' },
 				{ title: 'message.trade', path:'/crypto/trade',label: 'New'},
 			]
-      },
-      {
+      },*/
+      /*{
 			action: 'zmdi zmdi-accounts-alt',
 			title: 'message.crm',
 			active: false,
@@ -39,8 +41,8 @@ export const menus = {
 				{ title: 'message.clients', path:'/crm/clients',label: 'New'},
 				{ title: 'message.reports', path: '/crm/reports',label: 'New' },
 			]
-      },
-		{
+      },*/
+		/*{
 			action: 'zmdi-book',
 			title: 'message.courses',
 			active: false,
@@ -52,8 +54,8 @@ export const menus = {
 				{ title: 'message.signIn', path: '/courses/sign-in',label: 'Old',},
 				{ title: 'message.payment', path: '/courses/payment',label: 'Old'}
 			]
-		},
-		{
+		},*/
+		/*{
 			action: 'zmdi-widgets',
 			title: 'message.widgets',
 			active: false,
@@ -62,8 +64,8 @@ export const menus = {
 				{ title: 'message.user', path: '/widgets/user-widgets',label: 'Old' },
 				{ title: 'message.charts', path: '/widgets/chart-widgets',label: 'Old'}
 			]
-		},
-		{
+		},*/
+		/*{
 			action: 'zmdi-shopping-cart',
 			title: 'message.ecommerce',
 			active: false,
@@ -79,8 +81,8 @@ export const menus = {
 				{ title: 'message.checkout', path: '/ecommerce/checkout',label: 'Old' },
 				{ title: 'message.cards', path: '/ecommerce/cards',label: 'Old' }
 			]
-		},
-		{
+		},*/
+		/*{
 			action: 'zmdi-file-plus',
 			title: 'message.pages',
 			active: false,
@@ -92,8 +94,8 @@ export const menus = {
 				{ title: 'message.pricing2', path: '/pages/pricing-2',label: 'Old'},
 				{ title: 'message.blank', path: '/pages/blank',label: 'Old' }
 			]
-		},
-		{
+		},*/
+		/*{
 			action: 'zmdi-time',
 			title: 'message.session',
 			active: false,
@@ -105,9 +107,9 @@ export const menus = {
 				{ title: 'message.forgotPassword', path: '/session/forgot-password', exact: true ,label: 'Old'},
 				{ title: 'message.resetPassword', path: '/session/reset-password', exact: true ,label: 'Old'}
 			]
-		}
+		}*/
 	],
-	'message.modules': [
+	/*'message.modules': [
 		{
 			action: 'zmdi-email',
 			title: 'message.inbox',
@@ -124,8 +126,8 @@ export const menus = {
 			path: '/chat',
 			label: 'Old',
 		}
-	],
-	'message.components': [
+	],*/
+	/*'message.components': [
 		{
 			action: 'zmdi-wrench',
 			title: 'message.uiElements',
@@ -242,8 +244,8 @@ export const menus = {
 				{ title: 'message.leafletMaps', path: '/maps/leaflet-maps',label:'Old'}
 			]
 		}
-	],
-	'message.applications': [
+	],*/
+	/*'message.applications': [
 		{
 			action: 'zmdi-accounts',
 			title: 'message.users',
@@ -262,8 +264,8 @@ export const menus = {
 			path: '/calendar',
 			label:'Old',
 		}
-	],
-	'message.features': [
+	],*/
+	/*'message.features': [
 		{
 			action: 'zmdi-edit',
 			title: 'message.editor',
@@ -285,8 +287,8 @@ export const menus = {
 				{ title: 'message.draggableResizeable', path: '/drag-drop/vuedraggableresizeable',label:'Old'}
 			]
 		}
-	],
-	'message.extensions': [
+	],*/
+	/*'message.extensions': [
 		{
 			action: 'zmdi-crop',
 			title: 'message.imageCropper',
@@ -311,5 +313,5 @@ export const menus = {
 			path: '/dropzone',
 			label:'Old'
 		}
-	]
+	]*/
 }

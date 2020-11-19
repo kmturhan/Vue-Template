@@ -16,18 +16,16 @@ var PORT = 9883;
 var HOST = 'mqttServer';
 
 var opts = {
-    
-    rejectUnauthorized: false,
+    rejectUnauthorized: true,
     username: 'labrus',
     password: '112233',
     connectTimeout: 5000,
-    
 }
 
 const sqlite3 = require('sqlite3').verbose();
 let db = new sqlite3.Database('./db.db');
 
-var client  = mqtt.connect('ws://194.169.120.9:9883',opts)
+var client  = mqtt.connect('wss://mqtts.labrus.com:8083',opts)
 
 client.on('connect', function () {
     console.log('connect');
@@ -123,8 +121,8 @@ client.on('message', function (topic, message) {
             console.log('VALUE : ',arrayIDValue[1]);
             selectedTvID = arrayIDValue[0];
             var selectedPinValue = arrayIDValue[1];
-            console.log('KEY ',selectedPinKey);
-            console.log('VALUE ',jsonData.params[Object.keys(jsonData.params)]);
+            console.log('KEY ', selectedPinKey);
+            console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
             sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
             db.all(sql,[selectedPinValue,token,selectedTvID,selectedSerialNumber],(err,rows)=>{
                 console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
@@ -255,7 +253,7 @@ router.get('/loadDevices', (req,res)=>{
      
       rows.forEach(item => {
           console.log(item.ID);
-          console.log(item.deviceName)
+          console.log(item.deviceName);
           arrayIDList.push(item.ID);
       });
       
@@ -268,10 +266,18 @@ router.get('/loadDevices', (req,res)=>{
 })
 
 router.post('/test',function(req,res){  
-    selectedTvID = req.body.params.tvId;
-    selectedSerialNumber = req.body.params.tvSerial;
-    console.log('test : ',req.body);
-    client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
+    //selectedTvID = req.body.params.tvId;
+    //selectedSerialNumber = req.body.params.tvSerial;
+    var testArray = {km:'RemoteLock',ka:'TvStatus',kf:'VoiceValue',kh:'BrightnessValue',dx:'PictureMode'}
+    
+    
+    var selectedPinKey = testArray[req.body.params.command];
+    console.log('POST /TEST API ADDRESS');
+    sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+    db.all(sql,[req.body.params.value,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
+        console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
+    })   
+    //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 })
 
 router.post('/detectDevices',function(req,res){
