@@ -8,52 +8,46 @@
 					<div class="app-card-content">
 						<div class="pa-6 white--text success d-flex flex-column">
 							<div class="cross-out">
-							<div class="d-custom-flex align-items-center mb-2">
-								<span class="d-inline-block font-2x mr-2">
-									<i class="zmdi zmdi-money-box">
-										</i>
-										</span>
-										<span class="d-inline-block font-lg fw-bold">Revenue</span>
+								<div class="d-custom-flex align-items-center mb-2">
+									<span class="d-inline-block font-2x mr-2"><i class="zmdi zmdi-money-box"></i></span>
+									<span class="d-inline-block font-lg fw-bold">AÇIK / KAPALI</span>
+								</div>
+								<div class="d-custom-flex align-items-center justify-space-between">
+									<div class="" style="height: 80px; width: 100%; position: relative;">
+										<div class="chartjs-size-monitor">
+											<div class="chartjs-size-monitor-expand">
+												<div class=""></div>
+											</div>
+											<div class="chartjs-size-monitor-shrink">
+												<div class=""></div>
+											</div>
 										</div>
-										<div class="d-custom-flex align-items-center justify-space-between">
-											<div class="" style="height: 80px; width: 100%; position: relative;">
-												<div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand">
-													<div class="">
-														</div>
-														</div>
-														<div class="chartjs-size-monitor-shrink">
-															<div class="">
-																</div>
-																</div>
-																</div>
-																<canvas id="line-chart" width="300" height="100" style="display: block; height: 80px; width: 240px;" class="chartjs-render-monitor">
-																	</canvas>
-																	</div>
-																	</div>
-																	<div class="d-custom-flex align-items-center justify-space-between flex-column">
-																		<span>Total Open Tv : {{ openDevices.length }}</span>
-																		<span>Total Close Tv : {{ closeDevices.length }}</span>
-																		<span>
-																			</span>
-																			</div>
-																			</div>
-																			</div>
-																			<!----><!---->
-																			</div>
-																			</div>
-																			</div>
-																			</div>
+										<canvas id="line-chart" width="300" height="100" style="display: block; height: 80px; width: 240px;" class="chartjs-render-monitor"></canvas>
+									</div>
+								</div>
+								<div class="d-custom-flex align-items-center justify-space-between flex-column">
+									<span>Total Open Tv : {{ openDevices.length }}</span>
+									<span>Total Close Tv : {{ closeDevices.length }}</span>
+									<span></span>
+								</div>
+							</div>
+						</div>
+						<!----><!---->
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
 			<div class="">
 				<div class="app-card magazine-stats-card crm-stats-card">
 					<!---->
 					<div class="app-card-content">
-						<div class="pa-6 white--text primary">
+						<div class="pa-6 white--text error">
 							<div class="d-custom-flex align-items-center mb-2">
 								<span class="d-inline-block font-2x mr-2">
 									<i class="zmdi zmdi-money-box"></i>
 								</span>
-								<span class="d-inline-block font-lg fw-bold">Revenue</span>
+								<span class="d-inline-block font-lg fw-bold">Ulaşılamayan Cihazlar</span>
 							</div>
 							<div class="d-custom-flex align-items-center justify-space-between">
 								<div class="" style="height: 80px; width: 100%; position: relative;">
@@ -103,6 +97,7 @@
 			<v-tab-item v-for="n in 3" :key="n">
 				<v-card flat v-if="n==1">
 					<div class="table-responsive">
+						<!--<button @click="clickSub">attributesUp</button>-->
 						<app-section-loader :status="loader"></app-section-loader>
 						<v-data-table :headers="headersForTransactionList" :items="deviceList"
 							hide-default-footer>
@@ -168,9 +163,9 @@
 													<div class="v-input__slot">
 														<div class="v-input--selection-controls__input">
 															<input class="switch-input" aria-checked="false" role="switch" type="checkbox"   aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
-															<div class="v-input--selection-controls__ripple red--text "></div>
-															<div class="v-input--switch__track theme--light red--text "></div>
-															<div class="v-input--switch__thumb theme--light red--text "></div>
+															<div class="v-input--selection-controls__ripple red--text text--darken-3"></div>
+															<div class="v-input--switch__track theme--light red--text text--darken-3"></div>
+															<div class="v-input--switch__thumb theme--light red--text text--darken-3"></div>
 														</div>
 													</div>
 												</div>
@@ -191,10 +186,12 @@
 									</td>
 									<td>{{ item.TempetureValue }}</td>
 									<td>{{ item.NoSignal }}</td>
+									
 									<td>{{ item.FirmwareVersion }}</td>
 									<td>{{ item.Serial_Number }}</td>
-									<td>{{ item.Last_Updated }}</td>
-									<td><button @click="websocketPub" :data-token="item.Token">TEST</button></td>
+									<td>{{ item.Model_Number}}</td>
+									<td> {{ item.Brand }}</td>
+									<td>{{ item.Last_Update }}</td>
 								</tr>
 							</template>
 						</v-data-table>
@@ -224,13 +221,18 @@
 .event-disabled {
 	pointer-events: none;
 }
-
+.open-close-tv-line {
+	height: 5px;
+	width: 100%;
+	background-color: red;
+}
 </style>
 <script>
 
 import { tabsAndTableDetails } from 'Views/crm/data.js'
 import axios from 'axios'
 import JQuery from 'jquery'
+
 
 
 let $ = JQuery
@@ -296,6 +298,7 @@ export default {
 					sortable: false,
 					value: "No Signal"
 				},
+				
 				{
 					text: "Firmware Version",
 					sortable: false,
@@ -307,10 +310,21 @@ export default {
 					value: "Serial Number"
 				},
 				{
-					text: "Last_Updated",
+					text: "Model Number",
+					sortable: false,
+					value: "Model Number"
+				},
+				{
+					text: "Brand",
+					sortable: false,
+					value: "Brand" 
+				},
+				{
+					text: "Last Updated",
 					sortable: false,
 					value: "Last_Updated"
-				}
+				},
+				
         ],
         tabsAndTableDetails,
 			active: null,
@@ -328,57 +342,92 @@ export default {
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dateTime = date+' '+time;
 			var command = Object.keys(jsonData.params)[0];
 			var TVID = jsonData.params[command].split(',')[0];
 			var value = jsonData.params[command].split(',')[1];
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
-			
-			
-				console.log(this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
-					if(item.getAttribute('data-tvid') == TVID) {
-						var testTag = item.closest('.pin-'+command)
-						console.log('TESTTAG',testTag);
-						$(testTag).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
-						$(testTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
-						$(testTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
-						$(testTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
-						var serialNumber = item.getAttribute('data-serial-number');
-						console.log(serialNumber);
-						var token = item.getAttribute('data-token');
-						axios.post('http://localhost:5000/api/test', {
-							token:token,
-							method:"rpcCommand",
-							params: {
-								tvSerial:serialNumber,
-								command:command,
-								tvId:TVID,
-								value:value
-						}},{timeout:500})
-						.then(function (response) {
-							console.log(response);
-							console.log('SUCCESS');
-						})
-						.catch(function (error) {
-							console.log(error);
-						});
-					}
-				}))
-				console.log(this.$el.querySelectorAll('.pin-km'));
+			console.log(this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
+				if(item.getAttribute('data-tvid') == TVID) {
+					var testTag = item.closest('.pin-'+command)
+					console.log('TESTTAG',testTag);
+					$(testTag).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
+					$(testTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
+					$(testTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
+					$(testTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
+					var serialNumber = item.getAttribute('data-serial-number');
+					console.log(serialNumber);
+					var token = item.getAttribute('data-token');
+					axios.post('http://localhost:5000/api/test', {
+						token:token,
+						updateDate:dateTime,
+						method:"rpcCommand",
+						params: {
+							tvSerial:serialNumber,
+							command:command,
+							tvId:TVID,
+							value:value
+					}},{timeout:500})
+					.then(function (response) {
+						console.log(response);
+						console.log('SUCCESS');
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+				}
+			}))
 		},
+		'home/attributesUp/#' : function(val,topic) {
+			console.log('TABS ATTRIBUTES CHANNEL',token)
+			var test = String.fromCharCode.apply(null,val);
+			var jsonData = JSON.parse(test);
+			var dataArray = jsonData.params.up.split(',');
+			console.log('ATTRIBUTES UP : ',jsonData);
+			var token = topic.split('/')[2];
+			var TvID = dataArray[0];
+            var tvDurum = dataArray[1];
+            var nosignal = dataArray[2];
+            var temperature = dataArray[3];
+			var firmwareVersion = dataArray[4];
+			console.log(TvID,tvDurum,nosignal,temperature,firmwareVersion);
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dateTime = date+' '+time;
+			console.log(dateTime);
+			axios.post('http://localhost:5000/api/allAttributesUpdate', {
+						updateDate:dateTime,
+						token:token,
+						params: {
+							tvDurum:tvDurum,
+							tvId:TvID,
+							nosignal:nosignal,
+							temperature: temperature,
+							firmwareVersion: firmwareVersion
+					}},{timeout:500})
+					.then(function (response) {
+						console.log(response);
+						console.log('SUCCESS');
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+		}
 	},
 	methods: {
-		tvStatusControl() {	
-			console.log('TV STATUS CONTROL :',$(event.currentTarget));
-		},
-		joinServer: function(){
-			this.socket.emit('message','testMessage')
-			this.socket.on('message', () => {
-				console.log('message listening')
-			})
-		},
 		clickSub: function(){
-        this.$mqtt.publish('test', 'message');
-		},
+		this.$mqtt.publish('home/create/mVThJflRGKgZYkZ18!hU', JSON.stringify({
+		method: 'setDeviceModel',
+		params: {
+			tvIds: '2,3,',
+			tvModel: '3439534533422d4245,3433534d354b442d4248,'
+		}
+		}));
+	},
 		clickPub: function() {
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
@@ -406,12 +455,9 @@ export default {
 				console.log('SUCCESS POST',response);
 				console.log('SUCCESS REQUEST : ',request)
 				response.end();
-			}).catch((err) =>  {
+			}).catch((err) => {
 				console.log(err);
 			});
-		},
-		websocketSub: function() {
-			this.$mqtt.subscribe('param/param')
 		},
 		next () {
 			const active = parseInt(this.active)
@@ -525,42 +571,50 @@ export default {
 		},
 		mouseupp() {
 			console.log('UPP')
-			var tagName = this.selector.parentElement.parentElement.parentElement.parentElement.parentElement;
-			console.log(event.currentTarget.parentElement.parentElement.parentElement)
+			var tagName = this.selector.closest('td');
 			console.log('TAGNAME : ',tagName)
 			var tvid = tagName.getAttribute('data-TvID');
 			var token = tagName.getAttribute('data-token');
 			var serialNumber = tagName.getAttribute('data-serial-number');
 			var pin = tagName.getAttribute('data-pin');	
-		setTimeout(() => {
-			console.log('UP : ',this.selector.getAttribute('value'));
-			var value = this.selector.getAttribute('value');
-			( async function ()  {
-			return await axios.post('http://localhost:5000/api/test',{
-				token:token,
-				method:"setValueSes",
-				params: {
-					tvSerial:serialNumber,
-					command:pin,
-					value: value,
-					tvId:tvid
+			var today = new Date();
+			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dateTime = date+' '+time;
+			setTimeout(() => {
+				var value = this.selector.getAttribute('value');
+				console.log('VALUE : ',value)
+				var jsonData = {
+					updateDate:dateTime,
+					token:token,
+					method:"setValueSes",
+					params: {
+						tvSerial: serialNumber,
+						value:value,
+						command: pin,
+						tvId:tvid
+					},
 				}
-			}).then((response) => {
+				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
+				axios.post('http://localhost:5000/api/test',jsonData,{timeout:500})
 				
-				console.log('SUCCESS POST',response)
+				.then((response) => {
+					console.log('SUCCESS POST',response)
+				});
+				console.log(jsonData);
+				console.log('UP : ',this.selector.getAttribute('value'));
 			})
-			})();
-		})
-	},
-	mousedownn() {
+		},
+		mousedownn() {
 		console.log('DOWNN')
 		this.selector = event.currentTarget.querySelector('input');
 		var test = this.selector;
 		console.log('test',test.parentElement.parentElement.parentElement.parentElement.parentElement)
 		console.log('DOWN : ',this.selector)
 		console.log(this.val0)
-		},
 	},
+	},
+	
 	watch: {
 		
 	},
@@ -571,7 +625,10 @@ export default {
 		this.loadData();
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
-		})				
+		})		
+		this.$mqtt.subscribe('home/attributesUp/#',function(message) {
+			console.log('UP : ',message)
+		})		
 		/*axios.post('http://localhost:5000/api/test',{
 				token:token,
 				method:"rpcCommand",

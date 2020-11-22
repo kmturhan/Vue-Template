@@ -3,8 +3,8 @@
 		<v-list-item-avatar>
 			<img src="/static/avatars/user-13.jpg" alt="avatar" height="40" width="40" class="img-responsive" />
 		</v-list-item-avatar>
-		<v-list-item-content class="ml-3">
-			<v-list-item-title><span>John Leider</span></v-list-item-title>
+		<v-list-item-content class="ml-3" style="margin-left: 0px !important">
+			<v-list-item-title><span >Ayşe Nur ARICAN</span></v-list-item-title>
 		</v-list-item-content>
 		<v-menu 
 			bottom
@@ -22,8 +22,8 @@
 			</template>
 			<div class="dropdown-content">
 				<div class="dropdown-top white--text primary">
-					<span class="white--text fs-14 fw-bold d-block">John Leider</span>
-					<span class="d-block fs-12 fw-normal">info@example.com</span>
+					<span class="white--text fs-14 fw-bold d-block">Ayşe Nur ARICAN</span>
+					<span class="d-block fs-12 fw-normal">ayse.sutur@labrus.com</span>
 				</div>
 				<v-list class="dropdown-list">
 					<template v-for="userLink in userLinks">

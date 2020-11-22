@@ -545,7 +545,7 @@ export default {
   sellCryptocurrency:"Sell Cryptocurrency",
   transferCryptocurrency:"Transfer Cryptocurrency",
   buyOrSell:"Buy / Sell",
-  crm:"CRM",
+  crm:"Dashboard",
   crypto:"Crypto",
   supervisor:"Supervisor",
   duration:"Duration",

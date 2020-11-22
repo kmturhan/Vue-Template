@@ -31,7 +31,7 @@ class AuthService {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult)
-        router.replace('/default/dashboard/ecommerce')
+        router.replace('/default/dashboard/crm')
       } else if (err) {
         router.replace('/')
         console.log(err)

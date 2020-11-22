@@ -131,7 +131,7 @@ const mutations = {
         state.user = user;
         localStorage.setItem('user',user);
         state.isUserSigninWithAuth0 = false
-        router.push("/default/dashboard/ecommerce");
+        router.push("/default/dashboard/crm");
         setTimeout(function(){
             Vue.notify({
                 group: 'loggedIn',
@@ -158,7 +158,7 @@ const mutations = {
     },
     signUpUserSuccess(state, user) {
         state.user = localStorage.setItem('user', user);
-        router.push("/default/dashboard/ecommerce");
+        router.push("/default/dashboard/crm");
         Vue.notify({
             group: 'loggedIn',
             type: 'success',

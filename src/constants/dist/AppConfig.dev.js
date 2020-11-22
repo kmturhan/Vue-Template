@@ -9,15 +9,15 @@ exports["default"] = void 0;
  * App Config File
  */
 var _default = {
-  appLogo: '/static/img/site-logo.png',
+  appLogo: '/static/img/labrus-logo-standart-1.png',
   // App Logo,
   darkLogo: '/static/img/site-dark-logo.png',
   // dark logo
-  appLogo2: '/static/img/session.png',
+  appLogo2: '/static/img/labrus-logo-standart-1.png',
   // App Logo 2 For Login & Signup Page
-  brand: 'Vuely',
+  brand: 'Labrus',
   // Brand Name
-  copyrightText: 'Vuely © 2020 All Rights Reserved.',
+  copyrightText: 'Labrus © 2020 All Rights Reserved.',
   // Copyright Text
   enableUserTour: process.env.NODE_ENV === 'production' ? true : false,
   // Enable User Tour

@@ -7,8 +7,8 @@
       </template>
 		<div class="dropdown-content">
          <div class="dropdown-top white--text primary">
-            <span class="white--text fs-14 fw-bold d-block">John Leider</span>
-            <span class="d-block fs-12 fw-normal">info@example.com</span>
+            <span class="white--text fs-14 fw-bold d-block">Ayşe Nur ARICAN</span>
+            <span class="d-block fs-12 fw-normal">ayse.sutur@labrus.com</span>
          </div>
          <v-list class="dropdown-list">
             <template v-for="userLink in userLinks">

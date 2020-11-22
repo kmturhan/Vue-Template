@@ -149,7 +149,7 @@ const Dropzone = () => import('Views/extensions/Dropzone');
 export default {
    path: '/',
    component: Full,
-   redirect: '/default/dashboard/ecommerce',
+   redirect: '/default/dashboard/crm',
    children: [
       {
          path: '/default/dashboard/ecommerce',

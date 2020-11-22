@@ -1,15 +1,15 @@
 <template>
 	<div class="session-wrapper">
-		<div class="session-left">
+		<!--<div class="session-left">
 			<session-slider-widget></session-slider-widget>
-		</div>
+		</div>-->
 		<div class="session-right text-center">
 			<div class="session-table-cell">
 				<div class="session-content">
 					<img 
 						:src="appLogo" 
 						class="img-responsive mb-4" 
-						width="78" 
+						width="250" 
 						height="78" 
 					/>
 					<h2 class="mb-4">{{$t('message.signUp')}}</h2>
@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import SessionSliderWidget from "Components/Widgets/SessionSlider";
+//import SessionSliderWidget from "Components/Widgets/SessionSlider";
 import AppConfig from "Constants/AppConfig";
 
 export default {
   components: {
-    SessionSliderWidget
+    //SessionSliderWidget
   },
   data() {
     return {
