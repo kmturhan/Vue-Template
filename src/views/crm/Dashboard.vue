@@ -1,6 +1,11 @@
 <template>
 	<div>
       <page-title-bar></page-title-bar>
+      <div class="container container--fluid">
+         <div class="app-card" style="padding:24px;">
+            <h1>test</h1>
+         </div>
+      </div>
       <v-container fluid class="grid-list-xl pt-0">
         <!-- <v-row class="border-rad-sm overflow-hidden crm-stats-card-wrap">
             <stats-card-v6

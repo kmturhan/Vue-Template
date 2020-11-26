@@ -349,10 +349,10 @@ export default {
             title: 'message.dashboard',
             breadcrumb: [
               {
-                breadcrumbInactive: 'CRM /'
+                breadcrumbInactive: 'Dashboard'
               },
               {
-                breadcrumbActive: 'Dashboard'
+                breadcrumbActive: ''
               }
             ]
          }

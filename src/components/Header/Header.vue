@@ -42,15 +42,15 @@
 				</div>
 			</div>
 			<div class="navbar-right">
-				<v-btn class="v-step-2 mr-2 upgrade-btn" color="primary" tag="link" @click="sidebarPath('/pages/pricing-1')">{{ $t('message.pricing') }}</v-btn>
+				<!--<v-btn class="v-step-2 mr-2 upgrade-btn" color="primary" tag="link" @click="sidebarPath('/pages/pricing-1')">{{ $t('message.pricing') }}</v-btn>-->
 				<v-btn icon large @click="toggleFullScreen" class="full-screen ma-0">
 					<v-icon color="grey">fullscreen</v-icon>
 				</v-btn>
-				<v-btn class="ma-0" icon large @click.stop="chatSidebar = !chatSidebar">
+				<!--<v-btn class="ma-0" icon large @click.stop="chatSidebar = !chatSidebar">
 					<v-icon color="grey">forum</v-icon>
-				</v-btn>
+				</v-btn>-->
 				<notifications></notifications>
-				<cart :horizontal="horizontal"></cart>
+				<!--<cart :horizontal="horizontal"></cart>-->
 				<language-provider></language-provider>
 				<user></user>
 			</div>
@@ -70,7 +70,7 @@ import screenfull from "screenfull";
 import LanguageProvider from "./LanguageProvider";
 import Notifications from "./Notifications";
 import User from "./User";
-import Cart from "./Cart";
+//import Cart from "./Cart";
 import QuickLinks from "./QuickLinks";
 import MobileSearchForm from "./MobileSearchForm";
 import { getCurrentAppLayout } from "Helpers/helpers";
@@ -133,7 +133,7 @@ export default {
 		ChatSidebar,
 		LanguageProvider,
 		Notifications,
-		Cart,
+		//Cart,
 		QuickLinks,
 		MobileSearchForm,
 		User

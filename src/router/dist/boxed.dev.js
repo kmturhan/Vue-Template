@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _Full = _interopRequireDefault(require("Container/Full"));
+var _Boxed = _interopRequireDefault(require("Container/Boxed"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -16,12 +16,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // dashboard components
-var Crypto = function Crypto() {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require('Views/crypto/Crypto'));
-  });
-};
-
 var Ecommerce = function Ecommerce() {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require('Views/dashboard/Ecommerce'));
@@ -58,6 +52,12 @@ var Saas = function Saas() {
   });
 }; // Crypto components
 
+
+var Crypto = function Crypto() {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('Views/crypto/Crypto'));
+  });
+};
 
 var MarketCap = function MarketCap() {
   return Promise.resolve().then(function () {
@@ -650,44 +650,44 @@ var Dropzone = function Dropzone() {
 };
 
 var _default = {
-  path: '/',
-  component: _Full["default"],
-  redirect: '/default/dashboard/crm',
+  path: '/boxed',
+  component: _Boxed["default"],
+  redirect: '/boxed/dashboard/ecommerce',
   children: [{
-    path: '/default/dashboard/ecommerce',
     component: Ecommerce,
+    path: '/boxed/dashboard/ecommerce',
     meta: {
       requiresAuth: true,
       title: 'message.ecommerce',
       breadcrumb: null
     }
   }, {
-    path: '/default/dashboard/web-analytics',
     component: WebAnalytics,
+    path: '/boxed/dashboard/web-analytics',
     meta: {
       requiresAuth: true,
       title: 'message.webAnalytics',
       breadcrumb: null
     }
   }, {
-    path: '/default/dashboard/magazine',
     component: Magazine,
+    path: '/boxed/dashboard/magazine',
     meta: {
       requiresAuth: true,
-      title: 'message.magazine',
+      title: 'message.magazineAndNews',
       breadcrumb: null
     }
   }, {
-    path: '/default/dashboard/news',
     component: News,
+    path: '/boxed/dashboard/news',
     meta: {
       requiresAuth: true,
       title: 'message.news',
       breadcrumb: null
     }
   }, {
-    path: '/default/dashboard/agency',
     component: Agency,
+    path: '/boxed/dashboard/agency',
     meta: {
       requiresAuth: true,
       title: 'message.agency',
@@ -695,14 +695,14 @@ var _default = {
     }
   }, {
     component: Saas,
-    path: '/default/dashboard/saas',
+    path: '/boxed/dashboard/saas',
     meta: {
       requiresAuth: true,
       title: 'message.saas',
       breadcrumb: null
     }
   }, {
-    path: '/default/dashboard/crypto',
+    path: '/boxed/dashboard/crypto',
     component: Crypto,
     meta: {
       requiresAuth: true,
@@ -714,11 +714,11 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crypto/market-cap',
+    path: '/boxed/crypto/market-cap',
     component: MarketCap,
     meta: {
       requiresAuth: true,
-      title: 'message.marketCap',
+      title: 'message.market-cap',
       breadcrumb: [{
         breadcrumbInactive: 'Crypto /'
       }, {
@@ -726,7 +726,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crypto/trade',
+    path: '/boxed/crypto/trade',
     component: Trade,
     meta: {
       requiresAuth: true,
@@ -738,7 +738,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crypto/wallet',
+    path: '/boxed/crypto/wallet',
     component: Wallet,
     meta: {
       requiresAuth: true,
@@ -750,7 +750,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crm/projects',
+    path: '/boxed/crm/projects',
     component: Projects,
     meta: {
       requiresAuth: true,
@@ -762,7 +762,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crm/projectDetails/:id',
+    path: '/boxed/crm/projectDetails/:id',
     component: ProjectDetails,
     meta: {
       requiresAuth: true,
@@ -770,11 +770,11 @@ var _default = {
       breadcrumb: [{
         breadcrumbInactive: 'CRM /'
       }, {
-        breadcrumbActive: 'Project Details'
+        breadcrumbActive: 'projectDetails'
       }]
     }
   }, {
-    path: '/default/crm/clients',
+    path: '/boxed/crm/clients',
     component: Clients,
     meta: {
       requiresAuth: true,
@@ -786,7 +786,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/crm/reports',
+    path: '/boxed/crm/reports',
     component: Reports,
     meta: {
       requiresAuth: true,
@@ -798,19 +798,19 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/dashboard/crm',
+    path: '/boxed/dashboard/crm',
     component: Dashboard,
     meta: {
       requiresAuth: true,
       title: 'message.dashboard',
       breadcrumb: [{
-        breadcrumbInactive: 'Dashboard'
+        breadcrumbInactive: 'CRM /'
       }, {
-        breadcrumbActive: ''
+        breadcrumbActive: 'Dashboard'
       }]
     }
   }, {
-    path: '/default/courses',
+    path: '/boxed/courses',
     component: Courses,
     meta: {
       requiresAuth: true,
@@ -822,7 +822,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/courses/courses-list',
+    path: '/boxed/courses/courses-list',
     component: CourseList,
     meta: {
       requiresAuth: true,
@@ -834,7 +834,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/courses/courses-detail',
+    path: '/boxed/courses/courses-detail',
     component: CoursesDetail,
     meta: {
       requiresAuth: true,
@@ -846,7 +846,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/courses/sign-in',
+    path: '/boxed/courses/sign-in',
     component: SignIn,
     meta: {
       requiresAuth: true,
@@ -858,7 +858,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/courses/payment',
+    path: '/boxed/courses/payment',
     component: Payment,
     meta: {
       requiresAuth: true,
@@ -870,7 +870,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/widgets/user-widgets',
+    path: '/boxed/widgets/user-widgets',
     component: UserWidgets,
     meta: {
       requiresAuth: true,
@@ -882,7 +882,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/widgets/chart-widgets',
+    path: '/boxed/widgets/chart-widgets',
     component: ChartWidgets,
     meta: {
       requiresAuth: true,
@@ -894,11 +894,11 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/shop-with-algolia',
+    path: '/boxed/ecommerce/shop-with-algolia',
     component: ShopWithAlgolia,
     meta: {
       requiresAuth: true,
-      title: 'message.shopWithAlgolia',
+      title: 'message.shopWtihAlgolia',
       breadcrumb: [{
         breadcrumbInactive: 'Ecommerce /'
       }, {
@@ -906,7 +906,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/shop',
+    path: '/boxed/ecommerce/shop',
     component: Shop,
     meta: {
       requiresAuth: true,
@@ -918,7 +918,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/product-detail/:category/:id',
+    path: '/boxed/ecommerce/product-detail/:category/:id',
     component: ProductDetail,
     meta: {
       requiresAuth: true,
@@ -930,7 +930,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/add-product',
+    path: '/boxed/ecommerce/add-product',
     component: AddProduct,
     meta: {
       requiresAuth: true,
@@ -942,7 +942,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/edit-product',
+    path: '/boxed/ecommerce/edit-product',
     component: EditProduct,
     meta: {
       requiresAuth: true,
@@ -954,7 +954,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/edit-detail/:category/:id',
+    path: '/boxed/ecommerce/edit-detail/:category/:id',
     component: EditDetail,
     meta: {
       requiresAuth: true,
@@ -966,7 +966,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/cart',
+    path: '/boxed/ecommerce/cart',
     component: Cart,
     meta: {
       requiresAuth: true,
@@ -978,7 +978,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/checkout',
+    path: '/boxed/ecommerce/checkout',
     component: Checkout,
     meta: {
       requiresAuth: true,
@@ -990,7 +990,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ecommerce/cards',
+    path: '/boxed/ecommerce/cards',
     component: CreditCard,
     meta: {
       requiresAuth: true,
@@ -1002,15 +1002,83 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/inbox',
+    path: '/boxed/pages/blog',
+    component: Blog,
+    meta: {
+      requiresAuth: true,
+      title: 'message.blog',
+      breadcrumb: [{
+        breadcrumbInactive: 'Pages /'
+      }, {
+        breadcrumbActive: 'Blog'
+      }]
+    }
+  }, {
+    component: Gallery,
+    path: '/boxed/pages/gallery',
+    meta: {
+      requiresAuth: true,
+      title: 'message.gallery',
+      breadcrumb: [{
+        breadcrumbInactive: 'Pages /'
+      }, {
+        breadcrumbActive: 'Gallery'
+      }]
+    }
+  }, {
+    component: Pricing1,
+    path: '/boxed/pages/pricing-1',
+    meta: {
+      requiresAuth: true,
+      title: 'message.pricing1',
+      breadcrumb: [{
+        breadcrumbInactive: 'Pages /'
+      }, {
+        breadcrumbActive: 'Pricing-1'
+      }]
+    }
+  }, {
+    component: Pricing2,
+    path: '/boxed/pages/pricing-2',
+    meta: {
+      requiresAuth: true,
+      title: 'message.pricing2',
+      breadcrumb: [{
+        breadcrumbInactive: 'Pages /'
+      }, {
+        breadcrumbActive: 'Pricing-2'
+      }]
+    }
+  }, {
+    component: Blank,
+    path: '/boxed/pages/blank',
+    meta: {
+      requiresAuth: true,
+      title: 'message.blank',
+      breadcrumb: [{
+        breadcrumbInactive: 'Pages /'
+      }, {
+        breadcrumbActive: 'Blank'
+      }]
+    }
+  }, {
     component: Inbox,
+    path: '/boxed/inbox',
     meta: {
       requiresAuth: true,
       title: 'message.inbox',
       breadcrumb: null
     }
   }, {
-    path: '/default/treeview',
+    component: Chat,
+    path: '/boxed/chat',
+    meta: {
+      requiresAuth: true,
+      title: 'message.chat',
+      breadcrumb: null
+    }
+  }, {
+    path: '/boxed/treeview',
     component: Treeview,
     meta: {
       requiresAuth: true,
@@ -1023,7 +1091,7 @@ var _default = {
     }
   }, // Timelines Components
   {
-    path: '/default/timelines/usage',
+    path: '/boxed/timelines/usage',
     component: Usage,
     meta: {
       requiresAuth: true,
@@ -1035,7 +1103,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/smalldots',
+    path: '/boxed/timelines/smalldots',
     component: SmallDots,
     meta: {
       requiresAuth: true,
@@ -1047,7 +1115,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/icondots',
+    path: '/boxed/timelines/icondots',
     component: IconDots,
     meta: {
       requiresAuth: true,
@@ -1059,7 +1127,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/coloreddots',
+    path: '/boxed/timelines/coloreddots',
     component: ColoredDots,
     meta: {
       requiresAuth: true,
@@ -1071,7 +1139,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/oppositeslot',
+    path: '/boxed/timelines/oppositeslot',
     component: OppositeSlot,
     meta: {
       requiresAuth: true,
@@ -1083,7 +1151,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/densealert',
+    path: '/boxed/timelines/densealert',
     component: DenseAlert,
     meta: {
       requiresAuth: true,
@@ -1095,7 +1163,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/timelines/advanced',
+    path: '/boxed/timelines/advanced',
     component: Advanced,
     meta: {
       requiresAuth: true,
@@ -1107,27 +1175,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/chat',
-    component: Chat,
-    meta: {
-      requiresAuth: true,
-      title: 'message.chat',
-      breadcrumb: null
-    }
-  }, {
-    path: '/default/calendar',
-    component: Calendar,
-    meta: {
-      requiresAuth: true,
-      title: 'message.calendar',
-      breadcrumb: [{
-        breadcrumbInactive: ''
-      }, {
-        breadcrumbActive: 'Calendar'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/app-bars',
+    path: '/boxed/ui-elements/app-bars',
     component: AppBars,
     meta: {
       requiresAuth: true,
@@ -1139,7 +1187,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/banners',
+    path: '/boxed/ui-elements/banners',
     component: Banners,
     meta: {
       requiresAuth: true,
@@ -1151,11 +1199,11 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/list-item-groups',
+    path: '/boxed/ui-elements/list-item-groups',
     component: ListItemGroups,
     meta: {
       requiresAuth: true,
-      title: 'message.listItemGroups',
+      title: 'message.ListItemGroups',
       breadcrumb: [{
         breadcrumbInactive: 'UI Elements /'
       }, {
@@ -1163,7 +1211,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/slide-groups',
+    path: '/boxed/ui-elements/slide-groups',
     component: SlideGroups,
     meta: {
       requiresAuth: true,
@@ -1175,7 +1223,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/chip-groups',
+    path: '/boxed/ui-elements/chip-groups',
     component: ChipGroups,
     meta: {
       requiresAuth: true,
@@ -1187,7 +1235,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/overlays',
+    path: '/boxed/ui-elements/overlays',
     component: Overlays,
     meta: {
       requiresAuth: true,
@@ -1199,7 +1247,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/file-input',
+    path: '/boxed/ui-elements/file-input',
     component: FileInput,
     meta: {
       requiresAuth: true,
@@ -1211,7 +1259,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/color-pickers',
+    path: '/boxed/ui-elements/color-pickers',
     component: ColorPickers,
     meta: {
       requiresAuth: true,
@@ -1223,8 +1271,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/buttons',
     component: Buttons,
+    path: '/boxed/ui-elements/buttons',
     meta: {
       requiresAuth: true,
       title: 'message.buttons',
@@ -1235,8 +1283,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/cards',
     component: Cards,
+    path: '/boxed/ui-elements/cards',
     meta: {
       requiresAuth: true,
       title: 'message.cards',
@@ -1247,8 +1295,68 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/grid',
+    component: Checkbox,
+    path: '/boxed/ui-elements/checkbox',
+    meta: {
+      requiresAuth: true,
+      title: 'message.checkbox',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Checkbox'
+      }]
+    }
+  }, {
+    component: Carousel,
+    path: '/boxed/ui-elements/carousel',
+    meta: {
+      requiresAuth: true,
+      title: 'message.carousel',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Carousel'
+      }]
+    }
+  }, {
+    component: Chips,
+    path: '/boxed/ui-elements/chips',
+    meta: {
+      requiresAuth: true,
+      title: 'message.chips',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Chips'
+      }]
+    }
+  }, {
+    component: Datepicker,
+    path: '/boxed/ui-elements/datepicker',
+    meta: {
+      requiresAuth: true,
+      title: 'message.datepicker',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Datepicker'
+      }]
+    }
+  }, {
+    component: Dialog,
+    path: '/boxed/ui-elements/dialog',
+    meta: {
+      requiresAuth: true,
+      title: 'message.dialog',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Dialog'
+      }]
+    }
+  }, {
     component: Grid,
+    path: '/boxed/ui-elements/grid',
     meta: {
       requiresAuth: true,
       title: 'message.grid',
@@ -1259,7 +1367,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/groups',
+    path: '/boxed/ui-elements/groups',
     component: Groups,
     meta: {
       requiresAuth: true,
@@ -1271,7 +1379,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/hover',
+    path: '/boxed/ui-elements/hover',
     component: Hover,
     meta: {
       requiresAuth: true,
@@ -1283,7 +1391,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/images',
+    path: '/boxed/ui-elements/images',
     component: Images,
     meta: {
       requiresAuth: true,
@@ -1295,8 +1403,20 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/list',
+    component: Input,
+    path: '/boxed/ui-elements/input',
+    meta: {
+      requiresAuth: true,
+      title: 'message.input',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Input'
+      }]
+    }
+  }, {
     component: List,
+    path: '/boxed/ui-elements/list',
     meta: {
       requiresAuth: true,
       title: 'message.list',
@@ -1307,8 +1427,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/menu',
     component: Menu,
+    path: '/boxed/ui-elements/menu',
     meta: {
       requiresAuth: true,
       title: 'message.menu',
@@ -1319,7 +1439,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/ratings',
+    path: '/boxed/ui-elements/ratings',
     component: Ratings,
     meta: {
       requiresAuth: true,
@@ -1331,116 +1451,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/slider',
-    component: Slider,
-    meta: {
-      requiresAuth: true,
-      title: 'message.slider',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Slider'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/snackbar',
-    component: Snackbar,
-    meta: {
-      requiresAuth: true,
-      title: 'message.snackbar',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Snackbar'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/tooltip',
-    component: Tooltip,
-    meta: {
-      requiresAuth: true,
-      title: 'message.tooltip',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Tooltip'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/dialog',
-    component: Dialog,
-    meta: {
-      requiresAuth: true,
-      title: 'message.dialog',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Dialog'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/select',
-    component: Select,
-    meta: {
-      requiresAuth: true,
-      title: 'message.select',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Select'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/input',
-    component: Input,
-    meta: {
-      requiresAuth: true,
-      title: 'message.input',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Input'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/checkbox',
-    component: Checkbox,
-    meta: {
-      requiresAuth: true,
-      title: 'message.checkbox',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Checkbox'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/radio',
-    component: Radio,
-    meta: {
-      requiresAuth: true,
-      title: 'message.radio',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Radio'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/toolbar',
-    component: Toolbar,
-    meta: {
-      requiresAuth: true,
-      title: 'message.toolbar',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Toolbar'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/progress',
     component: Progress,
+    path: '/boxed/ui-elements/progress',
     meta: {
       requiresAuth: true,
       title: 'message.progress',
@@ -1451,8 +1463,56 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/tabs',
+    component: Radio,
+    path: '/boxed/ui-elements/radio',
+    meta: {
+      requiresAuth: true,
+      title: 'message.radio',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Radio'
+      }]
+    }
+  }, {
+    component: Select,
+    path: '/boxed/ui-elements/select',
+    meta: {
+      requiresAuth: true,
+      title: 'message.select',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Select'
+      }]
+    }
+  }, {
+    component: Slider,
+    path: '/boxed/ui-elements/slider',
+    meta: {
+      requiresAuth: true,
+      title: 'message.slider',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Slider'
+      }]
+    }
+  }, {
+    component: Snackbar,
+    path: '/boxed/ui-elements/snackbar',
+    meta: {
+      requiresAuth: true,
+      title: 'message.snackbar',
+      breadcrumb: [{
+        breadcrumbInactive: 'UI Elements /'
+      }, {
+        breadcrumbActive: 'Snackbar'
+      }]
+    }
+  }, {
     component: Tabs,
+    path: '/boxed/ui-elements/tabs',
     meta: {
       requiresAuth: true,
       title: 'message.tabs',
@@ -1463,44 +1523,32 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/ui-elements/carousel',
-    component: Carousel,
+    component: Toolbar,
+    path: '/boxed/ui-elements/toolbar',
     meta: {
       requiresAuth: true,
-      title: 'message.carousel',
+      title: 'message.toolbar',
       breadcrumb: [{
         breadcrumbInactive: 'UI Elements /'
       }, {
-        breadcrumbActive: 'Carousel'
+        breadcrumbActive: 'Toolbar'
       }]
     }
   }, {
-    path: '/default/ui-elements/chips',
-    component: Chips,
+    component: Tooltip,
+    path: '/boxed/ui-elements/tooltip',
     meta: {
       requiresAuth: true,
-      title: 'message.chips',
+      title: 'message.tooltip',
       breadcrumb: [{
         breadcrumbInactive: 'UI Elements /'
       }, {
-        breadcrumbActive: 'Chips'
+        breadcrumbActive: 'Tooltip'
       }]
     }
   }, {
-    path: '/default/ui-elements/datepicker',
-    component: Datepicker,
-    meta: {
-      requiresAuth: true,
-      title: 'message.datepicker',
-      breadcrumb: [{
-        breadcrumbInactive: 'UI Elements /'
-      }, {
-        breadcrumbActive: 'Datepicker'
-      }]
-    }
-  }, {
-    path: '/default/ui-elements/timepicker',
     component: Timepicker,
+    path: '/boxed/ui-elements/timepicker',
     meta: {
       requiresAuth: true,
       title: 'message.timepicker',
@@ -1510,10 +1558,33 @@ var _default = {
         breadcrumbActive: 'Timepicker'
       }]
     }
-  }, // chart views
-  {
-    path: '/default/charts/vue-chartjs',
+  }, {
+    component: FormValidation,
+    path: '/boxed/forms/form-validation',
+    meta: {
+      requiresAuth: true,
+      title: 'message.formValidation',
+      breadcrumb: [{
+        breadcrumbInactive: 'Forms /'
+      }, {
+        breadcrumbActive: 'FormValidation'
+      }]
+    }
+  }, {
+    component: Stepper,
+    path: '/boxed/forms/stepper',
+    meta: {
+      requiresAuth: true,
+      title: 'message.stepper',
+      breadcrumb: [{
+        breadcrumbInactive: 'Forms /'
+      }, {
+        breadcrumbActive: 'Stepper'
+      }]
+    }
+  }, {
     component: VueChartjs,
+    path: '/boxed/charts/vue-chartjs',
     meta: {
       requiresAuth: true,
       title: 'message.vueChartjs',
@@ -1524,8 +1595,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/charts/vue-echarts',
     component: VueEcharts,
+    path: '/boxed/charts/vue-echarts',
     meta: {
       requiresAuth: true,
       title: 'message.vueEcharts',
@@ -1535,158 +1606,9 @@ var _default = {
         breadcrumbActive: 'Vue Echarts'
       }]
     }
-  }, // google maps
-  {
-    path: '/default/maps/google-maps',
-    component: GoogleMaps,
-    meta: {
-      requiresAuth: true,
-      title: 'message.googleMaps',
-      breadcrumb: [{
-        breadcrumbInactive: 'Maps /'
-      }, {
-        breadcrumbActive: 'Google Map'
-      }]
-    }
   }, {
-    path: '/default/maps/leaflet-maps',
-    component: LeafletMaps,
-    meta: {
-      requiresAuth: true,
-      title: 'message.leafletMaps',
-      breadcrumb: [{
-        breadcrumbInactive: 'Maps /'
-      }, {
-        breadcrumbActive: 'Leaflet Map'
-      }]
-    }
-  }, // pages
-  {
-    path: '/default/pages/gallery',
-    component: Gallery,
-    meta: {
-      requiresAuth: true,
-      title: 'message.gallery',
-      breadcrumb: [{
-        breadcrumbInactive: 'Pages /'
-      }, {
-        breadcrumbActive: 'Gallery'
-      }]
-    }
-  }, {
-    path: '/default/pages/blog',
-    component: Blog,
-    meta: {
-      requiresAuth: true,
-      title: 'message.blog',
-      breadcrumb: [{
-        breadcrumbInactive: 'Pages /'
-      }, {
-        breadcrumbActive: 'Blog'
-      }]
-    }
-  }, {
-    path: '/default/pages/pricing-1',
-    component: Pricing1,
-    meta: {
-      requiresAuth: true,
-      title: 'message.pricing1',
-      breadcrumb: [{
-        breadcrumbInactive: 'Pages /'
-      }, {
-        breadcrumbActive: 'Pricing-1'
-      }]
-    }
-  }, {
-    path: '/default/pages/pricing-2',
-    component: Pricing2,
-    meta: {
-      requiresAuth: true,
-      title: 'message.pricing2',
-      breadcrumb: [{
-        breadcrumbInactive: 'Pages /'
-      }, {
-        breadcrumbActive: 'Pricing-2'
-      }]
-    }
-  }, {
-    path: '/default/pages/blank',
-    component: Blank,
-    meta: {
-      requiresAuth: true,
-      title: 'message.blank',
-      breadcrumb: [{
-        breadcrumbInactive: 'Pages /'
-      }, {
-        breadcrumbActive: 'Blank'
-      }]
-    }
-  }, // users
-  {
-    path: '/default/users/user-profile',
-    component: UserProfile,
-    meta: {
-      requiresAuth: true,
-      title: 'message.userProfile',
-      breadcrumb: [{
-        breadcrumbInactive: 'Users /'
-      }, {
-        breadcrumbActive: 'User Profile'
-      }]
-    }
-  }, {
-    path: '/default/users/users-list',
-    component: UsersList,
-    meta: {
-      requiresAuth: true,
-      title: 'message.usersList',
-      breadcrumb: [{
-        breadcrumbInactive: 'Users /'
-      }, {
-        breadcrumbActive: 'Users List'
-      }]
-    }
-  }, // drag and drop
-  {
-    path: '/default/drag-drop/vue2dragula',
-    component: Vue2Dragula,
-    meta: {
-      requiresAuth: true,
-      title: 'message.vue2Dragula',
-      breadcrumb: [{
-        breadcrumbInactive: 'Drag And Drop /'
-      }, {
-        breadcrumbActive: 'Vue2 Dragula'
-      }]
-    }
-  }, {
-    path: '/default/drag-drop/vuedraggable',
-    component: VueDraggable,
-    meta: {
-      requiresAuth: true,
-      title: 'message.vueDraggable',
-      breadcrumb: [{
-        breadcrumbInactive: 'Drag And Drop /'
-      }, {
-        breadcrumbActive: 'Vue Draggable'
-      }]
-    }
-  }, {
-    path: '/default/drag-drop/vuedraggableresizeable',
-    component: VueDraggableResizeable,
-    meta: {
-      requiresAuth: true,
-      title: 'message.draggableResizeable',
-      breadcrumb: [{
-        breadcrumbInactive: 'Drag And Drop /'
-      }, {
-        breadcrumbActive: 'Draggable Resizeable'
-      }]
-    }
-  }, // icons
-  {
-    path: '/default/icons/themify',
     component: Themify,
+    path: '/boxed/icons/themify',
     meta: {
       requiresAuth: true,
       title: 'message.themify',
@@ -1697,8 +1619,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/icons/material',
     component: Material,
+    path: '/boxed/icons/material',
     meta: {
       requiresAuth: true,
       title: 'message.material',
@@ -1708,60 +1630,8 @@ var _default = {
         breadcrumbActive: 'Material'
       }]
     }
-  }, // editor components
-  {
-    path: '/default/editor/quilleditor',
-    component: QuillEditor,
-    meta: {
-      requiresAuth: true,
-      title: 'message.quillEditor',
-      breadcrumb: [{
-        breadcrumbInactive: 'Editor /'
-      }, {
-        breadcrumbActive: 'Quill Editor'
-      }]
-    }
   }, {
-    path: '/default/editor/wysiwyg',
-    component: WYSIWYG,
-    meta: {
-      requiresAuth: true,
-      title: 'message.wYSIWYG',
-      breadcrumb: [{
-        breadcrumbInactive: 'Editor /'
-      }, {
-        breadcrumbActive: 'WYSIWYG'
-      }]
-    }
-  }, // forms components
-  {
-    path: '/default/forms/form-validation',
-    component: FormValidation,
-    meta: {
-      requiresAuth: true,
-      title: 'message.formValidation',
-      breadcrumb: [{
-        breadcrumbInactive: 'Forms /'
-      }, {
-        breadcrumbActive: 'FormValidation'
-      }]
-    }
-  }, // forms components
-  {
-    path: '/default/forms/stepper',
-    component: Stepper,
-    meta: {
-      requiresAuth: true,
-      title: 'message.stepper',
-      breadcrumb: [{
-        breadcrumbInactive: 'Forms /'
-      }, {
-        breadcrumbActive: 'Stepper'
-      }]
-    }
-  }, // Data tables component
-  {
-    path: '/default/tables/simple',
+    path: '/boxed/tables/simple',
     component: SimpleTable,
     meta: {
       requiresAuth: true,
@@ -1773,8 +1643,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/tables/standard',
     component: Standard,
+    path: '/boxed/tables/standard',
     meta: {
       requiresAuth: true,
       title: 'message.standard',
@@ -1785,8 +1655,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/tables/slots',
     component: Slots,
+    path: '/boxed/tables/slots',
     meta: {
       requiresAuth: true,
       title: 'message.slots',
@@ -1797,8 +1667,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/tables/selectablerows',
     component: SelectableRows,
+    path: '/boxed/tables/selectablerows',
     meta: {
       requiresAuth: true,
       title: 'message.selectable',
@@ -1809,8 +1679,8 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/tables/searchwithtext',
     component: SearchWithText,
+    path: '/boxed/tables/searchwithtext',
     meta: {
       requiresAuth: true,
       title: 'message.searchRow',
@@ -1821,7 +1691,127 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/image-cropper',
+    component: GoogleMaps,
+    path: '/boxed/maps/google-maps',
+    meta: {
+      requiresAuth: true,
+      title: 'message.googleMaps',
+      breadcrumb: [{
+        breadcrumbInactive: 'Maps /'
+      }, {
+        breadcrumbActive: 'Google Map'
+      }]
+    }
+  }, {
+    component: LeafletMaps,
+    path: '/boxed/maps/leaflet-maps',
+    meta: {
+      requiresAuth: true,
+      title: 'message.leafletMaps',
+      breadcrumb: [{
+        breadcrumbInactive: 'Maps /'
+      }, {
+        breadcrumbActive: 'Leaflet Map'
+      }]
+    }
+  }, {
+    component: UserProfile,
+    path: '/boxed/users/user-profile',
+    meta: {
+      requiresAuth: true,
+      title: 'message.userProfile',
+      breadcrumb: [{
+        breadcrumbInactive: 'Users /'
+      }, {
+        breadcrumbActive: 'User Profile'
+      }]
+    }
+  }, {
+    component: UsersList,
+    path: '/boxed/users/users-list',
+    meta: {
+      requiresAuth: true,
+      title: 'message.usersList',
+      breadcrumb: [{
+        breadcrumbInactive: 'Users /'
+      }, {
+        breadcrumbActive: 'Users List'
+      }]
+    }
+  }, {
+    component: Calendar,
+    path: '/boxed/calendar',
+    meta: {
+      requiresAuth: true,
+      title: 'message.calendar',
+      breadcrumb: [{
+        breadcrumbInactive: ''
+      }, {
+        breadcrumbActive: 'Calendar'
+      }]
+    }
+  }, {
+    component: QuillEditor,
+    path: '/boxed/editor/quilleditor',
+    meta: {
+      requiresAuth: true,
+      title: 'message.quillEditor',
+      breadcrumb: [{
+        breadcrumbInactive: 'Editor /'
+      }, {
+        breadcrumbActive: 'Quill Editor'
+      }]
+    }
+  }, {
+    component: WYSIWYG,
+    path: '/boxed/editor/wysiwyg',
+    meta: {
+      requiresAuth: true,
+      title: 'message.wYSIWYG',
+      breadcrumb: [{
+        breadcrumbInactive: 'Editor /'
+      }, {
+        breadcrumbActive: 'WYSIWYG'
+      }]
+    }
+  }, {
+    component: Vue2Dragula,
+    path: '/boxed/drag-drop/vue2dragula',
+    meta: {
+      requiresAuth: true,
+      title: 'message.vue2Dragula',
+      breadcrumb: [{
+        breadcrumbInactive: 'Drag And Drop /'
+      }, {
+        breadcrumbActive: 'Vue2 Dragula'
+      }]
+    }
+  }, {
+    component: VueDraggable,
+    path: '/boxed/drag-drop/vuedraggable',
+    meta: {
+      requiresAuth: true,
+      title: 'message.vueDraggable',
+      breadcrumb: [{
+        breadcrumbInactive: 'Drag And Drop /'
+      }, {
+        breadcrumbActive: 'Vue Draggable'
+      }]
+    }
+  }, {
+    component: VueDraggableResizeable,
+    path: '/boxed/drag-drop/vuedraggableresizeable',
+    meta: {
+      requiresAuth: true,
+      title: 'message.draggableResizeable',
+      breadcrumb: [{
+        breadcrumbInactive: 'Drag And Drop /'
+      }, {
+        breadcrumbActive: 'Draggable Resizeable'
+      }]
+    }
+  }, {
+    path: '/boxed/image-cropper',
     component: ImageCropper,
     meta: {
       requiresAuth: true,
@@ -1833,7 +1823,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/video-player',
+    path: '/boxed/video-player',
     component: VideoPlayer,
     meta: {
       requiresAuth: true,
@@ -1845,7 +1835,7 @@ var _default = {
       }]
     }
   }, {
-    path: '/default/dropzone',
+    path: '/boxed/dropzone',
     component: Dropzone,
     meta: {
       requiresAuth: true,

@@ -281,7 +281,7 @@ export default {
             title: 'message.projects',
             breadcrumb: [
               {
-                breadcrumbInactive: 'CRM /'
+                breadcrumbInactive: 'Dashboard /'
               },
               {
                 breadcrumbActive: 'Projects'

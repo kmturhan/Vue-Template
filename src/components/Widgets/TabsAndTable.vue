@@ -1,9 +1,6 @@
 <template>
 
 	<div>
-		<div class="container container--fluid">
-			<h1>test</h1>
-		</div>
 		<div style="display: flex;">
 		<!--<div class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
 			<div class="">
@@ -160,10 +157,10 @@
 								<i class="ti-close" style="cursor:pointer;color:black !important;position:absolute;right:10px;top:10px;" @click="overlayClose"></i>
 								<app-card colClasses="col-12 col-md-6">
 									<p>{{ name1 }}</p>
-									<v-checkbox color="primary" label="Select Input" v-model="name1" value="Select Input" data-pin="dropdown" data-options-key="20,40,60,70,80,90,A0,91,A1,92,A2,95,A5,98,A8,C0,D0,E0,E1,E2" data-options-value="AV,COMPONENT,RGB,DVI-D (PC),DVI-D (DTV),HDMI1 (DTV),HDMI1 (PC),HDMI2/OPS (DTV), HDMI2/OPS (PC),OPS/HDMI3/DVI-D (DTV),OPS/HDMI3/DVI-D (PC),OPS/DVI-D (DTV),OPS/DVI-D (PC),OPS (DTV),OPS (PC),DISPLAYPORT (DTV),DISPLAYPORT (PC),SuperSign webOS Player,Others,Multi Screen"></v-checkbox>
-									<v-checkbox color="primary" label="Input Select" v-model="name1" value="Input Select" data-pin="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
-									<v-checkbox color="primary" label="Aspect Ratio" v-model="name1" value="Aspect Ratio"  data-pin="dropdown" data-options-key="01,02,04,06,09,10,21" data-options-value="4:3,16:9,Zoom,Set By Program,Just Scan (720p or higher),Cinema Zoom 1 to 16,58:9,Vertical Zoom,All-Direction Zoom"></v-checkbox>
-									<v-checkbox color="primary" label="Energy Saving" v-model="name1" value="Energy Saving"  data-pin="dropdown" data-options-key="00,01,02,,03,04,05" data-options-value="Off,Minimum,Medium,Maximum,Automatic,Screen Off"></v-checkbox>
+									<v-checkbox color="primary" label="Select Input" v-model="name1" value="Select Input" data-pin="xb" data-type="dropdown" data-options-key="20,40,60,70,80,90,A0,91,A1,92,A2,95,A5,98,A8,C0,D0,E0,E1,E2" data-options-value="AV,COMPONENT,RGB,DVI-D (PC),DVI-D (DTV),HDMI1 (DTV),HDMI1 (PC),HDMI2/OPS (DTV), HDMI2/OPS (PC),OPS/HDMI3/DVI-D (DTV),OPS/HDMI3/DVI-D (PC),OPS/DVI-D (DTV),OPS/DVI-D (PC),OPS (DTV),OPS (PC),DISPLAYPORT (DTV),DISPLAYPORT (PC),SuperSign webOS Player,Others,Multi Screen"></v-checkbox>
+									<v-checkbox color="primary" label="Mute" v-model="name1" value="Mute" 					data-pin="ke" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
+									<v-checkbox color="primary" label="Aspect Ratio" v-model="name1" value="Aspect Ratio"  data-pin="kc" data-type="dropdown" data-options-key="01,02,04,06,09,10,21" data-options-value="4:3,16:9,Zoom,Set By Program,Just Scan (720p or higher),Cinema Zoom 1 to 16,58:9,Vertical Zoom,All-Direction Zoom"></v-checkbox>
+									<v-checkbox color="primary" label="Energy Saving" v-model="name1" value="Energy Saving"  data-pin="jq" data-type="dropdown" data-options-key="00,01,02,03,04,05" data-options-value="Off,Minimum,Medium,Maximum,Automatic,Screen Off"></v-checkbox>
 									<button @click="detectType">Select</button>
 								</app-card>
 							</div>
@@ -265,8 +262,9 @@
 									<td>{{ item.Serial_Number }}</td>
 									<td>{{ item.Last_Update }}</td>
 									
-									<td v-for="filter in filterAttributes" :key="filter.fieldType">
-										<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" data-pin="xb">
+									<td v-for="filter in filterAttributes" :key="filter.fieldPin">
+										
+										<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-pin="filter.fieldPin" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
 											<option v-for="(value, index) in filter.fieldKey" v-bind:key="value" :value="value">{{filter.fieldValue[index]}}</option>
 										</select>
 										<div v-if="filter.fieldType == 'switch'" class="v-input v-input--hide-details v-input--selection-controls v-input--switch red--text text--darken-3" @click="clickPub" aria-disabled="false">
@@ -1275,7 +1273,8 @@ export default {
 				test.forEach(function(tag){		
 					console.log('TAG : ',tag);
 					if(tag.value == item){
-						dynamicFilterType.push({text:tag.value,sortable:false,type:tag.getAttribute('data-pin'),optionsKey:tag.getAttribute('data-options-key').split(','),optionsValue:tag.getAttribute('data-options-value').split(',')});
+						console.log('DETECT TYPE : ',tag.getAttribute('data-type'),tag.getAttribute('data-pin'))
+						dynamicFilterType.push({text:tag.value,sortable:false,type:tag.getAttribute('data-type'),pin:tag.getAttribute('data-pin'),optionsKey:tag.getAttribute('data-options-key').split(','),optionsValue:tag.getAttribute('data-options-value').split(',')});
 					}
 				})
 				console.log('test Value : ',test);
@@ -1285,7 +1284,7 @@ export default {
 			console.log('Dynamic : ',this.headersForTransactionList)
 			var i;
 			for(i = 0;i< dynamicFilterType.length;i++){
-				this.filterAttributes.push({fieldType: dynamicFilterType[i].type,fieldKey: dynamicFilterType[i].optionsKey, fieldValue: dynamicFilterType[i].optionsValue});
+				this.filterAttributes.push({fieldType: dynamicFilterType[i].type,fieldKey: dynamicFilterType[i].optionsKey, fieldValue: dynamicFilterType[i].optionsValue, fieldPin: dynamicFilterType[i].pin});
 				console.log('FILTER ATTRIBUTES : ',this.filterAttributes[i]);
 				this.headersForTransactionList.push(dynamicFilterType[i])
 				console.log(this.deviceList[i]);
