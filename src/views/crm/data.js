@@ -1,6 +1,6 @@
 const axios = require('axios');
 var dataJson = [];
-axios.get('http://localhost:5000/api/loadDevices').then(resp => {
+axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
       
       resp.data.forEach(item => {
          dataJson.push(item);

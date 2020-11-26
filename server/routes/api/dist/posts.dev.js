@@ -159,6 +159,7 @@ client.on('message', function (topic, message) {
       var nosignal = dataArray[2];
       var temperature = dataArray[3];
       var firmwareVersion = dataArray[4];
+      console.log('TV DURUM : ', tvDurum);
 
       if (tvDurum == 0) {
         sql = "UPDATE Device_Status SET TvStatus = 0 WHERE Token = ? AND TvID = ?";
@@ -301,7 +302,8 @@ router.get('/loadDevices', function (req, res) {
     console.log("1+Token : ", req.body.token, "TVID : ", req.body.params.tvId, "Serial Number : ", req.body.params.tvSerial, 'KEY : ', selectedPinKey, 'VALUE : ', req.body.params.value);
     db.all(sql, [req.body.updateDate, req.body.params.value, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (err, rows) {
       console.log("1+Token : ", req.body.token, "TVID : ", req.body.params.tvId, "Serial Number : ", req.body.params.tvSerial, 'KEY : ', selectedPinKey, 'VALUE : ', req.body.params.value);
-    }); //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
+    });
+    res.send('testt'); //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
   });
   router.post('/allAttributesUpdate', function (req, res) {
     console.log('POST /allAttributesUpdate ', req.body);
@@ -310,8 +312,7 @@ router.get('/loadDevices', function (req, res) {
 
     if (jsonData.params.tvDurum == 0) {
       sql = "UPDATE Device_Status SET Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
-      db.all(sql, [req.body.updateDate, jsonData.token, jsonData.params.tvId], function (err, rows) {
-        console.log("Success AttributesUp Update : " + "Token : ", token, "TVID : ", selectedTvID, "Serial Number : ", selectedSerialNumber, 'KEY : ', selectedPinKey, 'DATETIME : ', jsonData.updateDate);
+      db.all(sql, [req.body.updateDate, jsonData.token, jsonData.params.tvId], function (err, rows) {//console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey,'DATETIME : ',jsonData.updateDate);
       });
     } else {
       console.log(jsonData.updateDate);
@@ -320,6 +321,8 @@ router.get('/loadDevices', function (req, res) {
         console.log('UPDATE DATE : ', jsonData.updateDate, 'NO SIGNAL : ', jsonData.params.nosignal, 'Temperature :', jsonData.params.temperature, 'FirmwareVersion : ', jsonData.params.firmwareVersion, jsonData.token, jsonData.tvId);
       });
     }
+
+    res.send('testing');
   });
   router.post('/detectDevices', function (req, res) {
     console.log('DETECT DEVICES : ' + req.body.token);

@@ -162,6 +162,7 @@ client.on('message', function (topic, message) {
             var nosignal = dataArray[2];
             var temperature = dataArray[3];
             var firmwareVersion = dataArray[4];
+            console.log('TV DURUM : ',tvDurum);
             if(tvDurum == 0){
                 sql = "UPDATE Device_Status SET TvStatus = 0 WHERE Token = ? AND TvID = ?";
                 db.all(sql,[token,TvID],(err,rows)=>{
@@ -306,6 +307,8 @@ router.post('/test',function(req,res){
     db.all(sql,[req.body.updateDate,req.body.params.value,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
         console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
     })
+    
+    res.send('testt')
     //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 })
 router.post('/allAttributesUpdate',function(req,res){
@@ -315,7 +318,7 @@ router.post('/allAttributesUpdate',function(req,res){
     if(jsonData.params.tvDurum == 0){
         sql = "UPDATE Device_Status SET Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
         db.all(sql,[req.body.updateDate,jsonData.token,jsonData.params.tvId],(err,rows)=>{
-            console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey,'DATETIME : ',jsonData.updateDate);
+            //console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey,'DATETIME : ',jsonData.updateDate);
         })   
     } else {
         console.log(jsonData.updateDate)
@@ -324,6 +327,7 @@ router.post('/allAttributesUpdate',function(req,res){
             console.log('UPDATE DATE : ',jsonData.updateDate,'NO SIGNAL : ',jsonData.params.nosignal,'Temperature :',jsonData.params.temperature,'FirmwareVersion : ',jsonData.params.firmwareVersion,jsonData.token,jsonData.tvId);
         })
     }
+    res.send('testing');
 });
 router.post('/detectDevices',function(req,res){
     console.log('DETECT DEVICES : ' + req.body.token);

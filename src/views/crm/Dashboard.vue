@@ -2,7 +2,7 @@
 	<div>
       <page-title-bar></page-title-bar>
       <v-container fluid class="grid-list-xl pt-0">
-         <v-row class="border-rad-sm overflow-hidden crm-stats-card-wrap">
+        <!-- <v-row class="border-rad-sm overflow-hidden crm-stats-card-wrap">
             <stats-card-v6
                class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
                :icon= "visitors.icon"
@@ -12,12 +12,12 @@
                :closeDevice="visitors.closeDevice"
               >
 					
-						<!--<line-chart-v3
+						<line-chart-v3
 							:label="visitors.label"
                      :style="{height: '80px',width:'100%', position: 'relative'}"
 							:dataSet= "visitors.chartData"
 							:labels="visitors.chartLabel"
-						></line-chart-v3>-->
+						></line-chart-v3>
 					
 				</stats-card-v6>
             <stats-card-v6
@@ -70,7 +70,7 @@
                   ></line-chart-v3>
                
             </stats-card-v6>
-         </v-row>
+         </v-row>-->
 
          <v-row>
             <app-card
@@ -87,14 +87,14 @@
 <script>
 
 import TabsAndTable from 'Components/Widgets/TabsAndTable'
-import LineChartV3 from "Components/Charts/LineChartV3";
-import StatsCardV6 from "Components/StatsCardV6/StatsCardV6";
+//import LineChartV3 from "Components/Charts/LineChartV3";
+//import StatsCardV6 from "Components/StatsCardV6/StatsCardV6";
 import axios from 'axios';
 export default {
    components:{
       TabsAndTable,
-      LineChartV3,
-      StatsCardV6
+      //LineChartV3,
+      //StatsCardV6
    },
    data() {
     return {
@@ -157,7 +157,7 @@ export default {
   },
   created() {
          this.deviceList = [];
-			axios.get('http://localhost:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item => {
                console.log(item.TvStatus)
                if(item.TvStatus == 0) {

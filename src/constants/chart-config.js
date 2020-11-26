@@ -5,7 +5,7 @@ export const ChartConfig = {
    color: {
       'primary': '#5D92F4',
       'warning': '#FFB70F',
-      'danger': '#FF3739',
+      'danger': '#e4002b',
       'success': '#00D014',
       'info': '#00D0BD',
       'white': '#fff',
