@@ -870,6 +870,19 @@ export default {
 			this.$mqtt.publish('home/attributesUp/mVThJflRGKgZYkZ18!hU', JSON.stringify(jsonData));
 	},
 		clickPub: function() {
+			$(event.currentTarget).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
+			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(event.currentTarget).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(event.currentTarget).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(event.currentTarget).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
+			console.log('CLICK PUB : ',$(event.currentTarget).closest('tr'));
+			if($(event.currentTarget).find('.v-input--switch__track span').text() == "On") {
+				$(event.currentTarget).find('.v-input--switch__track span').text('Off');
+			}else {
+				$(event.currentTarget).find('.v-input--switch__track span').text('On')
+			}
+
+			setTimeout
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
