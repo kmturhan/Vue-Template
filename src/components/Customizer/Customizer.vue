@@ -13,9 +13,9 @@
 				<v-toolbar-title>{{$t('message.themeOptions')}}</v-toolbar-title>
 			</v-toolbar>
 			<v-tabs grow>
-				<v-tab>{{$t('message.general')}}</v-tab>
+				<!--<v-tab>{{$t('message.general')}}</v-tab>-->
 				<v-tab>{{$t('message.advance')}}</v-tab>
-				<v-tab-item>
+				<!--<v-tab-item>
 					<vue-perfect-scrollbar class="customizer-scroll-area" :settings="settings">
 						<div class="inner-toolbar">
 							<theme-provider></theme-provider>
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 					</vue-perfect-scrollbar>
-				</v-tab-item>
+				</v-tab-item>-->
 				<v-tab-item>
 					<vue-perfect-scrollbar class="customizer-scroll-area" :settings="settings">
 						<div class="inner-toolbar sidebar-overlay-color">
@@ -41,13 +41,14 @@
 								<v-list-item >
 									<v-list-item-content class="py-0">
 										<v-checkbox
+											class="ml-5"
 											:label="$t('message.darkMode')"
 											color="primary"
 											@change="emitDarkMode($event)"
 										></v-checkbox>
 									</v-list-item-content>
 								</v-list-item>
-								<v-list-item v-if="isSidebarAvailable()">
+								<!--<v-list-item v-if="isSidebarAvailable()">
 									<v-list-item-content class="py-0">
 										<v-checkbox
 											:label="$t('message.collapseSidebar')"
@@ -66,10 +67,11 @@
 											:input-value="rtlLayout"
 										></v-checkbox>
 									</v-list-item-content>
-								</v-list-item>
+								</v-list-item>-->
 								<v-list-item v-if="isSidebarAvailable()">
 									<v-list-item-content class="py-0">
 										<v-checkbox
+											class="ml-5"
 											:label="$t('message.backgroundImage')"
 											color="primary"
 											@change="emitEnableBackgroundImage"
@@ -99,17 +101,17 @@
 </template>
 
 <script>
-import ThemeProvider from "./ThemeProvider";
+//import ThemeProvider from "./ThemeProvider";
 import { mapGetters } from "vuex";
-import SidebarFiltersProvider from "./SidebarFiltersProvider";
-import HeaderFiltersProvider from "./HeaderFiltersProvider";
+//import SidebarFiltersProvider from "./SidebarFiltersProvider";
+//import HeaderFiltersProvider from "./HeaderFiltersProvider";
 import { getCurrentAppLayout } from "Helpers/helpers";
 
 export default {
   components: {
-    ThemeProvider,
-    SidebarFiltersProvider,
-    HeaderFiltersProvider
+    //ThemeProvider,
+    //SidebarFiltersProvider,
+    //HeaderFiltersProvider
   },
   data() {
     return {

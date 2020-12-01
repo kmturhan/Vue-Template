@@ -10,7 +10,7 @@ exports.ChartConfig = void 0;
 */
 var ChartConfig = {
   color: {
-    'primary': '#5D92F4',
+    'primary': 'lightgray',
     'warning': '#FFB70F',
     'danger': '#e4002b',
     'success': '#00D014',

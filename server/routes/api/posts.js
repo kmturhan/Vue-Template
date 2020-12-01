@@ -30,10 +30,10 @@ var client  = mqtt.connect('wss://mqtts.labrus.com:8083',opts)
 client.on('connect', function () {
     console.log('connect');
     client.subscribe('home', function () {
-      
+      console.log("Home topic Listening")
     })
     client.subscribe('#', function() {
-      
+        console.log("All topics Listening")
     })
 });
 
@@ -111,48 +111,23 @@ client.on('message', function (topic, message) {
             var jsonID = Object.keys(jsonData);
             console.log('ATTR : ',jsonID);
             console.log('ATTR2 : ',jsonData);
-            //console.log('DX : ',jsonData.params.dx.split(','));
-            console.log(selectedTvID);
-            console.log(selectedSerialNumber);
+            
+            
             var testArray = {km:'RemoteLock',ka:'TvStatus',kf:'VoiceValue',kh:'BrightnessValue',dx:'PictureMode'}
             var selectedPinKey = testArray[Object.keys(jsonData.params)];
             var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
+
             console.log('TVID : ',arrayIDValue[0]);
             console.log('VALUE : ',arrayIDValue[1]);
             selectedTvID = arrayIDValue[0];
             var selectedPinValue = arrayIDValue[1];
             console.log('KEY ', selectedPinKey);
             console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
-            sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
-            db.all(sql,[selectedPinValue,token,selectedTvID,selectedSerialNumber],(err,rows)=>{
+            sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ?";
+            db.all(sql,[selectedPinValue,token,selectedTvID],(err,rows)=>{
                 console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
             })   
-            
-            //var tvStatus = jsonData[jsonID].tvdurum;
 
-            //console.log('TV STATUS ', parseInt(tvStatus));
-            /*if(tvStatus == 1){
-                Object.keys(jsonData)
-                var tvLock = jsonData[jsonID].tvlock;
-                var voiceValue = jsonData[jsonID].sesdurum;
-                var brightnessValue = jsonData[jsonID].parlakdurum;
-                var temperatureValue = jsonData[jsonID].temperature;
-                var nosignalValue = jsonData[jsonID].nosignal;
-                var firmwareVersion = jsonData[jsonID].firmwareVersion;
-                sql = "UPDATE Device_Status SET TvStatus = ?,RemoteLock = ?,VoiceValue = ?,BrightnessValue = ?,TempetureValue = ?,NoSignal = ?, FirmwareVersion = ? WHERE Token = ? AND TvID = ?";
-                db.all(sql,[parseInt(tvStatus),parseInt(tvLock),parseInt(voiceValue),parseInt(brightnessValue),parseInt(temperatureValue),parseInt(nosignalValue),firmwareVersion.toString(),token.toString(),parseInt(tvid)],(err,rows) => {console.log(err)})
-                console.log(sql)
-                console.log(tvid, tvStatus)
-            }else {
-                sql = "UPDATE Device_Status SET TvStatus = ? WHERE Token = ? AND TvID = ?";
-                db.all(sql, [parseInt(tvStatus),token.toString(),parseInt(tvid)],(err,rows) => {
-                    console.log(err)
-                    console.log('tv status 0 ')
-                });
-                console.log(token,tvid, tvStatus)
-            }*/
-            //console.log(jsonData[jsonID].tvdurum);
-            
             break;
         case 'home/attributesUp/'+token:
             console.log('AttributesUp Channel');
@@ -181,8 +156,6 @@ client.on('message', function (topic, message) {
             var tvModels = [];
             if(jsonData.method == 'setDevice'){
             console.log('Home2 Channel');
-            
-            
             var dbTvIdList = [];
             var arraySerialNumber = [];
             var dbSerialNumber = [];

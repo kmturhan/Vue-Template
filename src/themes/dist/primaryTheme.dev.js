@@ -10,7 +10,7 @@ var _default = {
   accent: '#82B1FF',
   error: '#e4002b',
   info: '#00D0BD',
-  success: '#00D014',
+  success: '#0f9c0e',
   warning: '#FFB70F'
 };
 exports["default"] = _default;
