@@ -180,7 +180,7 @@
 						<td class="text-nowrap">{{ item.TvID }}</td>
 						<td>{{ item.Brand }}</td>
 						<td>{{ item.Model_Number}}</td>
-						<td class="tvstatus" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto'">
+						<td class="tvstatus" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
 						<v-col cols="12" sm="4" md="4" class="col-height-auto">
 							<div v-if="item.TvStatus == 1">
 								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" @click="clickPub" aria-disabled="true">
@@ -306,9 +306,16 @@
 	</div>
 </template>
 <style>
-
-.app-card-content{
-	height:340px;
+.v-application .primary.lighten-3 {
+	background-color: lightgray !important;
+}
+.v-application .primary {
+	background-color: #464D69 !important;
+}
+.v-application .red--text.text--darken-3 {
+	color: #e4002b !important;
+}
+.app-card-content {
 	overflow-y: scroll;
 }
 .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row) {
@@ -629,36 +636,46 @@ export default {
 				}
 			});
 			var tag = [];
-			this.$el.querySelectorAll('td .v-input').forEach(item => {
+			if(command == 'ka') {
+				this.$el.querySelectorAll('td .v-input').forEach(item => {
 				if($(item).find('input')){
 					console.log($(item).find('input').attr('data-tvid'));
 					if($(item).find('input').attr('data-tvid') == TVID){
 						console.log('Seçilen ITEM : ',item);
 							if(value == 0) {
 								$(item).closest('td').css('opacity','.1');
+								$(item).closest('td').css('pointer-events','none')
 								$(item).closest('td.tvstatus').css('opacity','1')
+								$(item).closest('td.tvstatus').css('pointer-events','auto')
 							}else if(value == 1){
 								$(item).closest('td').css('opacity','1');
+								$(item).closest('td').css('pointer-events','auto');
 							}
 						
+						}
 					}
-				}
-			})
+				})
+			}
+			
 			console.log('TAG : ',tag)
 			console.log('ATTR CHANNEL')
 			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
 					if(item.getAttribute('data-tvid') == TVID) {
 						//Açık/Kapalı Array'den item silmek
 						var testTag = item.closest('.pin-' + command)
-						if(command == "ka"){
-							if(value == 1) {
-								$(testTag).closest('td').children().css('pointer-events','auto');
-								$(testTag).closest('tr').children().css('pointer-events','auto');
-							} else {
-								$(testTag).closest('tr').children().css('pointer-events','none');
-								$(testTag).closest('td.tvstatus').css('pointer-events','auto');
-							}
-						}
+						//if(command == "ka"){
+						//	if(value == 1) {
+						//		$(testTag).closest('td').children().css('pointer-events','auto');
+						//		$(testTag).closest('tr').children().css('pointer-events','auto');
+						//		$(testTag).closest('tr').children().css('opacity','1');
+						//		$(testTag).closest('tr').has('td.tvstatus').css('opacity','1')
+						//	} else {
+						//		$(testTag).closest('tr').children().css('pointer-events','none');
+						//		$(testTag).closest('td.tvstatus').css('pointer-events','auto');
+						//		$(testTag).closest('tr').css('opacity','.5');
+						//		$(testTag).closest('tr').has('td.tvstatus').css('opacity','1');
+						//	}
+						//}
 						
 						console.log('TESTTAG',testTag);
 						if(value == 1) {
@@ -703,6 +720,7 @@ export default {
 				
 			})
 			}
+			
 		},
 		'home/attributesUp/#' : function(val,topic) {
 			console.log('TABS ATTRIBUTES CHANNEL',token)
@@ -741,10 +759,12 @@ export default {
 					.catch((err) =>  {
 						console.log(err);
 					});
-
+					
 					console.log('EL : ',this.$el.querySelectorAll('.pin-ka'));
 					this.$el.querySelectorAll('.pin-ka input').forEach(item => {
-						console.log('PIN KA INPUT : ',item)
+						
+						console.log('PIN KA INPUT : ',$(item).closest('tr').children());
+
 						if(item.getAttribute('data-tvid') == TvID) {
 							var testTag = item.closest('.pin-ka');
 							console.log('TESTTAGGG : ',testTag);
@@ -755,7 +775,6 @@ export default {
 							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
 							$(testTag).find('.v-input--switch__track span').text('On');
 							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
-							
 							console.log('ONNN ::CLOSE : ',this.closeDeviceLength,'OPEN : ',this.openDeviceLength);
 							}
 							else{
@@ -791,7 +810,26 @@ export default {
 					})
 					this.deviceList = updateDeviceList;
 					console.log('Device List : ',this.deviceList)
+					this.$el.querySelectorAll('td .v-input').forEach(item => {
+				if($(item).find('input')){
+					console.log($(item).find('input').attr('data-tvid'));
+					if($(item).find('input').attr('data-tvid') == TvID){
+						console.log('Seçilen ITEM : ',item);
+							if(tvDurum == 0) {
+								$(item).closest('td').css('opacity','.1');
+								$(item).closest('td').css('pointer-events','none')
+								$(item).closest('td.tvstatus').css('opacity','1')
+								$(item).closest('td.tvstatus').css('pointer-events','auto')
+							}else if(tvDurum == 1){
+								$(item).closest('td').css('opacity','1');
+								$(item).closest('td').css('pointer-events','auto');
+							}
+						
+					}
+				}
+			})
 		}
+		
 	},
 	methods: {
 		selectSendData: function(val) {
@@ -877,42 +915,13 @@ export default {
 					}else{
 						this.closeDeviceLength++;
 					}
-					//if(item.NoSignal == 1) {
-						//this.noSignalDeviceLength++;
-					//}
+
 				});
 				
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList)
-				console.log('SEND DATA LIST : ',this.sendDataList)
-				
-				/*
-				setInterval(() => {
-				let interval = 10000; //one second
-				this.sendDataList.forEach((mode, index) => {
-				
-				setTimeout(() => {
-					console.log(mode)
-					this.$mqtt.publish('home/telemetry/'+mode.Token,JSON.stringify({
-						token:mode.Token,
-						method:"rpcCommand",
-						params: {
-							tvSerial:mode.Serial_Number,
-							command:'up',
-							tvId:mode.TvID,
-							cmd: 'gc',
-							on:'01',
-							off:'00'
-					}}));
-				}, index * interval)
-				})	
-				}, 60000);
-				
-				*/
-				
+				console.log('SEND DATA LIST : ',this.sendDataList)	
 			});
-			
-				
 			
 		},
 		detectType() {
@@ -922,11 +931,7 @@ export default {
 			}
 			this.filterAttributes = [];
 			var dynamicFilterType = [];
-			
-			//test.forEach(function(item,index){
-				
-				//this.filterType
-			//})
+
 			console.log('TEST', test)
 			console.log(this.name1)
 			this.name1.forEach(item => {
