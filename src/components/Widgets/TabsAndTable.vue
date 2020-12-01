@@ -882,7 +882,7 @@ export default {
 				$(event.currentTarget).find('.v-input--switch__track span').text('On')
 			}
 
-			setTimeout
+			
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
