@@ -15,6 +15,7 @@
 			<v-tabs grow>
 				<!--<v-tab>{{$t('message.general')}}</v-tab>-->
 				<v-tab>{{$t('message.advance')}}</v-tab>
+				
 				<!--<v-tab-item>
 					<vue-perfect-scrollbar class="customizer-scroll-area" :settings="settings">
 						<div class="inner-toolbar">
@@ -39,7 +40,7 @@
 						<div class="inner-toolbar sidebar-overlay-color">
 							<v-list class="mb-5 theme-layouts">
 								<v-list-item >
-									<v-list-item-content class="py-0">
+									<v-list-item-content class="mt-1">
 										<v-checkbox
 											class="ml-5"
 											:label="$t('message.darkMode')"
@@ -69,7 +70,7 @@
 									</v-list-item-content>
 								</v-list-item>-->
 								<v-list-item v-if="isSidebarAvailable()">
-									<v-list-item-content class="py-0">
+									<v-list-item-content class="mt-1">
 										<v-checkbox
 											class="ml-5"
 											:label="$t('message.backgroundImage')"

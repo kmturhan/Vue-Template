@@ -8,9 +8,10 @@ export const menus = {
 			label: 'New',
 			path: '/dashboard/crm',
 			items: [
-				{ title: 'message.crm', path: '/default/dashboard/crm',label: 'New', exact: true},
-				{ title: 'message.crypto', path: '/mini/dashboard/crypto',label: 'New', exact: true},
+				{ title: 'message.crm', path: '/default/dashboard/crm', exact: true},
+				{ title: 'message.crypto', path: '/default/dashboard/crypto', exact: true},
 				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true,label: 'Old' },
+				{ title: 'Map' ,path: '/default/dashboard/magazine',exact: true}
 				
 				
 				//{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true,label: 'Old' },

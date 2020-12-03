@@ -62,7 +62,11 @@
 		<mobile-search-form></mobile-search-form>
 	</div>
 </template>
-
+<style>
+.v-list-item--link:before{
+	background-color: transparent !important;
+}
+</style>
 <script>
 import Sidebar from "../Sidebar/Sidebar.vue";
 import ChatSidebar from "../ChatSidebar/ChatSidebar.vue";

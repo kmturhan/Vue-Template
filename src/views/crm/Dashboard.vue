@@ -112,7 +112,6 @@
 			<div class="">
 				<div class="app-card magazine-stats-card crm-stats-card shadow radius">
 					<!---->
-					
 						<div class="pa-6 white--text red-gradient graphDesign">
 							<div class="d-custom-flex align-items-center">
 								<span class="d-inline-block font-3x mr-2">
@@ -123,10 +122,7 @@
 						
 						<div class="d-custom-flex align-items-center justify-space-between">
 						<div class="" style="height: 80px; width: 100%; position: relative;">
-
-					
 				</div>
-				
 			</div>
 		</div><!----><!----></div>
 	</div>

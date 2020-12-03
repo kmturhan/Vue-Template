@@ -8,30 +8,11 @@
             <user-block></user-block>
 				<template v-for="(category, key) in menus">
 					<div :key="key">
-						<div class="sidebar-title px-4">
-							<span>{{$t(key)}}</span>
-						</div>
+							
 						<template v-for="item in category">
 							<template v-if="item.items != null">
-								<v-list-group
-									:ripple="false"
-									:key="item.title"
-									prepend-icon="arrow_right"
-									append-icon=""
-									no-action
-									v-model="item.active"
-								>
-									<v-list-item slot="activator" :ripple="false">
-										<v-list-item-content>
-											<v-list-item-title  v-if="item.items!= null">
-												<i class="mr-3 zmdi" :class="item.action"></i>
-												<span >{{ textTruncate($t(item.title)) }}</span>
-												<template  v-if = "item.label == 'New'">
-													<span class="sidebar-label">{{item.label}}</span>
-												</template>
-											</v-list-item-title>
-										</v-list-item-content>
-									</v-list-item>
+								
+									
 									<v-list-item
 										:ripple="false"
 										v-for="subItem in item.items"
@@ -40,7 +21,7 @@
 									>
 									<template v-if="subItem !== null">
 										<v-list-item-content>
-											<v-list-item-title>
+											<v-list-item-title style="color:white;z-index:0">
 												{{ textTruncate($t(subItem.title)) }}
 												<template v-if= "subItem.label == 'New'">
 													<span class="sidebar-label">New</span>
@@ -50,7 +31,7 @@
 									</template>
 
 									</v-list-item>
-								</v-list-group>
+								
 							</template>	
 							<template v-else>
 								<v-list-group
@@ -63,7 +44,7 @@
 									v-model="item.active"
 								>
 									<v-list-item slot="activator" :ripple="false">
-										<v-list-item-content >
+										<v-list-item-content style="color:white;z-index:0;">
 											<v-list-item-title>
 												<router-link :to="!item.exact ? `/${getCurrentAppLayoutHandler() + item.path}` : item.path">
 													<i class="mr-3 zmdi" :class="item.action"></i>

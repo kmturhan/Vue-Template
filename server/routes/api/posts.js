@@ -2,6 +2,7 @@ const { Object } = require('core-js');
 const express = require('express');
 const mqtt = require('mqtt');
 const fs = require('fs');
+const axios = require('axios');
 
 
 var caCRT = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/ca.crt');
@@ -31,6 +32,9 @@ client.on('connect', function () {
     console.log('connect');
     client.subscribe('home', function () {
       console.log("Home topic Listening")
+      //var jsonMethod = '{ "method": "getTvId", "params": { } }';
+      //client.publish('home/telemetry/mVThJflRGKgZYkZ18!hU', jsonMethod);
+
     })
     client.subscribe('#', function() {
         console.log("All topics Listening")
@@ -131,6 +135,7 @@ client.on('message', function (topic, message) {
             break;
         case 'home/attributesUp/'+token:
             console.log('AttributesUp Channel');
+            
             var dataArray = jsonData.params.up.split(',');
             var TvID = dataArray[0];
             var tvDurum = dataArray[1];
@@ -154,6 +159,7 @@ client.on('message', function (topic, message) {
         case 'home/create/'+token:
             var jsonTvIdList = [];
             var tvModels = [];
+            
             if(jsonData.method == 'setDevice'){
             console.log('Home2 Channel');
             var dbTvIdList = [];
@@ -176,18 +182,21 @@ client.on('message', function (topic, message) {
                         sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
                         db.all(sql,[token,jsonTvIdList[index],item,tvBrand,ipAddress],(err,rows)=>{
                             console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
+                            
                         })
                     }
                 })
+                getCountry(ipAddress,token,jsonTvIdList[index])
             });
+            
             }
             else if(jsonData.method == 'setDeviceModel'){
                 jsonTvIdList = jsonData.params.tvIds.split(',');
                 tvModels = jsonData.params.tvModel.split(',');
-                
                 jsonTvIdList.splice(jsonTvIdList.length-1,1);
                 console.log(jsonTvIdList)
                 tvModels.splice(tvModels.length-1,1);
+                
                 tvModels.forEach(function(item,index) { 
                     var tvModelNumberHex = Buffer.from(item,'hex');
                     tvModels[index] = tvModelNumberHex.toString("utf-8");
@@ -204,42 +213,27 @@ client.on('message', function (topic, message) {
                 });
                 
             }
-                /*db.all(sql, [token], (err, rows) => {
-                    
-                    if(rows.length == 0){
-                        arraySerialNumber.forEach(function(item){
-                            sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number) VALUES (?,?,?)";
-                            db.all(sql, [token,item,item.Serial_Number], (err, rows) => {
-                                console.log('TVID added.');
-                            })
-                        })
-                        
-                    }
-                    rows.forEach(function(item) {  
-                        /*console.log(item.TvID.toString());
-                        console.log(item.Serial_Number.toString());
-                        dbTvIdList.push(item.TvID.toString());
-                        dbSerialNumber.push(item.Serial_Number.toString());
-                    })
-                    console.log(dbTvIdList);
-                    console.log(jsonTvIdList);
-                    console.log('db List Serial Number : ',dbSerialNumber);
-                    jsonTvIdList.forEach(function(item) {
-                        
-                        if(!dbTvIdList.includes(item)){
-                            console.log('test');
-                            sql = "INSERT INTO Device_Status(Token,TvID) VALUES (?,?)";
-                            db.all(sql, [token,item], (err, rows) => {
-                                console.log('TVID added.');
-                            })
-                        }
-                    })
-                })*/
-            
             break;
     }
 })
-
+async function getCountry(ip,token,jsonTvIdList) {
+    console.log('GET COUNTRY : ',ip,token,jsonTvIdList)
+  try {
+    const response = await axios.get('http://ip-api.com/json/'+ip+'?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query');
+    
+    var jsonData = response.data;
+    
+    
+        sql = "UPDATE Device_Status SET Country = ?,City = ?,Continent = ? WHERE TvID = ? AND Token = ?";
+        db.all(sql,[jsonData.country,jsonData.city,jsonData.continent,jsonTvIdList,token],(err,rows)=>{
+            console.log('GET COUNTRY : ',jsonData.country,jsonData.city.toLowerCase(),jsonData.continent,jsonTvIdList,token)
+        })
+  
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
 const router = express.Router();
 
 router.get('/',(req,res) => {
@@ -275,16 +269,24 @@ router.post('/test',function(req,res){
     var testArray = {km:'RemoteLock',ka:'TvStatus',kf:'VoiceValue',kh:'BrightnessValue',dx:'PictureMode'}
     var selectedPinKey = testArray[req.body.params.command];
     console.log('POST /TEST API ADDRESS');
-    sql = "UPDATE Device_Status SET Last_Update = ?," + selectedPinKey + " = ? WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+    if(req.body.params.value == '') {
+        sql = "UPDATE Device_Status SET Last_Update = ?, Connection_Status = 0 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+        db.all(sql,[req.body.updateDate,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
+            console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
+        })
+    }else {
+        sql = "UPDATE Device_Status SET Last_Update = ?," + selectedPinKey + " = ?, Connection_Status = 1 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+        db.all(sql,[req.body.updateDate,req.body.params.value,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
+            console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
+        })
+    }
     console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
-    db.all(sql,[req.body.updateDate,req.body.params.value,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
-        console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
-    })
+    
     
     res.send('testt')
     //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 })
-router.post('/allAttributesUpdate',function(req,res){
+router.post('/allAttributesUpdate',function(req,res) {
     console.log('POST /allAttributesUpdate ',req.body);
     var jsonData = req.body;
     console.log(jsonData.updateDate)
