@@ -1092,7 +1092,7 @@ export default {
 		this.loadData();
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
-		})		
+		})
 		this.$mqtt.subscribe('home/attributesUp/#',function(message) {
 			console.log('UP : ',message)
 		})		

@@ -316,4 +316,28 @@ router.post('/detectDevices',function(req,res){
     });
 })
 })
+
+router.get('/loadDevicesGroupBy', function(req,res) {
+    console.log('Group By');
+    let sql = 'SELECT sum(TvStatus) AS OpenTV,count(TvStatus) AS TotalTV,City FROM Device_Status GROUP BY City';
+    var arrayIDList = [];
+    db.all(sql, [], (err, rows) => {
+        console.log('GETDATA : ',rows);
+        if (err) {
+        throw err;
+      }
+     
+      rows.forEach(item => {
+          console.log(item.ID);
+          console.log(item.deviceName);
+          arrayIDList.push(item.ID);
+      });
+      
+      var response = {
+        rows
+      };
+      console.log(req.body,res.body)
+      res.json(rows);
+})
+})
 module.exports = router;
