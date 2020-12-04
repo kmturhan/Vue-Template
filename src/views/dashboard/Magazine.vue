@@ -560,7 +560,7 @@ export default {
     console.log(event.target.parentNode.getAttribute('id'))
     if(item.City == event.target.parentNode.getAttribute('id')) {
       $('.location-open-tv').html('Open Tv<br>' + item.OpenTV);
-      $('.location-close-tv').html('Close Tv <br>', item.TotalTV - item.OpenTV)
+      $('.location-close-tv').html('Close Tv<br>'+ (item.TotalTV - item.OpenTV))
     }
   })
   
@@ -576,19 +576,21 @@ export default {
     $('#svg-location').css('display','none');
   },
   clickk() {
+     var scrollTop = $('.v-main__wrap').scrollTop();
     this.cityList.forEach(item => {
       console.log(item);
+      
       var svg = document.querySelector('#'+item);
-      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2));
+      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+scrollTop);
       $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
       
-      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26);
+      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
       $('#'+item+'-svg-total-open-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
       
-      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26);
+      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
       $('#'+item+'-svg-total-close-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
       
-      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2));
+      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+scrollTop);
       $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
       
   })

@@ -551,6 +551,7 @@ export default {
 			gaugeValue: [],
 			selector: "",
 			val0: 0,
+			unreachableDevices: 0,
 			headersForTransactionList: [
 				{
 					text: "Tv ID",
@@ -920,7 +921,6 @@ export default {
 			this.$mqtt.publish('home/attributesUp/mVThJflRGKgZYkZ18!hU', JSON.stringify(jsonData));
 	},
 		clickPub: function() {
-			
 			var selectedTag = $(event.currentTarget);
 			$(event.currentTarget).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
 			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
@@ -993,6 +993,7 @@ export default {
 		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
 		},	
 		websocketPub: function() {
+			this.unreachableDevices = 0;
 			/*var token = event.currentTarget.getAttribute('data-token');
 			axios.post('http://192.168.10.42:5000/api/detectDevices',{ token : token,method: "getTvId"
 			}).then((response,request) => {
@@ -1010,12 +1011,13 @@ export default {
 			var i;
 			for (i = 0; i < this.deviceList.length; i++) {
 				
-				var date1 = new Date(this.deviceList[i].Last_Update);
+				var date1 = new Date('2020/12/4 18:45:00');
 				var date2 = new Date(dateTime);
 
 				var diff = date2.getTime() - date1.getTime();
 
 				var msec = diff;
+				console.log(msec)
 				var hh = Math.floor(msec / 1000 / 60 / 60);
 				msec -= hh * 1000 * 60 * 60;
 				var mm = Math.floor(msec / 1000 / 60);
@@ -1024,6 +1026,10 @@ export default {
 				msec -= ss * 1000;
 				
 				console.log('FARK :',hh + ':'+mm+':'+':'+ss)
+				if(diff > 950000) {
+					this.unreachableDevices++;
+				}
+
 			}
 		},
 		next () {

@@ -192,7 +192,7 @@ client.on('message', function (topic, message) {
             });
             
             }
-            else if(jsonData.method == 'setDeviceModel'){
+            else if(jsonData.method == 'setDeviceModel') {
                 jsonTvIdList = jsonData.params.tvIds.split(',');
                 tvModels = jsonData.params.tvModel.split(',');
                 jsonTvIdList.splice(jsonTvIdList.length-1,1);
