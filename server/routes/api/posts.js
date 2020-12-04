@@ -146,12 +146,12 @@ client.on('message', function (topic, message) {
             if(tvDurum == 0){
                 sql = "UPDATE Device_Status SET TvStatus = 0 WHERE Token = ? AND TvID = ?";
                 db.all(sql,[token,TvID],(err,rows)=>{
-                    console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
+                    //console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
                 })   
             }else{
                 sql = "UPDATE Device_Status SET TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
                 db.all(sql,[nosignal,temperature,firmwareVersion,token,TvID],(err,rows)=>{
-                    console.log("Success AttributesUp Update ALL");
+                    //console.log("Success AttributesUp Update ALL");
                 })
             }
             console.log('TVID : ',TvID,'TvDurum : ',tvDurum, 'No Signal : ', nosignal, 'Temp : ', temperature, 'firmwareVersion : ',firmwareVersion);
@@ -269,6 +269,11 @@ router.post('/test',function(req,res){
     var testArray = {km:'RemoteLock',ka:'TvStatus',kf:'VoiceValue',kh:'BrightnessValue',dx:'PictureMode'}
     var selectedPinKey = testArray[req.body.params.command];
     console.log('POST /TEST API ADDRESS');
+    var jsonSendData = {
+        TVID : req.body.params.tvId,
+        command : req.body.params.command,
+        value: req.body.params.value
+    }
     if(req.body.params.value == '') {
         sql = "UPDATE Device_Status SET Last_Update = ?, Connection_Status = 0 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
         db.all(sql,[req.body.updateDate,req.body.token,req.body.params.tvId,req.body.params.tvSerial],(err,rows)=>{
@@ -283,7 +288,7 @@ router.post('/test',function(req,res){
     console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
     
     
-    res.send('testt')
+    res.send(jsonSendData);
     //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 })
 router.post('/allAttributesUpdate',function(req,res) {
@@ -293,7 +298,7 @@ router.post('/allAttributesUpdate',function(req,res) {
     if(jsonData.params.tvDurum == 0){
         sql = "UPDATE Device_Status SET Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
         db.all(sql,[req.body.updateDate,jsonData.token,jsonData.params.tvId],(err,rows)=>{
-            //console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey,'DATETIME : ',jsonData.updateDate);
+            //console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,'DATETIME : ',jsonData.updateDate);
         })   
     } else {
         console.log(jsonData.updateDate)

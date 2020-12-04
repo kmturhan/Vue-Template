@@ -184,7 +184,8 @@
 							<svg v-if="item.Connection_Status == 1" xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg v-if="item.Connection_Status == 0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:30px;width:30px;margin-top:12px;cursor:pointer;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
-						<td class="tvstatus" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
+						<td class="tvstatus input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-value="item.TvStatus" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
+						<span style="display:none;" class="tvstatus-value">{{item.TvStatus}}</span>
 						<v-col cols="12" sm="4" md="4" class="col-height-auto">
 							<div v-if="item.TvStatus == 1">
 								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" @click="clickPub" aria-disabled="true">
@@ -226,7 +227,7 @@
 							</div>
 						</v-col>
 						</td>
-						<td class="tvRemoteLock" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
+						<td class="tvRemoteLock input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'" >
 							<div v-if="item.RemoteLock == 1">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" @click="clickPub">
 									<div class="v-input__control">
@@ -265,16 +266,16 @@
 								</div>
 							</div>
 						</td>
-						<td class="pin-kf" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
+						<td class="pin-kf input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
 							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kf" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
+						<td class="pin-kf input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
 							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kh" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
+						<td class="pin-kh input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
 							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kh" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
+						<td class="pin-kh input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
 							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
 						<td>{{ item.TempetureValue }} °C</td>
@@ -309,6 +310,17 @@
 	</div>
 </template>
 <style>
+.input-switch {
+	transition: all .5 ease;
+}
+.input-switch-disabled {
+	opacity: .1 !important;
+	pointer-events: none !important;
+}
+.input-switch-enabled {
+	opacity: 1 !important;
+	pointer-events: auto !important;
+}
 .v-input--selection-controls__ripple-custom {
 	width: 36px;
 	height: 36px;
@@ -648,13 +660,21 @@ export default {
 					}
 				}
 			});
+			
+			
+			//Eğer attributes'e gelen mesajda ekrandan clicklenen tvid ve pin doğrulanırsa çalışacak kısım.
 			if(command == this.selectedPin && TVID == this.selectedTvID) {
 				console.log('TEST : BAŞARILI')
 				clearInterval(this.interval);
+				console.log('selected TVID : ',this.selectedTvID)
+				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				
+				
+				
 			}
 			var tag = [];
-			if(command == 'ka') {
-				$('tbody').css('pointer-events','auto');
+			/*if(command == 'ka') {
+				
 				this.$el.querySelectorAll('td .v-input').forEach(item => {
 				if($(item).find('input')){
 					console.log($(item).find('input').attr('data-tvid'));
@@ -674,14 +694,14 @@ export default {
 						}
 					}
 				})
-			}
+			}*/
 			
 			console.log('TAG : ',tag)
 			console.log('ATTR CHANNEL')
 			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
 					if(item.getAttribute('data-tvid') == TVID) {
 						var testTag = item.closest('.pin-' + command)
-						console.log('TESTTAG',testTag);
+						
 						if(value == 1) {
 							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active v-input--is-dirty success--text');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
@@ -690,6 +710,8 @@ export default {
 							$(testTag).find('.v-input--switch__track span').text('On');
 							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('svg').removeClass('tv-close-svg');
+							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')
+
 						} else {
 							$(testTag).removeClass('v-input--is-label-active v-input--is-dirty success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
@@ -698,11 +720,21 @@ export default {
 							$(testTag).find('.v-input--switch__track span').text('Off');
 							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('svg').addClass('tv-close-svg');
+							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('0')
 						}
-
+						console.log('TESTTAG',$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text());
 						var serialNumber = item.getAttribute('data-serial-number');
 						console.log(serialNumber);
 						var token = item.getAttribute('data-token');
+						this.$el.querySelectorAll('.input-gauch').forEach(item => {
+							console.log(item)
+							
+							if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
+								$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+							}else {
+								$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+							}
+						})
 						axios.post('http://192.168.10.42:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
@@ -714,8 +746,12 @@ export default {
 								value:value
 						}})
 						.then(function (response) {
-							console.log(response);
+							console.log(response.data);
 							console.log('SUCCESS');
+							
+							
+							
+							
 						})
 						.catch(function (error) {
 							console.log(error);
@@ -811,7 +847,7 @@ export default {
 					this.deviceList = updateDeviceList;
 					console.log('Device List : ',this.deviceList)
 					this.$el.querySelectorAll('td .v-input').forEach(item => {
-				if($(item).find('input')){
+				if($(item).find('input')) {
 					console.log($(item).find('input').attr('data-tvid'));
 					if($(item).find('input').attr('data-tvid') == TvID){
 						console.log('Seçilen ITEM : ',item);
@@ -826,7 +862,6 @@ export default {
 								$(item).closest('td').css('opacity','1');
 								$(item).closest('td').css('pointer-events','auto');
 							}
-						
 					}
 				}
 			})
@@ -867,11 +902,13 @@ export default {
 				$(this).addClass('v-overlay--active');
 			});
 		},
-		clickSub: function(){
+		clickSub: function() {
 			var jsonData = { method: 'getUpdateAll', params: { up: '2,00,00,37,26.1' } };//up: '2,01,00,37,26.1'
 			this.$mqtt.publish('home/attributesUp/mVThJflRGKgZYkZ18!hU', JSON.stringify(jsonData));
 	},
 		clickPub: function() {
+			
+			var selectedTag = $(event.currentTarget);
 			$(event.currentTarget).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
 			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
 			$(event.currentTarget).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
@@ -903,18 +940,38 @@ export default {
 					on:'01',
 					off:'00'
 		}};
-		var test = $(event.currentTarget).closest('tbody');
-		$(test).css('pointer-events','none');
-		
+		$('.input-control').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		var i = 0;
 		this.interval = setInterval(() => {
 			console.log(i++)
-			
-
 			if(i == 10) {
 				console.log('Disconnect ');
-				clearInterval(this.interval)
-				$(test).css('pointer-events','auto')
+				clearInterval(this.interval);
+				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				$(selectedTag).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
+				$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
+				$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
+				$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
+				$(selectedTag).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
+				console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
+				if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
+					$(selectedTag).find('.v-input--switch__track span').text('Off');
+				}else {
+					$(selectedTag).find('.v-input--switch__track span').text('On')
+				}
+				
+		this.$el.querySelectorAll('.input-gauch').forEach(item => {
+			console.log(item)
+			
+			if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
+				$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+			}else {
+				$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+			}
+		})
+	
 			}
 		}, 1000);
 		
@@ -936,6 +993,7 @@ export default {
 			const active = parseInt(this.active)
 			this.active = (active < 2 ? active + 1 : 0)
 		},
+		
 		loadData() {
 			this.deviceList = [];
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
@@ -1079,6 +1137,7 @@ export default {
 		console.log('DOWN : ',this.selector);
 		console.log(this.val0);
 	},
+	
 	},
 	
 	watch: {
@@ -1099,6 +1158,7 @@ export default {
 		this.$mqtt.subscribe('home/telemetry/#',function(message){
 			console.log('Telemetry Topic : ',message);
 		})
+		
 		/*axios.post('http://localhost:5000/api/test',{
 				token:token,
 				method:"rpcCommand",

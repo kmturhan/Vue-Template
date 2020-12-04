@@ -16,9 +16,15 @@
     <div class="svg-turkiye-haritasi" id="test">
       <svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-green" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:green !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg>
       <svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-red" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:red !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg>
-      <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;">{{ item.OpenTV }}</span>
-      <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;">{{ item.TotalTV - item.OpenTV }}</span>
-    <div id="svg-location"></div>
+      <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;">{{ item.OpenTV }}</span>
+      <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;">{{ item.TotalTV - item.OpenTV }}</span>
+    <div id="svg-location" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <span class="location-info" style="margin-bottom:40px;">test</span>
+      <div style="display:flex;align-items:center;justify-content:space-around;width:100%;">
+        <span class="location-open-tv">Open Tv<br>1</span>
+        <span class="location-close-tv">Close Tv <br>1</span>
+      </div>
+    </div>
       <svg version="1.1" id="svg-turkiye-haritasi" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1007.478 527.323" xml:space="preserve" >
         <g id="turkiye" @mouseout="mouseouttr">
           <g @mouseout="mouseoutt" @click="clickk" @mousemove="mousemovee" @mouseover="mouseoverr" id="adana" data-plakakodu="01" data-alankodu="322" data-iladi="Adana">
@@ -519,9 +525,20 @@ export default {
   //console.log(event.pageY);
   //console.log(event.pageX);
   var ss = $('.v-main__wrap').scrollTop();
-  $('#svg-location').css('display','flex');
-  $('#svg-location').css('top',(event.pageY-590)+ss);
-  $('#svg-location').css('left',event.pageX-630+'px');
+  
+  if(this.cityList.includes(event.target.parentNode.getAttribute('id'))){
+      $('#svg-location').css('display','flex');
+      $('#svg-location').css('top',(event.pageY-590)+ss);
+      $('#svg-location').css('left',event.pageX-630+'px');
+      $('#svg-location .location-info').text(event.target.parentNode.getAttribute('id'))
+    }
+  this.deviceList.forEach(item => {
+    console.log(event.target.parentNode.getAttribute('id'))
+    
+    
+    
+  })
+  
 	//$('.il-isimleri').text(event.target.parentNode.getAttribute('data-iladi'))
 },
 	mouseoutt() {
