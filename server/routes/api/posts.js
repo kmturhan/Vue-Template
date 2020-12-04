@@ -57,7 +57,10 @@ client.on('message', function (topic, message) {
             token= item;
         }
     })
-
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
     console.log('TETETETS',jsonData);
     console.log('TOKEN : '+ token + 'TOPIC : '+ topicName);
     
@@ -86,8 +89,8 @@ client.on('message', function (topic, message) {
                             if (rows.length == 0){
                                 console.log('Token Yok')
                                 
-                                sql = "INSERT INTO devices(Name,Password,Token) VALUES ('labrusNeww',?,?)";
-                                db.all(sql, [password,token], (err, rows) => {
+                                sql = "INSERT INTO devices(Name,Password,Token,Last_Update) VALUES ('labrusNeww',?,?,?)";
+                                db.all(sql, [password,token,dateTime], (err, rows) => {
                                     console.log('SUCCESS')
                                     var jsonMethod = '{ "method": "getTvId", "params": { } }';
                                     client.publish('home/telemetry/' + token, jsonMethod);
@@ -127,8 +130,8 @@ client.on('message', function (topic, message) {
             var selectedPinValue = arrayIDValue[1];
             console.log('KEY ', selectedPinKey);
             console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
-            sql = "UPDATE Device_Status SET " + selectedPinKey + " = ? WHERE Token = ? AND TvID = ?";
-            db.all(sql,[selectedPinValue,token,selectedTvID],(err,rows)=>{
+            sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
+            db.all(sql,[selectedPinValue,dateTime,token,selectedTvID],(err,rows)=>{
                 console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
             })   
 
@@ -144,13 +147,13 @@ client.on('message', function (topic, message) {
             var firmwareVersion = dataArray[4];
             console.log('TV DURUM : ',tvDurum);
             if(tvDurum == 0){
-                sql = "UPDATE Device_Status SET TvStatus = 0 WHERE Token = ? AND TvID = ?";
-                db.all(sql,[token,TvID],(err,rows)=>{
+                sql = "UPDATE Device_Status SET TvStatus = 0,Last_Update = ? WHERE Token = ? AND TvID = ?";
+                db.all(sql,[dateTime,token,TvID],(err,rows)=>{
                     //console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
                 })   
             }else{
-                sql = "UPDATE Device_Status SET TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
-                db.all(sql,[nosignal,temperature,firmwareVersion,token,TvID],(err,rows)=>{
+                sql = "UPDATE Device_Status SET Last_Update = ?,TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
+                db.all(sql,[dateTime,nosignal,temperature,firmwareVersion,token,TvID],(err,rows)=>{
                     //console.log("Success AttributesUp Update ALL");
                 })
             }
@@ -182,7 +185,6 @@ client.on('message', function (topic, message) {
                         sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
                         db.all(sql,[token,jsonTvIdList[index],item,tvBrand,ipAddress],(err,rows)=>{
                             console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
-                            
                         })
                     }
                 })
@@ -201,13 +203,13 @@ client.on('message', function (topic, message) {
                     var tvModelNumberHex = Buffer.from(item,'hex');
                     tvModels[index] = tvModelNumberHex.toString("utf-8");
                 })
-                sql = "UPDATE Device_Status SET Model_Number = ? WHERE TvID = ?";
+                sql = "UPDATE Device_Status SET Model_Number = ?,Last_Update = ? WHERE TvID = ?";
                 
                 //var tvModelNumberHex = Buffer.from(jsonTvIdList[index],'hex');
                 //var tvModelNumber = tvModelNumberHex.toString("utf-8");
                 jsonTvIdList.forEach(function(item,index) {    
                     console.log(tvModels[index],item);
-                    db.all(sql,[tvModels[index],item],(err,rows)=>{
+                    db.all(sql,[tvModels[index],dateTime,item],(err,rows)=>{
                         console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",tvModels[index]);
                     })
                 });

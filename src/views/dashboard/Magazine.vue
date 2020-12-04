@@ -3,29 +3,22 @@
       <v-container fluid class="stats-wrap">
          
     <ul id="example-1">
-	DATA : 
-  {{totalScreen}}
-		<li v-for="item in deviceList" :key="item.ID">
-			Model : {{ item.Model_Number }}<br>
-			Country : {{ item.Country }}<br>
-			City : {{ item.City }}<br>
-			Contient : {{ item.Continent }}<br>
-		</li>
-	</ul>
+	
 	<div class="il-isimleri">test</div>
+  
     <div class="svg-turkiye-haritasi" id="test">
-      <svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-green" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:green !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg>
-      <svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-red" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:red !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg>
-      <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;">{{ item.OpenTV }}</span>
-      <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" style="font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;">{{ item.TotalTV - item.OpenTV }}</span>
-    <div id="svg-location" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-green" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:green !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></a>
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-red" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:red !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></a>
+      <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" class="total-open-screen">{{ item.OpenTV }}</span>
+      <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" class="total-close-screen">{{ item.TotalTV - item.OpenTV }}</span>
+    <div id="svg-location" style="display:none;flex-direction:column;align-items:center;justify-content:center;">
       <span class="location-info" style="margin-bottom:40px;">test</span>
       <div style="display:flex;align-items:center;justify-content:space-around;width:100%;">
         <span class="location-open-tv">Open Tv<br>1</span>
         <span class="location-close-tv">Close Tv <br>1</span>
       </div>
     </div>
-      <svg version="1.1" id="svg-turkiye-haritasi" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1007.478 527.323" xml:space="preserve" >
+      <svg style="margin-top:150px" version="1.1" id="svg-turkiye-haritasi" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1007.478 527.323" xml:space="preserve" >
         <g id="turkiye" @mouseout="mouseouttr">
           <g @mouseout="mouseoutt" @click="clickk" @mousemove="mousemovee" @mouseover="mouseoverr" id="adana" data-plakakodu="01" data-alankodu="322" data-iladi="Adana">
           </g>
@@ -129,11 +122,11 @@
             <path d="M463.592,336.54c-0.3,0.1-0.747,0.358-1.156,0.593c-0.409,0.236-0.752,0.461-1.156,0.561 c-0.417,0.104-4.194,1.157-4.407,1.217c0,0-1.744,1.12-2.813,1.654c-0.609,0.305-1.605,0.557-2.5,0.78 c-0.879,0.22-1.63,0.4-1.656,0.405l0.562,0.625l0.125,0.125v0.156l0.31,3.219l0.031,0.25l-0.188,0.156l-2.626,2.53l-0.094,0.094 l-0.125,0.033c0,0-0.646,0.161-1.344,0.343c-0.698,0.183-1.375,0.358-1.75,0.405c-0.23,0.029-1.26,0.193-2.219,0.343 c-0.479,0.075-0.95,0.153-1.312,0.218c-0.181,0.032-0.328,0.039-0.438,0.062s-0.239,0.088-0.125,0.031 c-0.199,0.1-0.21,0.069-0.344,0.094s-0.31,0.067-0.5,0.094c-0.38,0.054-0.876,0.101-1.344,0.155 c-0.87,0.103-1.574,0.174-1.688,0.187l-0.125,0.031l-2.939,1.279l-3.032,1.404l-0.062,0.031l-1.939,1.405l-0.062,0.031 l-0.062,0.031l-1.687,0.656v0.125l-0.188,0.156l-3.282,2.654h-0.031l-0.031,0.031l-3.001,1.873l-3.157,2.155l-0.062,0.031 l-0.062,0.031c0,0-0.641,0.214-1.344,0.437c-0.351,0.112-0.711,0.226-1.031,0.311c-0.32,0.086-0.54,0.156-0.812,0.156 c-0.251,0-0.5-0.052-0.875-0.125s-0.821-0.155-1.25-0.251c-0.857-0.191-1.656-0.407-1.656-0.407h-0.094l-0.062-0.031l-1.687-1.032 l-2.625,0.78l-3.063,2.592l-0.094,0.094h-0.127l-4.438,0.779h-0.031h-0.062l-5.031-0.253l-0.75,0.438h-0.031l-0.062,0.031 l-3.532,1.373l-0.033,0.031l-3.907,1.123h-0.031l-0.062,0.031l-2.344,0.343l-1.032,2.624l-0.751,2.719l-0.188,0.719l-0.594-0.469 l-1.124-0.876l-0.031-0.031h-0.031l-0.719-0.75l-8.438-0.255l-0.221,3.812l1.343,2.657v0.031l0.905,2.156v0.031v0.031 c0,0,0.168,0.608,0.405,1.219c0.119,0.305,0.241,0.607,0.375,0.812c0.134,0.205,0.285,0.261,0.219,0.25 c0.838,0.14,1.969,0.532,1.969,0.532l0.156,0.062l0.094,0.125l1.561,2.282l1.875,0.813l0.094,0.031l0.062,0.062l1.999,1.751 l1.874,1.532l0.281,0.188l-0.094,0.344l-0.532,1.625l-0.094,0.344l-0.344,0.031l-2.281,0.124h-0.156l-0.125-0.094l-1.344-0.876 l-1.375,0.374l-0.97,1.499l-0.029,0.066l-0.845,2.719l-0.062,0.219l-0.25,0.094l-3.22,1.092v0.031c0,0-0.411,0.177-0.906,0.374 c-0.495,0.198-1.048,0.437-1.594,0.437c-0.301,0-0.636-0.09-1.062-0.189c-0.426-0.098-0.913-0.216-1.375-0.345 c-0.859-0.237-1.52-0.437-1.625-0.47l-2.689,1.093h-0.031h-0.031l-2,0.499h-0.031l-2.375,0.749l-0.031,0.031h-0.031l-3.969,0.623 l-2.469,0.718l-0.062,0.031l-2.47,1.155l0.031,0.188l0.342,2.906l0.031,0.062v0.062l0.718,1.625l0.062,0.094v0.094l0.245,9.969 v0.094l-0.031,0.094l-0.626,1.781l-0.062,0.125l-0.125,0.094l-0.408,0.312l0.125,0.062h0.031l0.031,0.031l4.592,3.003l6.625,0.816 l2.72-1.843l0.031-0.031l3.22-1.592l0.094-0.062h0.094l5-0.528l0.156-0.031l0.125,0.094l2.624,1.376l1.721-2.811l0.125-0.219 l0.281-0.031l10.75-0.338l2.282-1.03l0.188-0.094l0.188,0.094l2.968,1.252l0.344-0.656l0.125-0.281h0.312l4.469,0.002h0.031h0.062 l3.125,0.627l0.595-2.031l0.094-0.375h0.375l6.781,0.192l1.282-1.124l0.062-0.062l0.062-0.031l3.126-1.31l0.157-2.375v-0.188 l0.156-0.125l2.846-2.842l0.156-0.188l0.25,0.031l4.438,0.346l0.188,0.031l0.125,0.125l2.374,2.376l2.345-1.718l0.031-0.031h0.062 l2.751-1.311l-0.185-5.906v-0.312l0.25-0.125l1.939-1.124l0.126-1.031l0.031-0.188l0.156-0.125l2.626-2.249l0.062-0.062l3.502-4.06 l3.408-3.904l0.062-0.094l0.094-0.062l5.126-2.278l4.909-5.278l0.125-0.125l0.188-0.031l2.969-0.31l1.126-1.937l0.031-0.094 l0.094-0.062l2.689-1.937l0.094-0.094h0.094l6.97-1.434l0.094-0.031l0.125,0.031l5.343,1.253l0.062,0.031l0.062,0.031l4.655,2.691 l1.499,0.907l0.812-0.406h0.031l0.031-0.031c0,0,2.245-0.732,3.313-0.998c0.915-0.229,1.586-0.731,2.281-0.905 c0.226-0.057,0.471-0.044,0.812-0.062s0.743-0.055,1.156-0.061c0.827-0.016,1.684,0.001,2.062,0.001 c-0.019,0-0.025,0.031,0.031-0.062c0.056-0.093,0.115-0.295,0.156-0.5c0.082-0.411,0.094-0.844,0.094-0.844l0.001-2.594 l-1.811-2.251v-0.031l-1.749-2.251l-0.125-0.156v-0.156l0.002-2.906v-0.188l0.156-0.156l1.157-1.249l0.345-1.75v-0.037l0.094-0.875 l-0.84-0.813l-2.405-1.376l-3.281-0.002h-0.281l-0.156-0.219l-1.249-1.907l-0.031-0.031l-0.031-0.062l-0.843-2.219l-0.031-0.062 l-0.874-1.719l-0.062-0.156l0.031-0.188l0.501-1.906l0.031-0.094l0.094-0.094l1.376-1.655l0.127-2.781 c-0.124-0.171-1.24-1.711-1.749-2.22c-0.561-0.561-1.019-0.758-1.844-0.876c-0.356-0.051-1.186-0.048-1.969-0.032 s-1.526,0.061-1.875,0.061c-0.649,0-1.013-0.461-1.312-0.813s-0.5-0.719-0.5-0.719h-0.031l-0.999-1.907v-0.031l-0.031-0.031 l-1.092-2.813l-0.125-0.062c0,0-0.551-0.193-1.188-0.376c-0.318-0.091-0.652-0.177-0.938-0.22S463.627,336.529,463.592,336.54z"/>
           </g>
           <g @mouseout="mouseoutt" @click="clickk" @mousemove="mousemovee" @mouseover="mouseoverr" id="istanbul">
-			<g @mouseout="mouseoutt" @click="clickk" @mousemove="mousemovee" @mouseover="mouseoverr" id="istanbul-asya" data-plakakodu="34" data-alankodu="216" data-iladi="İstanbul (Asya)">
+			<g  id="istanbul" data-plakakodu="34" data-alankodu="216" data-iladi="İstanbul (Asya)">
               <path d="M187.613,66.733l-2.876,1.342l-2.063,2.218l0.561,1.719l0.062,0.188l-0.125,0.188l-2.002,3.78 l-0.031,0.062l-0.062,0.062l-1.657,1.78l-0.564,3l1.593,1.595l0.031,0.031l2.093,2.47l0.031,0.031l2.249,2.282l0.062,0.031 l3.499,1.877l0.156,0.094l0.062,0.156l1.03,2.439l3.593,1.533l1.376-2.53l0.031-0.094l1.221-3.937l0.657-2.156l0.031-0.188 l0.188-0.094l3.657-2.154h0.031l2.626-1.405l0.188-0.062l0.188,0.031l1.625,0.376l0.094,0.031l0.062,0.031l3.593,2.158 l2.219-0.53l3.032-1.529h0.031l2.595-1.249h0.031l3.689-2.123l0.627-2.875c-0.638-0.155-3.737-0.913-4.593-1.159 c-0.842-0.24-4.405-1.127-4.405-1.127l-7.437-1.629l-0.031-0.031h-0.031l-5.561-1.878v-0.031h-0.031l-5.624-2.347L187.613,66.733 z"/>
               <path d="M179.76,85.166l-0.062,0.688l-0.094,0.75l1.688,0.751l0.062,0.031l0.062,0.031l2.155,1.907l0.188,0.156 l-0.031,0.25l-0.252,2.906l-0.031,0.562l-0.562-0.094l-2-0.376l-0.156-0.031l-0.095-0.092l-1.374-1.282l-0.062-0.031 l-0.031-0.031l-1.374-1.907l-0.031-0.062l-0.031-0.062l-1.029-2.907l-0.188-0.531l0.594-0.125l2-0.374L179.76,85.166z"/>
             </g>
-            <g @mouseout="mouseoutt" @click="clickk" @mousemove="mousemovee" @mouseover="mouseoverr" id="istanbul-avrupa" data-plakakodu="34" data-alankodu="212" data-iladi="İstanbul (Avrupa)">
+            <g  id="istanbul" data-plakakodu="34" data-alankodu="212" data-iladi="İstanbul (Avrupa)">
               <path d="M136.272,39.497l-0.25,0.25l0.031,0.344l-0.344,0.031l-1.658,3.155l1.873,3.532l0.125,0.219l-0.125,0.25 l-2.408,4.53v0.031l-3.284,5.904v0.031l-4.098,6.686v0.031l-1.253,5.249l1.092,3.563l4.689-1.372h0.031h0.031l6.594-0.902h0.125 l0.125,0.031l2.874,1.158v-0.031c0,0,1.118,0.405,2.312,0.782c0.597,0.189,1.23,0.361,1.719,0.501 c0.245,0.07,0.433,0.118,0.594,0.156c0.161,0.039,0.312,0.062,0.25,0.062c0.178,0,0.291,0.05,0.438,0.094s0.321,0.088,0.5,0.156 c0.358,0.136,0.757,0.324,1.156,0.501c0.798,0.351,1.531,0.689,1.531,0.689l0.062,0.031l0.031,0.031l3.499,2.596v-0.062v-0.469 l0.469-0.031l2.656-0.124h0.406l0.094,0.406c0,0,0.122,0.564,0.249,1.219c0.105,0.539,0.182,1.038,0.218,1.469 c0.028,0.008,0.025,0.023,0.062,0.031c0.213,0.045,0.573,0.093,1,0.126c0.854,0.063,1.994,0.087,3.156,0.096 c2.325,0.017,4.656-0.059,4.656-0.059h0.219l0.125,0.125l0.781,0.656l1.312-0.718l0.094-0.031l0.094-0.031l3.188-0.248 l2.157-1.124l-0.594-0.344l-0.312-0.156l0.031-0.312l0.251-2.281l0.062-0.438h0.438l1.656,0.001h0.281l0.125,0.219l0.874,1.344 l1.782-1.249l0.626-2.719v-0.094l0.062-0.094l0.5-0.688l-0.687-2.281l-0.125-0.344l0.344-0.219l1.219-0.749l0.031-0.031 l1.439-2.03l0.062-0.094l0.532-1.219l-3.906-0.002h-0.094l-0.062-0.031l-4.311-1.502l-0.031-0.031h-0.031l-4.53-2.283 l-4.687-2.409l-5.436-2.784h-0.031l-5.529-3.534l-5.81-3.409l-0.031-0.031l-3.405-2.408h-0.031l-4.529-3.408l-0.031-0.031 l-0.031-0.031l-2.779-2.783L136.71,40.5l-0.031-0.062L136.272,39.497z"/>
             </g>
           </g>
@@ -289,13 +282,38 @@
         </g>
       </svg>
     </div>
+    <button @click="displayOpen">OPEN Screen</button><br>
+    <button @click="displayClose">CLOSE Screen</button><br><br>
+    DATA : 
+  {{totalScreen}}
+  
+		<li v-for="item in deviceList" :key="item.ID">
+			Model : {{ item.Model_Number }}<br>
+			Country : {{ item.Country }}<br>
+			City : {{ item.City }}<br>
+			Contient : {{ item.Continent }}<br>
+		</li>
+	</ul>
+  
 	</v-container>
    </div>
 </template>
 <style>
+.total-open-screen {
+  font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;display: none;
+}
+.total-close-screen {
+  font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;
+}
+.svg-location-red {
+  display: none;
+}
+.svg-location-green {
+  display: none;
+}
 #svg-location {
-  width:250px;
-  height:250px;
+  width:150px;
+  height:150px;
   background-color:white;
   position:absolute;
   display:none;
@@ -504,8 +522,16 @@ export default {
         this.totalScreen = this.deviceList.length;
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
-				
 			});
+  },
+  displayOpen() {
+    $('.svg-location-red, .total-close-screen').css('display','none');
+    $('.svg-location-green, .total-open-screen').css('display','block')
+    
+  },
+  displayClose() {
+    $('.svg-location-green, .total-open-screen').css('display','none')
+    $('.svg-location-red, .total-close-screen').css('display','block')
   },
   loadDataGroupBy() {
     this.openCloseScreen = [];
@@ -525,18 +551,17 @@ export default {
   //console.log(event.pageY);
   //console.log(event.pageX);
   var ss = $('.v-main__wrap').scrollTop();
+  $('#svg-location').css('display','flex');
+  $('#svg-location').css('top',(event.pageY-250)+ss);
+  $('#svg-location').css('left',event.pageX-600+'px');
+  $('#svg-location .location-info').text(event.target.parentNode.getAttribute('id'))
   
-  if(this.cityList.includes(event.target.parentNode.getAttribute('id'))){
-      $('#svg-location').css('display','flex');
-      $('#svg-location').css('top',(event.pageY-590)+ss);
-      $('#svg-location').css('left',event.pageX-630+'px');
-      $('#svg-location .location-info').text(event.target.parentNode.getAttribute('id'))
-    }
-  this.deviceList.forEach(item => {
+  this.openCloseScreen.forEach(item => {
     console.log(event.target.parentNode.getAttribute('id'))
-    
-    
-    
+    if(item.City == event.target.parentNode.getAttribute('id')) {
+      $('.location-open-tv').html('Open Tv<br>' + item.OpenTV);
+      $('.location-close-tv').html('Close Tv <br>', item.TotalTV - item.OpenTV)
+    }
   })
   
 	//$('.il-isimleri').text(event.target.parentNode.getAttribute('data-iladi'))
@@ -551,7 +576,22 @@ export default {
     $('#svg-location').css('display','none');
   },
   clickk() {
-    console.log('test');
+    this.cityList.forEach(item => {
+      console.log(item);
+      var svg = document.querySelector('#'+item);
+      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2));
+      $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
+      
+      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26);
+      $('#'+item+'-svg-total-open-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
+      
+      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26);
+      $('#'+item+'-svg-total-close-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
+      
+      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2));
+      $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
+      
+  })
   },
 	locationStatus() {
 	console.log('clickk');
@@ -564,24 +604,7 @@ export default {
     this.gList.push(element);
   });
   console.log('TAGLIST : ',tagList)
-  this.cityList.forEach(item => {
-      if(tagList.indexOf(item) == -1){
-        var tag = this.gList[tagList.indexOf(item)]
-        console.log(tag);
-      }
-      var svg = document.querySelector('#'+item);
-      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-330)+(svg.getBoundingClientRect().height/2));
-      $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)+17);
-      
-      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-350)+(svg.getBoundingClientRect().height/2)+26);
-      $('#'+item+'-svg-total-open-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)+15);
-      
-      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-350)+(svg.getBoundingClientRect().height/2)+26);
-      $('#'+item+'-svg-total-close-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-19);
-      
-      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-330)+(svg.getBoundingClientRect().height/2));
-      $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)-17);
-  })
+  
   var ss = $('.v-main__wrap').scrollTop();
 },
   },
@@ -591,6 +614,8 @@ export default {
     console.log('testasd')
     setTimeout(() => {
       this.locationStatus();
+      this.clickk();
+      $('.svg-location-red').css('display','block');
     },1000);
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)

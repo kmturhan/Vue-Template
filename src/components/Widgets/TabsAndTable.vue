@@ -141,6 +141,7 @@
 		</div>-->
 		
 		<div class="table-responsive">
+			<button @click="websocketPub">Test</button>
 			<!--<button @click="clickSub">attributesUp</button><br><br>-->
 			<!--<button class="mx-4 my-4 v-btn v-btn--contained theme--light v-size--small primary" @click="overlayOpen">Filter</button>-->
 			<div class="v-overlay theme--light" style="z-index: 99;display:none;">
@@ -206,7 +207,6 @@
 								</div>
 							</div>
 							<div v-else-if="item.TvStatus == 0">
-								
 								<div class="pin-ka v-input v-input--hide-details v-input--selection-controls v-input--switch red--text text--darken-3" @click="clickPub" aria-disabled="false">
 									<div class="v-input__control">
 										<div class="v-input__slot">
@@ -219,7 +219,6 @@
 												<div class="v-input--switch__thumb theme--light red--text text--darken-3">
 													<svg version="1.1" id="Layer_1" class="tv-close-svg tv-status-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256.026,0c-24.816,0-45.004,20.188-45.004,45.004v181.016c0,24.816,20.188,45.004,45.004,45.004s45.004-20.188,45.004-45.004V45.004C301.03,20.188,280.842,0,256.026,0z"/>	</g></g><g>	<g>		<path d="M406.625,118.959c-18.939-17.083-46.502-15.14-63.041,1.873c-16.632,17.109-17.917,46.086,3.153,65.296			c33.44,30.395,50.343,76.459,42.336,122.928c-10.868,63.067-65.717,112.767-133.05,112.915			c-68.971,0.152-121.809-50.77-132.708-110.617c-8.497-46.747,7.179-93.553,41.972-125.197c21.01-19.127,19.913-48.232,3.234-65.36			c-16.567-17.013-44.295-18.851-63.4-1.56c-52.909,47.923-80.527,118.769-72.843,190.58C44.496,423.995,140.9,512,256.553,512			c114.326,0,207.934-88.216,222.368-194.743C488.985,243.027,461.957,168.899,406.625,118.959z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 												</div>
-													
 											</div>
 										</div>
 									</div>
@@ -279,12 +278,13 @@
 							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
 						<td>{{ item.TempetureValue }} °C</td>
-						<td>{{ item.NoSignal }}</td>
+						<td v-if="item.NoSignal == '' || item.NoSignal == 0">0</td>
+						<td v-if="item.NoSignal == 1">1</td>
 						<td>{{ item.FirmwareVersion }}</td>
 						<td>{{ item.Serial_Number }}</td>
 						<td>{{ item.Last_Update }}</td>
 						
-						<td v-for="filter in filterAttributes" :key="filter.fieldPin">
+						<td v-for="filter in filterAttributes" :key="filter.fieldPin" class="input-control input-switch-enabled">
 							<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-pin="filter.fieldPin" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
 								<option v-for="(value, index) in filter.fieldKey" v-bind:key="value" :value="value">{{filter.fieldValue[index]}}</option>
 							</select>
@@ -843,28 +843,41 @@ export default {
 							updateDeviceList[index].Last_Update = dateTime;
 							updateDeviceList[index].TvStatus = tvDurum;
 						}
+						console.log('DB LAST UPDATE',updateDeviceList[index].Last_Update);
+
 					})
 					this.deviceList = updateDeviceList;
+
+					
+
 					console.log('Device List : ',this.deviceList)
-					this.$el.querySelectorAll('td .v-input').forEach(item => {
-				if($(item).find('input')) {
-					console.log($(item).find('input').attr('data-tvid'));
-					if($(item).find('input').attr('data-tvid') == TvID){
-						console.log('Seçilen ITEM : ',item);
-							if(tvDurum == 0) {
-								$(item).closest('td').css('opacity','.1');
-								$(item).closest('td').css('pointer-events','none')
-								$(item).closest('td.tvstatus').css('opacity','1')
-								$(item).closest('td.tvstatus').css('pointer-events','auto')
-								$(item).closest('td.tvRemoteLock').css('opacity','1');
-								$(item).closest('td.tvRemoteLock').css('pointer-events','auto');
-							} else if(tvDurum == 1) {
-								$(item).closest('td').css('opacity','1');
-								$(item).closest('td').css('pointer-events','auto');
-							}
-					}
-				}
-			})
+					this.$el.querySelectorAll('.input-gauch').forEach(item => {
+						console.log(item);
+						if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
+							$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+						}else {
+							$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+						}
+					})
+				//	this.$el.querySelectorAll('td .v-input').forEach(item => {
+				//if($(item).find('input')) {
+				//	console.log($(item).find('input').attr('data-tvid'));
+				//	if($(item).find('input').attr('data-tvid') == TvID){
+				//		console.log('Seçilen ITEM : ',item);
+				//			if(tvDurum == 0) {
+				//				$(item).closest('td').css('opacity','.1');
+				//				$(item).closest('td').css('pointer-events','none')
+				//				$(item).closest('td.tvstatus').css('opacity','1')
+				//				$(item).closest('td.tvstatus').css('pointer-events','auto')
+				//				$(item).closest('td.tvRemoteLock').css('opacity','1');
+				//				$(item).closest('td.tvRemoteLock').css('pointer-events','auto');
+				//			} else if(tvDurum == 1) {
+				//				$(item).closest('td').css('opacity','1');
+				//				$(item).closest('td').css('pointer-events','auto');
+				//			}
+				//	}
+				//}
+			//})
 		}
 		
 	},
@@ -940,8 +953,9 @@ export default {
 					on:'01',
 					off:'00'
 		}};
-		$('.input-control').removeClass('input-switch-enabled').addClass('input-switch-disabled');
-		$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		
+		$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		var i = 0;
 		this.interval = setInterval(() => {
 			console.log(i++)
@@ -979,7 +993,7 @@ export default {
 		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
 		},	
 		websocketPub: function() {
-			var token = event.currentTarget.getAttribute('data-token');
+			/*var token = event.currentTarget.getAttribute('data-token');
 			axios.post('http://192.168.10.42:5000/api/detectDevices',{ token : token,method: "getTvId"
 			}).then((response,request) => {
 				console.log('SUCCESS POST',response);
@@ -987,7 +1001,30 @@ export default {
 				response.end();
 			}).catch((err) => {
 				console.log(err);
-			});
+				});*/
+				var today = new Date();
+			var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dateTime = date+' '+time;
+			console.log('DATETIME : ',dateTime,time)
+			var i;
+			for (i = 0; i < this.deviceList.length; i++) {
+				
+				var date1 = new Date(this.deviceList[i].Last_Update);
+				var date2 = new Date(dateTime);
+
+				var diff = date2.getTime() - date1.getTime();
+
+				var msec = diff;
+				var hh = Math.floor(msec / 1000 / 60 / 60);
+				msec -= hh * 1000 * 60 * 60;
+				var mm = Math.floor(msec / 1000 / 60);
+				msec -= mm * 1000 * 60;
+				var ss = Math.floor(msec / 1000);
+				msec -= ss * 1000;
+				
+				console.log('FARK :',hh + ':'+mm+':'+':'+ss)
+			}
 		},
 		next () {
 			const active = parseInt(this.active)
@@ -1027,7 +1064,7 @@ export default {
 			this.name1.forEach(item => {
 				test.forEach(function(tag){		
 					console.log('TAG : ',tag);
-					if(tag.value == item){
+					if(tag.value == item) {
 						console.log('DETECT TYPE : ',tag.getAttribute('data-type'),tag.getAttribute('data-pin'))
 						dynamicFilterType.push({text:tag.value,sortable:false,type:tag.getAttribute('data-type'),pin:tag.getAttribute('data-pin'),optionsKey:tag.getAttribute('data-options-key').split(','),optionsValue:tag.getAttribute('data-options-value').split(',')});
 					}
@@ -1105,6 +1142,7 @@ export default {
 			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 			var dateTime = date+' '+time;
+			
 			setTimeout(() => {
 				var value = this.selector.getAttribute('value');
 				console.log('VALUE : ',value)
