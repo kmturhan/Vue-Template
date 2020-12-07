@@ -4,18 +4,29 @@
          
     <ul id="example-1">
 	
-	<div class="il-isimleri">test</div>
+	<!--<div class="il-isimleri">test</div>-->
   
     <div class="svg-turkiye-haritasi" id="test">
-      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-green" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:green !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></a>
-      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" enable-background="new 0 0 24 24" height="40" viewBox="0 0 24 24" width="40" class=" svg-location-red" style="position:absolute;width:40px;height:40px;cursor:pointer;"><path style="fill:red !important;z-index:999;" d="m12 0c-4.962 0-9 4.066-9 9.065 0 7.103 8.154 14.437 8.501 14.745.143.127.321.19.499.19s.356-.063.499-.189c.347-.309 8.501-7.643 8.501-14.746 0-4.999-4.038-9.065-9-9.065zm0 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z"/></svg></a>
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 438.533 438.533" class="svg-location-green" xml:space="preserve"><g>	<path d="M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0   c-39.781,0-76.47,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267   c0,39.78,9.804,76.463,29.407,110.062c19.607,33.592,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407   s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.596,29.403-70.284,29.403-110.062   C438.533,179.485,428.732,142.795,409.133,109.203z M353.742,297.208c-13.894,23.791-32.736,42.633-56.527,56.534   c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534   c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53   c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53   c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></a>
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 94 94" xml:space="preserve" class="svg-location-red"><g>	<g>		<path d="M47,94C21.084,94,0,72.916,0,47S21.084,0,47,0s47,21.084,47,47S72.916,94,47,94z M47,12.186    c-19.196,0-34.814,15.618-34.814,34.814c0,19.195,15.618,34.814,34.814,34.814c19.195,0,34.814-15.619,34.814-34.814    C81.814,27.804,66.195,12.186,47,12.186z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></a>
+
       <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" class="total-open-screen">{{ item.OpenTV }}</span>
       <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" class="total-close-screen">{{ item.TotalTV - item.OpenTV }}</span>
     <div id="svg-location" style="display:none;flex-direction:column;align-items:center;justify-content:center;">
-      <span class="location-info" style="margin-bottom:40px;">test</span>
-      <div style="display:flex;align-items:center;justify-content:space-around;width:100%;">
-        <span class="location-open-tv">Open Tv<br>1</span>
-        <span class="location-close-tv">Close Tv <br>1</span>
+      <span class="location-info" style="margin-bottom:40px;font-weight:bold;font-size:17px;color:black;text-transform:capitalize;">test</span>
+      <div style="display:flex;align-items:center;justify-content:space-around;width:100%;flex-direction:column;">
+        <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="438.533px" height="438.533px" viewBox="0 0 438.533 438.533" style="position:absolute;width:40px;height:40px;cursor:pointer;fill:red !important;right:20px;" xml:space="preserve"><g>	<path d="M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0   c-39.781,0-76.47,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267   c0,39.78,9.804,76.463,29.407,110.062c19.607,33.592,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407   s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.596,29.403-70.284,29.403-110.062   C438.533,179.485,428.732,142.795,409.133,109.203z M353.742,297.208c-13.894,23.791-32.736,42.633-56.527,56.534   c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534   c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53   c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53   c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="438.533px" height="438.533px" viewBox="0 0 438.533 438.533" style="position:absolute;width:40px;height:40px;cursor:pointer;fill:green !important;left:20px;" xml:space="preserve"><g>	<path d="M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0   c-39.781,0-76.47,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267   c0,39.78,9.804,76.463,29.407,110.062c19.607,33.592,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407   s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.596,29.403-70.284,29.403-110.062   C438.533,179.485,428.732,142.795,409.133,109.203z M353.742,297.208c-13.894,23.791-32.736,42.633-56.527,56.534   c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534   c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53   c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53   c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+        -->
+        <div style="display:flex;justify-content:space-around;align-items:center;width:100%;font-weight:bold;">
+
+        <span class="location-open-tv" style="display:flex;align-items:center;justify-content:center;border:5px solid green;border-radius:50%;width:40px;height:40px;color:green;"></span>
+        <span class="location-close-tv" style="display:flex;align-items:center;justify-content:center;border:5px solid red;border-radius:50%;width:40px;height:40px;color:red;"></span>
+        </div>
+        <div style="font-size:15px;font-weight:bold;display:flex;justify-content:space-around;align-items:center;width:100%;">
+          <span style="color:green;">Open Tv</span>
+          <span style="color:red;">Close Tv</span>
+        </div>
       </div>
     </div>
       <svg style="margin-top:150px" version="1.1" id="svg-turkiye-haritasi" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1007.478 527.323" xml:space="preserve" >
@@ -299,17 +310,44 @@
    </div>
 </template>
 <style>
+.theme--dark a svg.svg-location-red  {
+  fill: yellow !important;
+}
 .total-open-screen {
-  font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;display: none;
+  font-size:12px;
+  position:absolute;
+  width:25px;
+  height:25px;
+  cursor:pointer;
+  font-weight:bold;
+  color:lightcoral;
+  display: none;
 }
 .total-close-screen {
-  font-size:12px;position:absolute;width:25px;height:25px;cursor:pointer;font-weight:bold;color:lightcoral;
+  font-size:12px;
+  position:absolute;
+  width:25px;
+  height:25px;
+  cursor:pointer;
+  font-weight:bold;
+  color:lightcoral;
+  display: none;
 }
 .svg-location-red {
   display: none;
+  position:absolute;
+  width:25px !important;
+  height:25px !important;
+  cursor:pointer;
+  fill:red !important;
 }
 .svg-location-green {
   display: none;
+  position:absolute;
+  width:25px !important;
+  height:25px !important;
+  cursor:pointer;
+  fill:green !important;
 }
 #svg-location {
   width:150px;
@@ -433,6 +471,8 @@ import WebsiteTraffic from "Components/Widgets/WebsiteTraffic";
 import RecentComments from "Components/Widgets/RecentComments";
 import NotificationsV2 from "Components/Widgets/NotificationsV2";
 */
+</script>
+<script>
 import JQuery from 'jquery'
 import axios from 'axios'
 //import Dashboard from 'Views/Dashboard.vue'
@@ -559,8 +599,10 @@ export default {
   this.openCloseScreen.forEach(item => {
     console.log(event.target.parentNode.getAttribute('id'))
     if(item.City == event.target.parentNode.getAttribute('id')) {
-      $('.location-open-tv').html('Open Tv<br>' + item.OpenTV);
-      $('.location-close-tv').html('Close Tv<br>'+ (item.TotalTV - item.OpenTV))
+      $('.location-open-tv').html(item.OpenTV);
+      $('.location-close-tv').html((item.TotalTV - item.OpenTV))
+    }else {
+      $('#svg-location').css('display','none');
     }
   })
   
@@ -581,8 +623,8 @@ export default {
       console.log(item);
       
       var svg = document.querySelector('#'+item);
-      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+scrollTop);
-      $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
+      $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+3+scrollTop);
+      $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)+8);
       
       $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
       $('#'+item+'-svg-total-open-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
@@ -590,8 +632,8 @@ export default {
       $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
       $('#'+item+'-svg-total-close-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
       
-      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+scrollTop);
-      $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2));
+      $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+3+scrollTop);
+      $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)+8);
       
   })
   },
@@ -618,6 +660,7 @@ export default {
       this.locationStatus();
       this.clickk();
       $('.svg-location-red').css('display','block');
+      $('.total-close-screen').css('display','block');
     },1000);
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)

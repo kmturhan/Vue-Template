@@ -1011,23 +1011,24 @@ export default {
 			var i;
 			for (i = 0; i < this.deviceList.length; i++) {
 				
-				var date1 = new Date('2020/12/4 18:45:00');
+				var date1 = new Date('2020/12/7 09:59:00');
 				var date2 = new Date(dateTime);
 
 				var diff = date2.getTime() - date1.getTime();
 
 				var msec = diff;
 				console.log(msec)
-				var hh = Math.floor(msec / 1000 / 60 / 60);
+				/*var hh = Math.floor(msec / 1000 / 60 / 60);
 				msec -= hh * 1000 * 60 * 60;
 				var mm = Math.floor(msec / 1000 / 60);
 				msec -= mm * 1000 * 60;
 				var ss = Math.floor(msec / 1000);
 				msec -= ss * 1000;
 				
-				console.log('FARK :',hh + ':'+mm+':'+':'+ss)
+				console.log('FARK :',hh + ':'+mm+':'+':'+ss)*/
 				if(diff > 950000) {
 					this.unreachableDevices++;
+					console.log('15 dakka geçti');
 				}
 
 			}

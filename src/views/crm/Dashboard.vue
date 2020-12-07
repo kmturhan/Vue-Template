@@ -98,7 +98,7 @@
 								<span class="d-inline-block font-3x mr-2">
 									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="40px" height="40px"  viewBox="0 0 480 480" style="fill:white;enable-background:new 0 0 480 480;" xml:space="preserve"><g>	<g>		<path d="M472,168H8c-4.418,0-8,3.582-8,8v256c0,4.418,3.582,8,8,8h160v16h-32c-4.418,0-8,3.582-8,8c0,4.418,3.582,8,8,8h208    c4.418,0,8-3.582,8-8c0-4.418-3.582-8-8-8h-24v-16h152c4.418,0,8-3.582,8-8V176C480,171.582,476.418,168,472,168z M304,456H184    v-16h120V456z M464,424H16V184h448V424z"/>	</g></g><g>	<g>		<rect x="320" y="392" width="80" height="16"/>	</g></g><g>	<g>		<rect x="416" y="392" width="16" height="16"/>	</g></g><g>	<g>		<path d="M341.656,50.112C285.522-6.031,194.503-6.038,138.36,50.096c-0.005,0.005-0.011,0.011-0.016,0.016    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c49.891-49.896,130.784-49.899,180.68-0.008    c0.003,0.003,0.005,0.005,0.008,0.008c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002    C343.998,53.646,343.155,51.612,341.656,50.112z"/>	</g></g><g>	<g>		<path d="M317.656,74.112c-42.883-42.888-112.415-42.892-155.303-0.009c-0.003,0.003-0.006,0.006-0.009,0.009    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c36.664-36.584,96.024-36.584,132.688,0    c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002C319.998,77.646,319.155,75.612,317.656,74.112z"/>	</g></g><g>	<g>		<path d="M293.656,98.112c-29.62-29.633-77.654-29.644-107.288-0.024c-0.008,0.008-0.016,0.016-0.024,0.024    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c23.377-23.386,61.286-23.393,84.672-0.016    c0.005,0.005,0.011,0.011,0.016,0.016c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002    C295.998,101.646,295.155,99.612,293.656,98.112z"/>	</g></g><g>	<g>		<path d="M269.656,122.344c-16.39-16.35-42.922-16.35-59.312,0c-3.069,3.178-2.981,8.243,0.197,11.312    c3.1,2.994,8.015,2.994,11.115,0c10.139-10.113,26.549-10.113,36.688,0c3.178,3.069,8.242,2.982,11.312-0.196    C272.65,130.359,272.65,125.444,269.656,122.344z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 								</span>
-								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Unreachable Screens : 0</span>
+								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Unreachable Screens : {{unreachableDeviceLenght}}</span>
 							</div>
 							
 							
@@ -373,6 +373,7 @@ export default {
 		closeDeviceLength: 0,
 		noSignalDeviceLength: 0,
 		totalDeviceLength: 0,
+		unreachableDeviceLenght: 0,
 		noSignal: 0,
 		closeDev: 0,
 		openDev: 0,
@@ -434,6 +435,7 @@ export default {
    methods: {
       loadData() {
 			this.deviceList = [];
+			
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item => {
 					this.deviceList.push(item);
@@ -447,9 +449,30 @@ export default {
 						this.noSignal++;
 					}
 			});
+			var i;
+			var today = new Date();
+			var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
+			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var dateTime = date+' '+time;
+			console.log('DATETIME : ',dateTime,time)
+			for (i = 0; i < this.deviceList.length; i++) {
+				
+				var date1 = new Date(this.deviceList[i].Last_Update);
+				var date2 = new Date(dateTime);
+
+				var diff = date2.getTime() - date1.getTime();
+
+				var msec = diff;
+				console.log(msec);
+				if(diff > 950000) {
+					this.unreachableDeviceLenght++;
+					console.log('15 dakka geçti');
+				}
+
+			}
 			this.totalDeviceLength = this.deviceList.length;
 			this.noSignalDeviceLength = this.noSignal;
-         })
+		})
 	},
 },
    created() {
