@@ -42,7 +42,6 @@
 							</div>
 						</div>
 						<div class="pa-6 white--text green-gradient svg-background" v-if="openDeviceLength == 0">
-							
 							<div class="graphDesign" style="height: 100%; width: 100%; position: relative; text-align:center; align-items:center; justify-content:center;display:flex;">
 						<svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" height="40"  viewBox="0 0 512 512" width="40"><path id="XMLID_1988_" d="m496.964 73.72h-481.928c-8.304 0-15.036 6.732-15.036 15.036v276.892c0 8.304 6.732 15.036 15.036 15.036h187.944v27.523h-40.564c-8.304 0-15.036 6.732-15.036 15.036s6.732 15.036 15.036 15.036h187.167c8.304 0 15.036-6.732 15.036-15.036s-6.732-15.036-15.036-15.036h-40.563v-27.523h187.944c8.304 0 15.036-6.732 15.036-15.036v-276.892c0-8.304-6.732-15.036-15.036-15.036zm-218.016 334.488h-45.896v-27.523h45.896zm202.98-57.595h-451.856v-246.82h451.856z"/></svg>
 						<span class="d-inline-block font-sm fw-bold" style="margin-left:10px;">No Screen Open</span>
@@ -294,7 +293,12 @@ export default {
 				}else{
 					this.closeDev++;
 				}
-				
+				if(db[i].Connection_Status == 0) {
+					this.unreachableDeviceLenght++;
+				}
+				if(db[i].NoSignal == 0) {
+					this.noSignal++;
+				}
 			}
 			console.log('OPEN CLOSE : ',this.openDev,this.closeDev)
 			this.closeDeviceLength = this.closeDev;
@@ -306,29 +310,6 @@ export default {
 				console.log('SIFIRLA')
 				this.noSignal = 0;
 			}
-			
-			
-			
-			//this.closeDeviceLength = closeDev
-			//this.openDeviceLength = openDev;
-			//if(command == "km" || command == "ka") {
-			//	
-			//	this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
-			//		if(item.getAttribute('data-tvid') == TVID) {
-			//			//Açık/Kapalı Array'den item silmek
-			//			if(command == "ka"){
-			//				if(value == 1) {
-			//					this.openDeviceLength++;
-			//					this.closeDeviceLength--;
-			//				} else {
-			//					this.closeDeviceLength++;
-			//					this.openDeviceLength--;
-			//				}
-			//			}
-			//		}
-			//	})
-			//}
-
 			
 	},
 	'home/attributesUp/#' : function(val) {
@@ -350,9 +331,6 @@ export default {
 				}else{
 					this.closeDev++;
 				}
-
-				
-
 			}
 			//
 			//
@@ -374,6 +352,7 @@ export default {
 		noSignalDeviceLength: 0,
 		totalDeviceLength: 0,
 		unreachableDeviceLenght: 0,
+		updatedData: [],
 		noSignal: 0,
 		closeDev: 0,
 		openDev: 0,
@@ -434,8 +413,9 @@ export default {
   },
    methods: {
       loadData() {
+		this.noSignalDeviceLength = 0;
 			this.deviceList = [];
-			
+			this.unreachableDeviceLenght = 0;
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item => {
 					this.deviceList.push(item);
@@ -446,37 +426,19 @@ export default {
 						this.closeDeviceLength++;
 					}
 					if(item.NoSignal == 1) {
-						this.noSignal++;
+						this.noSignalDeviceLength++;
+					}
+					if(item.Connection_Status == 1) {
+						this.unreachableDeviceLenght++;
 					}
 			});
-			var i;
-			var today = new Date();
-			var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
-			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-			var dateTime = date+' '+time;
-			console.log('DATETIME : ',dateTime,time)
-			for (i = 0; i < this.deviceList.length; i++) {
-				
-				var date1 = new Date(this.deviceList[i].Last_Update);
-				var date2 = new Date(dateTime);
-
-				var diff = date2.getTime() - date1.getTime();
-
-				var msec = diff;
-				console.log(msec);
-				if(diff > 950000) {
-					this.unreachableDeviceLenght++;
-					console.log('15 dakka geçti');
-				}
-
-			}
+			this.updatedData = this.deviceList;
 			this.totalDeviceLength = this.deviceList.length;
-			this.noSignalDeviceLength = this.noSignal;
 		})
 	},
 },
    created() {
-         this.loadData();
+        this.loadData();
             this.$mqtt.subscribe('home/attributes/#',function(message){
                console.log('Message : ',message)
 			})
@@ -484,7 +446,7 @@ export default {
 				console.log('Message : ',message)
 				
 			});
-			
+			this.updatedData = this.deviceList;
    }
 
  

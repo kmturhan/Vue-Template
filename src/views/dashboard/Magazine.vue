@@ -23,7 +23,7 @@
         <span class="location-open-tv" style="display:flex;align-items:center;justify-content:center;border:5px solid green;border-radius:50%;width:40px;height:40px;color:green;"></span>
         <span class="location-close-tv" style="display:flex;align-items:center;justify-content:center;border:5px solid red;border-radius:50%;width:40px;height:40px;color:red;"></span>
         </div>
-        <div style="font-size:15px;font-weight:bold;display:flex;justify-content:space-around;align-items:center;width:100%;">
+        <div style="font-size:13px;font-weight:bold;display:flex;justify-content:space-around;align-items:center;width:100%;">
           <span style="color:green;">Open Tv</span>
           <span style="color:red;">Close Tv</span>
         </div>
@@ -332,6 +332,7 @@
   font-weight:bold;
   color:lightcoral;
   display: none;
+  
 }
 .svg-location-red {
   display: none;
@@ -535,6 +536,7 @@ export default {
   gList:[],
   totalScreen: 0,
   openCloseScreen: [],
+  showStatus:0,
     };
   },
   mqtt: {
@@ -567,11 +569,12 @@ export default {
   displayOpen() {
     $('.svg-location-red, .total-close-screen').css('display','none');
     $('.svg-location-green, .total-open-screen').css('display','block')
-    
+    this.showStatus = 1;
   },
   displayClose() {
     $('.svg-location-green, .total-open-screen').css('display','none')
     $('.svg-location-red, .total-close-screen').css('display','block')
+    this.showStatus = 0;
   },
   loadDataGroupBy() {
     this.openCloseScreen = [];
@@ -636,6 +639,11 @@ export default {
       $('#'+item+'-svg-red').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)+8);
       
   })
+  if(this.showStatus == 0) {
+      $('.total-close-screen').css('display','block');
+    }else {
+      $('.total-open-screen').css('display','block');
+    }
   },
 	locationStatus() {
 	console.log('clickk');
@@ -664,7 +672,9 @@ export default {
     },1000);
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
-		})
+    })
+    
+    
   }
 };
 </script>

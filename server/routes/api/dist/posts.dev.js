@@ -33,6 +33,40 @@ var db = new sqlite3.Database('./db.db');
 var client = mqtt.connect('wss://mqtts.labrus.com:8083', opts);
 client.on('connect', function () {
   console.log('connect');
+  setInterval(function () {
+    sql = "SELECT * FROM Device_Status";
+    var arrayIDList = [];
+    var i;
+    var today = new Date();
+    var date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, "0") + '-' + String(today.getDate()).padStart(2, "0");
+    var time = String(today.getHours()).padStart(2, "0") + ":" + String(today.getMinutes()).padStart(2, "0") + ":" + String(today.getSeconds()).padStart(2, "0");
+    var dateTime = date + ' ' + time;
+    console.log('DATETIME : ', dateTime, time);
+    db.all(sql, [], function (err, rows) {
+      //console.log('GETDATA : ',rows);
+      if (err) {
+        throw err;
+      }
+
+      rows.forEach(function (item) {
+        var date1 = new Date(item.Last_Update);
+        var date2 = new Date(dateTime);
+        var diff = date2.getTime() - date1.getTime();
+
+        if (diff > 950000) {
+          sql = "UPDATE Device_Status SET Connection_Status = 0 WHERE Token = ? AND TvID = ?";
+          db.all(sql, [item.Token, item.TvID], function (err, rows) {
+            console.log('Zaman Aşımı ' + item.Token + ' Connection 0 updated');
+          });
+          console.log(item.Last_Update, '15 dakika geçti');
+        } else {
+          sql = "UPDATE Device_Status SET Connection_Status = 1 WHERE Token = ? AND TvID = ?";
+          db.all(sql, [item.Token, item.TvID], function (err, rows) {});
+          console.log(item.Last_Update, '15 dakika Geçmedi');
+        }
+      });
+    });
+  }, 300000);
   client.subscribe('home', function () {
     console.log("Home topic Listening"); //var jsonMethod = '{ "method": "getTvId", "params": { } }';
     //client.publish('home/telemetry/mVThJflRGKgZYkZ18!hU', jsonMethod);
@@ -56,8 +90,8 @@ client.on('message', function (topic, message) {
     }
   });
   var today = new Date();
-  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, "0") + '-' + String(today.getDate()).padStart(2, "0");
+  var time = String(today.getHours()).padStart(2, "0") + ":" + String(today.getMinutes()).padStart(2, "0") + ":" + String(today.getSeconds()).padStart(2, "0");
   var dateTime = date + ' ' + time;
   console.log('TETETETS', jsonData);
   console.log('TOKEN : ' + token + 'TOPIC : ' + topicName);

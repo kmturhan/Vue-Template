@@ -181,9 +181,13 @@
 						<td class="text-nowrap">{{ item.TvID }}</td>
 						<td>{{ item.Brand }}</td>
 						<td>{{ item.Model_Number}}</td>
-						<td>
-							<svg v-if="item.Connection_Status == 1" xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
-							<svg v-if="item.Connection_Status == 0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:30px;width:30px;margin-top:12px;cursor:pointer;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						<td v-if="item.Connection_Status == 1" style="">
+							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
+						<td v-if="item.Connection_Status == 0" style="margin-right:auto;margin-left:auto;">
+							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
 						<td class="tvstatus input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-value="item.TvStatus" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
 						<span style="display:none;" class="tvstatus-value">{{item.TvStatus}}</span>
@@ -642,8 +646,8 @@ export default {
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
 			var today = new Date();
-			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var date = today.getFullYear()+'-'+String((today.getMonth()+1)).padStart(2,"0")+'-'+String(today.getDate()).padStart(2,"0");
+			var time = String(today.getHours()).padStart(2,"0") + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
 			var dateTime = date+' '+time;
 			var command = Object.keys(jsonData.params)[0];
 			var TVID = jsonData.params[command].split(',')[0];
@@ -661,21 +665,15 @@ export default {
 					}
 				}
 			});
-			
-			
 			//Eğer attributes'e gelen mesajda ekrandan clicklenen tvid ve pin doğrulanırsa çalışacak kısım.
 			if(command == this.selectedPin && TVID == this.selectedTvID) {
-				console.log('TEST : BAŞARILI')
+				console.log('TEST : BAŞARILI');
 				clearInterval(this.interval);
-				console.log('selected TVID : ',this.selectedTvID)
+				console.log('selected TVID : ',this.selectedTvID);
 				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				
-				
-				
 			}
 			var tag = [];
 			/*if(command == 'ka') {
-				
 				this.$el.querySelectorAll('td .v-input').forEach(item => {
 				if($(item).find('input')){
 					console.log($(item).find('input').attr('data-tvid'));
@@ -702,7 +700,6 @@ export default {
 			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
 					if(item.getAttribute('data-tvid') == TVID) {
 						var testTag = item.closest('.pin-' + command)
-						
 						if(value == 1) {
 							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active v-input--is-dirty success--text');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
@@ -712,7 +709,6 @@ export default {
 							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('svg').removeClass('tv-close-svg');
 							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')
-
 						} else {
 							$(testTag).removeClass('v-input--is-label-active v-input--is-dirty success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
@@ -744,28 +740,45 @@ export default {
 								tvSerial:serialNumber,
 								command:command,
 								tvId:TVID,
-								value:value
+								value:value,
+								updateDate: dateTime,
 						}})
 						.then(function (response) {
 							console.log(response.data);
 							console.log('SUCCESS');
 							
-							
-							
-							
 						})
 						.catch(function (error) {
 							console.log(error);
 						});
+						var updateDeviceList = this.deviceList;
+						var connectDevicesIcons = [];
+						this.$el.querySelectorAll('.device-connection').forEach(item => {
+							connectDevicesIcons.push(item)
+						})
+						updateDeviceList.forEach(function(item) {
+							var date1 = new Date(item.Last_Update);
+							var date2 = new Date(dateTime);
+							var diff = date2.getTime() - date1.getTime();
+							if(item.TvID == TVID && item.Token == token) {
+								console.log(item);
+							}
+							if(diff > 950000) { 
+								$('.device-connect.device-status-'+item.TvID).css('display','none');
+								$('.device-disconnect.device-status-'+item.TvID).css('display','block');
+							}else{
+								$('.device-connect.device-status-'+item.TvID).css('display','block');
+								$('.device-disconnect.device-status-'+item.TvID).css('display','none');
+							}
+							console.log(connectDevicesIcons)
+						})
+						this.deviceList = updateDeviceList;
 					}
-				
 			})
 			}
-			
 		},
 		'home/attributesUp/#' : function(val,topic) {
 			console.log('TABS ATTRIBUTES CHANNEL',token)
-			
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			var dataArray = jsonData.params.up.split(',');
@@ -778,8 +791,8 @@ export default {
 			var firmwareVersion = dataArray[4];
 			console.log(TvID,tvDurum,nosignal,temperature,firmwareVersion);
 			var today = new Date();
-			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-			var time = today.getHours() + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
+			var date = today.getFullYear()+'-'+String((today.getMonth()+1)).padStart(2,"0")+'-'+String(today.getDate()).padStart(2,"0");
+			var time = String(today.getHours()).padStart(2,"0") + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
 			var dateTime = date+' '+time;
 			console.log(dateTime);
 			
@@ -994,44 +1007,6 @@ export default {
 		},	
 		websocketPub: function() {
 			this.unreachableDevices = 0;
-			/*var token = event.currentTarget.getAttribute('data-token');
-			axios.post('http://192.168.10.42:5000/api/detectDevices',{ token : token,method: "getTvId"
-			}).then((response,request) => {
-				console.log('SUCCESS POST',response);
-				console.log('SUCCESS REQUEST : ',request)
-				response.end();
-			}).catch((err) => {
-				console.log(err);
-				});*/
-				var today = new Date();
-			var date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
-			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-			var dateTime = date+' '+time;
-			console.log('DATETIME : ',dateTime,time)
-			var i;
-			for (i = 0; i < this.deviceList.length; i++) {
-				
-				var date1 = new Date('2020/12/7 09:59:00');
-				var date2 = new Date(dateTime);
-
-				var diff = date2.getTime() - date1.getTime();
-
-				var msec = diff;
-				console.log(msec)
-				/*var hh = Math.floor(msec / 1000 / 60 / 60);
-				msec -= hh * 1000 * 60 * 60;
-				var mm = Math.floor(msec / 1000 / 60);
-				msec -= mm * 1000 * 60;
-				var ss = Math.floor(msec / 1000);
-				msec -= ss * 1000;
-				
-				console.log('FARK :',hh + ':'+mm+':'+':'+ss)*/
-				if(diff > 950000) {
-					this.unreachableDevices++;
-					console.log('15 dakka geçti');
-				}
-
-			}
 		},
 		next () {
 			const active = parseInt(this.active)
@@ -1040,8 +1015,10 @@ export default {
 		
 		loadData() {
 			this.deviceList = [];
+			this.unreachableDevices = 0;
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item => {
+					
 					this.deviceList.push(item);
 					this.sendDataList.push(item);
 					if(item.TvStatus == 1) {
@@ -1049,7 +1026,9 @@ export default {
 					}else{
 						this.closeDeviceLength++;
 					}
-
+					if(item.Connection_Status == 0) {
+						this.unreachableDevices++;
+					}
 				});
 				
 				console.log('Data.js : ',resp.data);
@@ -1146,8 +1125,8 @@ export default {
 			var serialNumber = tagName.getAttribute('data-serial-number');
 			var pin = tagName.getAttribute('data-pin');	
 			var today = new Date();
-			var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-			var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+			var date = today.getFullYear()+'-'+String((today.getMonth()+1)).padStart(2,"0")+'-'+String(today.getDate()).padStart(2,"0");
+			var time = String(today.getHours()).padStart(2,"0") + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
 			var dateTime = date+' '+time;
 			
 			setTimeout(() => {
