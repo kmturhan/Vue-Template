@@ -155,7 +155,7 @@
 						
 						<!--<p>{{ name1 }}</p>-->
 						<v-checkbox color="primary" label="Select Input" v-model="name1" value="Select Input" data-pin="xb" data-type="dropdown" data-options-key="20,40,60,70,80,90,A0,91,A1,92,A2,95,A5,98,A8,C0,D0,E0,E1,E2" data-options-value="AV,COMPONENT,RGB,DVI-D (PC),DVI-D (DTV),HDMI1 (DTV),HDMI1 (PC),HDMI2/OPS (DTV), HDMI2/OPS (PC),OPS/HDMI3/DVI-D (DTV),OPS/HDMI3/DVI-D (PC),OPS/DVI-D (DTV),OPS/DVI-D (PC),OPS (DTV),OPS (PC),DISPLAYPORT (DTV),DISPLAYPORT (PC),SuperSign webOS Player,Others,Multi Screen"></v-checkbox>
-						<v-checkbox color="primary" label="Mute" v-model="name1" value="Mute" 					data-pin="ke" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
+						<v-checkbox color="primary" label="Mute" 		v-model="name1" value="Mute" 		data-pin="ke" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
 						<v-checkbox color="primary" label="Aspect Ratio" v-model="name1" value="Aspect Ratio"  data-pin="kc" data-type="dropdown" data-options-key="01,02,04,06,09,10,21" data-options-value="4:3,16:9,Zoom,Set By Program,Just Scan (720p or higher),Cinema Zoom 1 to 16,58:9,Vertical Zoom,All-Direction Zoom"></v-checkbox>
 						<v-checkbox color="primary" label="Energy Saving" v-model="name1" value="Energy Saving"  data-pin="jq" data-type="dropdown" data-options-key="00,01,02,03,04,05" data-options-value="Off,Minimum,Medium,Maximum,Automatic,Screen Off"></v-checkbox>
 						<v-checkbox color="primary" label="Picture Mode" v-model="name1" value="Picture Mode"  data-pin="dx" data-type="dropdown" data-options-key="00,01,02,03,04,05,06,08,09,10,11" data-options-value="Vivid,Standard,Cinema,Sports,Game,Expert 1,Expert 2,APS,Photos,Touch,Calibration"></v-checkbox>
@@ -166,9 +166,7 @@
 						<v-checkbox color="primary" label="On Timer Input" v-model="name1" value="On Timer Input"  data-pin="fu" data-type="dropdown" data-options-key="40,60,70,90,91,92,95,98,D0" data-options-value="COMPONENT,RGB,DVI-D,HDMI1,HDMI2/OPS,OPS/DVI-D,OPS/DVI-D,OPS,DISPLAYPORT"></v-checkbox>						
 						<v-checkbox color="primary" label="No Signal Power Off (15 Min)" v-model="name1" value="No Signal Power Off (15 Min)" data-pin="fg" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
 						<v-checkbox color="primary" label="Auto Power Off (4 Hours)" v-model="name1" value="Auto Power Off (4 Hours)" data-pin="mn" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
-						<v-checkbox color="primary" label="Language" v-model="name1" value="Language"  data-pin="fi" data-type="dropdown" data-options-key="00,01,02,03,04,05,06,07,08,09,0A,0B,0C,0D,0E,0F,10,11,12" data-options-value="Czech,Danish,German,English,Spanish (Europe),Greek,French,Italian,Dutch,Norwegian,Portuguese,Portuguese (Brazil),Russian,Finnish,Swedish,Korean,Chinese (Mandarin),Japanese,Chinese (Cantonese)"></v-checkbox>						
-						
-						
+						<v-checkbox color="primary" label="Language" v-model="name1" value="Language"  data-pin="fi" data-type="dropdown" data-options-key="00,01,02,03,04,05,06,07,08,09,0A,0B,0C,0D,0E,0F,10,11,12" data-options-value="Czech,Danish,German,English,Spanish (Europe),Greek,French,Italian,Dutch,Norwegian,Portuguese,Portuguese (Brazil),Russian,Finnish,Swedish,Korean,Chinese (Mandarin),Japanese,Chinese (Cantonese)"></v-checkbox>
 					</app-card>
 					<button @click="detectType" class="ml-5 fw-bold" >Select</button>
 				</div>
@@ -182,10 +180,12 @@
 						<td>{{ item.Brand }}</td>
 						<td>{{ item.Model_Number}}</td>
 						<td v-if="item.Connection_Status == 1" style="">
+							
 							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
 						<td v-if="item.Connection_Status == 0" style="margin-right:auto;margin-left:auto;">
+							
 							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
@@ -193,7 +193,7 @@
 						<span style="display:none;" class="tvstatus-value">{{item.TvStatus}}</span>
 						<v-col cols="12" sm="4" md="4" class="col-height-auto">
 							<div v-if="item.TvStatus == 1">
-								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" @click="clickPub" aria-disabled="true">
+								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub" aria-disabled="true">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -211,7 +211,7 @@
 								</div>
 							</div>
 							<div v-else-if="item.TvStatus == 0">
-								<div class="pin-ka v-input v-input--hide-details v-input--selection-controls v-input--switch red--text text--darken-3" @click="clickPub" aria-disabled="false">
+								<div class="pin-ka v-input v-input--hide-details v-input--selection-controls v-input--switch red--text text--darken-3" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub" aria-disabled="false">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -232,7 +232,7 @@
 						</td>
 						<td class="tvRemoteLock input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'" >
 							<div v-if="item.RemoteLock == 1">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" @click="clickPub">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -251,7 +251,7 @@
 							</div>
 							
 							<div v-else-if="item.RemoteLock == 0">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " @click="clickPub">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -766,6 +766,8 @@ export default {
 							if(diff > 950000) { 
 								$('.device-connect.device-status-'+item.TvID).css('display','none');
 								$('.device-disconnect.device-status-'+item.TvID).css('display','block');
+								console.log('WHAT : ',$('.device-status-'+item.TvID).closest('tr'))
+								$('.device-status-'+item.TvID).closest('td').find('tr.tvstatus').addClass('input-switch-disabled').removeClass('input-switch-enabled')
 							}else{
 								$('.device-connect.device-status-'+item.TvID).css('display','block');
 								$('.device-disconnect.device-status-'+item.TvID).css('display','none');
@@ -844,14 +846,21 @@ export default {
 					var updateDeviceList = this.deviceList;
 					updateDeviceList.forEach(function(item,index){
 						console.log('TVV: ',TvID,tvDurum)
-						
-						
+						var date1 = new Date(item.Last_Update);
+						var date2 = new Date(dateTime);
+						var diff = date2.getTime() - date1.getTime();
+						if(diff > 950000) { 
+							updateDeviceList[index].Connection_Status = 0;
+						}else{
+							updateDeviceList[index].Connection_Status = 1;
+						}
 						if(item.TvID == TvID && parseInt(tvDurum) != 0) {
 							console.log('OKEY',item.TvID,TvID,parseInt(tvDurum))
 							updateDeviceList[index].Last_Update = dateTime
 							updateDeviceList[index].NoSignal = nosignal;
 							updateDeviceList[index].TemperatureValue = temperature;
 							updateDeviceList[index].FirmwareVersion = firmwareVersion;
+							
 						}
 						else if(item.TvID == TvID && parseInt(tvDurum) == 0) {
 							updateDeviceList[index].Last_Update = dateTime;
@@ -867,7 +876,8 @@ export default {
 					console.log('Device List : ',this.deviceList)
 					this.$el.querySelectorAll('.input-gauch').forEach(item => {
 						console.log(item);
-						if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
+						
+						if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text') ) {
 							$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 						}else {
 							$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
@@ -967,6 +977,7 @@ export default {
 					off:'00'
 		}};
 		
+		
 		$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		var i = 0;
@@ -1014,11 +1025,12 @@ export default {
 		},
 		
 		loadData() {
-			this.deviceList = [];
+			//this.deviceList = [];
 			this.unreachableDevices = 0;
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
-				resp.data.forEach(item => {
-					
+				
+				resp.data.forEach(item=> {
+					console.log('resp Connection Status : ',item.Connection_Status);
 					this.deviceList.push(item);
 					this.sendDataList.push(item);
 					if(item.TvStatus == 1) {
@@ -1029,6 +1041,7 @@ export default {
 					if(item.Connection_Status == 0) {
 						this.unreachableDevices++;
 					}
+					
 				});
 				
 				console.log('Data.js : ',resp.data);

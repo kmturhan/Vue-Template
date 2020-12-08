@@ -417,7 +417,9 @@ export default {
 			this.deviceList = [];
 			this.unreachableDeviceLenght = 0;
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
+				
 				resp.data.forEach(item => {
+					console.log('Dash : ',item)
 					this.deviceList.push(item);
 					if(item.TvStatus == 1) {
                 console.log()
@@ -434,6 +436,7 @@ export default {
 			});
 			this.updatedData = this.deviceList;
 			this.totalDeviceLength = this.deviceList.length;
+
 		})
 	},
 },

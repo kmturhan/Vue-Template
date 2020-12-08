@@ -296,8 +296,6 @@ router.get('/loadDevices', function (req, res) {
     }
 
     rows.forEach(function (item) {
-      console.log(item.ID);
-      console.log(item.deviceName);
       arrayIDList.push(item.ID);
     });
     var response = {
@@ -345,12 +343,12 @@ router.get('/loadDevices', function (req, res) {
     console.log(jsonData.updateDate);
 
     if (jsonData.params.tvDurum == 0) {
-      sql = "UPDATE Device_Status SET Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
+      sql = "UPDATE Device_Status SET Connection_Status = 1,Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
       db.all(sql, [req.body.updateDate, jsonData.token, jsonData.params.tvId], function (err, rows) {//console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,'DATETIME : ',jsonData.updateDate);
       });
     } else {
       console.log(jsonData.updateDate);
-      sql = "UPDATE Device_Status SET Last_Update = ?, TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
+      sql = "UPDATE Connection_Status = 1,Device_Status SET Last_Update = ?, TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
       db.all(sql, [jsonData.updateDate, jsonData.params.nosignal, jsonData.params.temperature, jsonData.params.firmwareVersion, jsonData.token, jsonData.params.tvId], function (err, rows) {
         console.log('UPDATE DATE : ', jsonData.updateDate, 'NO SIGNAL : ', jsonData.params.nosignal, 'Temperature :', jsonData.params.temperature, 'FirmwareVersion : ', jsonData.params.firmwareVersion, jsonData.token, jsonData.tvId);
       });
