@@ -7,9 +7,17 @@
 	<!--<div class="il-isimleri">test</div>-->
   
     <div class="svg-turkiye-haritasi" id="test">
-      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 438.533 438.533" class="svg-location-green" xml:space="preserve"><g>	<path d="M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0   c-39.781,0-76.47,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267   c0,39.78,9.804,76.463,29.407,110.062c19.607,33.592,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407   s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.596,29.403-70.284,29.403-110.062   C438.533,179.485,428.732,142.795,409.133,109.203z M353.742,297.208c-13.894,23.791-32.736,42.633-56.527,56.534   c-23.791,13.894-49.771,20.834-77.945,20.834c-28.167,0-54.149-6.94-77.943-20.834c-23.791-13.901-42.633-32.743-56.527-56.534   c-13.897-23.791-20.843-49.772-20.843-77.941c0-28.171,6.949-54.152,20.843-77.943c13.891-23.791,32.738-42.637,56.527-56.53   c23.791-13.895,49.772-20.84,77.943-20.84c28.173,0,54.154,6.945,77.945,20.84c23.791,13.894,42.634,32.739,56.527,56.53   c13.895,23.791,20.838,49.772,20.838,77.943C374.58,247.436,367.637,273.417,353.742,297.208z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></a>
-      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 94 94" xml:space="preserve" class="svg-location-red"><g>	<g>		<path d="M47,94C21.084,94,0,72.916,0,47S21.084,0,47,0s47,21.084,47,47S72.916,94,47,94z M47,12.186    c-19.196,0-34.814,15.618-34.814,34.814c0,19.195,15.618,34.814,34.814,34.814c19.195,0,34.814-15.619,34.814-34.814    C81.814,27.804,66.195,12.186,47,12.186z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></a>
-
+      
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Green'+item" :id="item+'-svg-green'" xmlns:xlink="http://www.w3.org/1999/xlink" class="svg-location-green" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="197px" height="197px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <circle cx="50" cy="50" r="38" stroke-width="15" stroke="#0f9c0e" stroke-dasharray="59.690260418206066 59.690260418206066" fill="none" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1.5s" keyTimes="0;1" values="0 50 50;360 50 50"/>
+        </circle>
+      </svg></a>
+      <a href="/default/dashboard/crm"><svg xmlns="http://www.w3.org/2000/svg" v-for="item in cityList" :key="'Red'+item" :id="item+'-svg-red'" xmlns:xlink="http://www.w3.org/1999/xlink" class="svg-location-red" style="margin: auto; background: none; display: block; shape-rendering: auto;" width="197px" height="197px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <circle cx="50" cy="50" r="38" stroke-width="15" stroke="#e4002b" stroke-dasharray="59.690260418206066 59.690260418206066" fill="none" stroke-linecap="round">
+          <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1.5s" keyTimes="0;1" values="0 50 50;360 50 50"/>
+        </circle>
+      </svg></a>
       <span :id="item.City+'-svg-total-open-screen'" v-for="item in openCloseScreen" :key="'A'+item.City" class="total-open-screen">{{ item.OpenTV }}</span>
       <span :id="item.City+'-svg-total-close-screen'" v-for="item in openCloseScreen" :key="'B'+item.City" class="total-close-screen">{{ item.TotalTV - item.OpenTV }}</span>
     <div id="svg-location" style="display:none;flex-direction:column;align-items:center;justify-content:center;">
@@ -626,13 +634,18 @@ export default {
       console.log(item);
       
       var svg = document.querySelector('#'+item);
+      var svg2 = document.querySelector('#turkiye');
+      var svg3 = document.querySelector('#kocaeli');
+      console.log('Istanbul : X : ', svg3.getBoundingClientRect().x , 'Y : ',svg3.getBoundingClientRect().y);
+      console.log('Turkiye : X : ', svg2.getBoundingClientRect().x , 'Y : ',svg2.getBoundingClientRect().y);
+      console.log('DENENECEK DEGER : X :',(svg3.getBoundingClientRect().x - svg2.getBoundingClientRect().x)+51,'Y : ',(svg3.getBoundingClientRect().y - svg2.getBoundingClientRect().y)+155)
       $('#'+item+'-svg-green').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+3+scrollTop);
       $('#'+item+'-svg-green').css('left',(svg.getBoundingClientRect().x-530)+(svg.getBoundingClientRect().width/2)+8);
       
-      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
+      $('#'+item+'-svg-total-open-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+27+scrollTop);
       $('#'+item+'-svg-total-open-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
       
-      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+26+scrollTop);
+      $('#'+item+'-svg-total-close-screen').css('top',(svg.getBoundingClientRect().y-140)+(svg.getBoundingClientRect().height/2)+27+scrollTop);
       $('#'+item+'-svg-total-close-screen').css('left',(svg.getBoundingClientRect().x-520)+(svg.getBoundingClientRect().width/2)-2);
       
       $('#'+item+'-svg-red').css('top',(svg.getBoundingClientRect().y-120)+(svg.getBoundingClientRect().height/2)+3+scrollTop);
