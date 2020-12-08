@@ -3,27 +3,7 @@
       <div class="container container--fluid">
          <div class="app-card" >
             <div style="display: flex;">
-		<!--<div class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
-			<div class="">
-				<div class="app-card magazine-stats-card crm-stats-card" style="position: relative;">
-			
-					<div class="open-close-tv-overlay">
-							<div class="open-tv-background"></div>
-							<div class="close-tv-background"></div>
-						</div>
-					<div class="app-card-content">
-						<div class="close-tv-content danger">
-							<span class="d-inline-block font-lg fw-bold white--text">KAPALI</span>
-							<span class="white--text">Total Close Tv : {{ closeDeviceLength }}</span>
-						</div>
-						<div class="open-tv-content">
-							<span class="d-inline-block font-lg fw-bold white--text">AÇIK</span>
-							<span class="white--text">Total Open Tv : {{ openDeviceLength }}</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>-->
+		
 		<div class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
 			<div class="">
 				<div class="app-card magazine-stats-card crm-stats-card shadow radius">

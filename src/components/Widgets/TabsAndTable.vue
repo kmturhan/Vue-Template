@@ -141,7 +141,7 @@
 		</div>-->
 		
 		<div class="table-responsive">
-			<button @click="websocketPub">Test</button>
+			<!--<button @click="websocketPub">Test</button>-->
 			<!--<button @click="clickSub">attributesUp</button><br><br>-->
 			<!--<button class="mx-4 my-4 v-btn v-btn--contained theme--light v-size--small primary" @click="overlayOpen">Filter</button>-->
 			<div class="v-overlay theme--light" style="z-index: 99;display:none;">
