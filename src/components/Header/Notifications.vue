@@ -2,7 +2,8 @@
 	<v-menu offset-y left origin="right top" z-index="99" content-class="notification-dropdown" transition="slide-y-transition" nudge-top="-10">
 		<template v-slot:activator="{ on }">
 			<v-btn class="notification-icon ma-0" v-on="on" icon large >
-				<i class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg"></i>
+				<!--<i class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg"></i>-->
+        <i class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg"></i>
 			</v-btn>
 		</template>
 		<div class="dropdown-content">
@@ -42,6 +43,9 @@
 					}
 				]
 			};
-		}
+		},
+    methods: {
+
+    },
 	};
 </script>

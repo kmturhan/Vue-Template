@@ -446,6 +446,9 @@ hr {
 /*======== theme--light =========*/
 
 .theme--light {
+   &.device-connection {
+      fill: $body-color;
+   }
    &.v-application {
       background-color: $body-bg;
       color: $body-color;
@@ -483,7 +486,7 @@ hr {
 	}
 }
 .spinner:after{
-   background:$success !important;
+   background:$danger !important;
 }
 
 /*============ Default App Layout ===========*/

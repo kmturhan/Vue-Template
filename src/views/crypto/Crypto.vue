@@ -1,84 +1,11 @@
 <template>
 	<div>
-		<page-title-bar></page-title-bar>
+
       <v-container fluid class="grid-list-xl pt-0">
          <div class="crypto-dash-wrap"> 
             <crypto-slider></crypto-slider>
             <!-- Stat Cards -->
-            <v-row class="border-rad-sm overflow-hidden">
-               <stats-card-v7
-                  colClasses="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 crypto-stats-card"
-                  :heading="bitcoin.name"
-                  :icon="bitcoin.icon"
-               >
-                  <line-chart-shadow-v2
-                     :dataSet="bitcoin.data"
-                     :lineTension="0.4"
-                     :dataLabels="bitcoin.chartLabel"
-                     :style="{height: '90px',width:'100%', position: 'relative'}"
-                     :borderWidth=3
-                     :enableGradient="false"
-                     :enableShadow="true"
-                     :borderColor= "bitcoin.chartBorderColor"
-                     :shadowColor= "bitcoin.chartBorderColor"
-                  >
-                  </line-chart-shadow-v2>  
-               </stats-card-v7>
-               <stats-card-v7
-                  colClasses="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 crypto-stats-card"
-                  :heading="ethereum.name"
-                  :icon="ethereum.icon"
-               >
-                  <line-chart-shadow-v2
-                     :dataSet="ethereum.data"
-                     :lineTension="0.4"
-                     :dataLabels="ethereum.chartLabel"
-                     :style="{height: '90px',width:'100%', position: 'relative'}"
-                     :borderWidth=3
-                     :enableGradient="false"
-                     :enableShadow="true"
-                     :borderColor= "ethereum.chartBorderColor"
-                     :shadowColor= "ethereum.chartBorderColor"
-                  >
-                  </line-chart-shadow-v2>  
-               </stats-card-v7>
-               <stats-card-v7
-                  colClasses="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 crypto-stats-card"
-                  :heading="litecoin.name"
-                  :icon="litecoin.icon"
-               >
-                  <line-chart-shadow-v2
-                     :dataSet="litecoin.data"
-                     :lineTension="0.4"
-                     :dataLabels="litecoin.chartLabel"
-                     :style="{height: '90px',width:'100%', position: 'relative'}"
-                     :borderWidth=3
-                     :enableGradient="false"
-                     :enableShadow="true"
-                     :borderColor= "litecoin.chartBorderColor"
-                     :shadowColor= "litecoin.chartBorderColor"
-                  >
-                  </line-chart-shadow-v2>  
-               </stats-card-v7>
-               <stats-card-v7
-                  colClasses="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12 crypto-stats-card"
-                  :heading="zcash.name"
-                  :icon="zcash.icon"
-               >
-                  <line-chart-shadow-v2
-                     :dataSet="zcash.data"
-                     :lineTension="0.4"
-                     :dataLabels="zcash.chartLabel"
-                     :style="{height: '90px',width:'100%', position: 'relative'}"
-                     :borderWidth=3
-                     :enableGradient="false"
-                     :enableShadow="true"
-                     :borderColor= "zcash.chartBorderColor"
-                     :shadowColor= "zcash.chartBorderColor"
-                  >
-                  </line-chart-shadow-v2>  
-               </stats-card-v7>                                 
-            </v-row>
+
             <v-row>
                <!-- Currency -->
                <app-card
@@ -191,9 +118,9 @@
 <script>
 
 // Widgets 
-import StatsCardV7 from "Components/StatsCardV7/StatsCardV7";
+//import StatsCardV7 from "Components/StatsCardV7/StatsCardV7";
 import { ChartConfig } from "Constants/chart-config";
-import LineChartShadowV2 from "Components/Charts/LineChartShadowV2";
+//import LineChartShadowV2 from "Components/Charts/LineChartShadowV2";
 import TradeHistory from "Components/Widgets/TradeHistory";
 import QuickTrade from "Components/Widgets/QuickTrade";
 import RecentTrades from "Components/Widgets/RecentTrades";
@@ -205,8 +132,6 @@ import CandleSticks from "Components/Charts/CandleSticks";
 
 export default {
    components:{
-      StatsCardV7,
-      LineChartShadowV2,
       TradeHistory,
       QuickTrade,
       RecentTrades,

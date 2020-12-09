@@ -1,6 +1,12 @@
 /*=========== Dark Version ==========*/
 
 .theme--dark {
+  .device-connection {
+    fill: white;
+  }
+  .device-disconnect {
+    fill: $danger;
+  }
    * {
       color: $dark-bg-color !important;
       border-color:rgba(255, 255, 255, 0.2) !important;
