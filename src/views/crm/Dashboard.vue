@@ -293,14 +293,11 @@ export default {
 			
 	},
 	'home/attributesUp/#' : function(val) {
-			
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			var dataArray = jsonData.params.up.split(',');
-			console.log('DataARRAY : ',dataArray);
-			
+			console.log('DataARRAY : ',dataArray);		
 			//var tvDurum = dataArray[1];
-
 			this.loadData();
 			var db = this.deviceList;
 			console.log('DB :',db)
@@ -389,7 +386,6 @@ export default {
          chartData : [1, 26, 8,22,1]
       }    
     };
-    
   },
    methods: {
       loadData() {
@@ -397,7 +393,6 @@ export default {
 			this.deviceList = [];
 			this.unreachableDeviceLenght = 0;
 			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
-				
 				resp.data.forEach(item => {
 					console.log('Dash : ',item)
 					this.deviceList.push(item);
@@ -416,7 +411,6 @@ export default {
 			});
 			this.updatedData = this.deviceList;
 			this.totalDeviceLength = this.deviceList.length;
-
 		})
 	},
 },
@@ -427,7 +421,6 @@ export default {
 			})
 			this.$mqtt.subscribe('home/attributesUp/#',function(message){
 				console.log('Message : ',message)
-				
 			});
 			this.updatedData = this.deviceList;
    }

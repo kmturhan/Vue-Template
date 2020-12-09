@@ -3,17 +3,17 @@ export const menus = {
 	'message.general': [
 		{
 			action: 'zmdi-view-crm',
-			title: 'message.crm',
+			title: 'message.lcdScreens',
 			active: true,
 			label: 'New',
 			path: '/dashboard/crm',
 			items: [
-				{ title: 'message.crm', path: '/default/dashboard/crm', exact: true},
-				{ title: 'message.crypto', path: '/default/dashboard/crypto', exact: true},
+				{ title: 'message.lcdScreens', path: '/default/dashboard/crm', exact: true},
+				{ title: 'message.ledScreens', path: '/default/dashboard/crypto', exact: true},
 				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true,label: 'Old' },
-				{ title: 'Map' ,path: '/default/dashboard/magazine',exact: true}
-				
-				
+				{ title: 'message.map' ,path: '/default/dashboard/magazine',exact: true}
+
+
 				//{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true,label: 'Old' },
 				//{ title: 'message.magazine', path: '/horizontal/dashboard/magazine', exact: true,label: 'Old' },
 				//{ title: 'message.news', path: '/boxed-v2/dashboard/news', exact: true,label: 'Old' },

@@ -1,5 +1,11 @@
 //messages.js
 export default {
+
+  //*************NEW FIELD
+  ledScreens: 'Led Screens',
+  lcdScreens: 'Lcd Screens',
+  map: 'Map',
+  //*************
   general: 'General',
   overview: 'Overview',
   customizer: 'Customizer',
