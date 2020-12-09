@@ -1,5 +1,10 @@
 import { ChartConfig } from "Constants/chart-config";
-
+var dataJson = [];
+export var tabsAndTableDetails= {
+   transactionListDetails: [
+      dataJson
+   ],
+}
 export const tradeHistory = [
    {currencyIcon: "cc BTC-alt",statusClass: 'success--text',status: 'Buy',price: 16245.79,total: 16245.79,txnno: 76237523,date:'21/3/102',from:'Ico_Tha',more:'info',payment_currency:'Bitcoin'},  
    {currencyIcon: "cc ETC",statusClass: 'error--text', status: 'Sell', price: 43224.06, total: 16245.79,txnno: 76237523,date:'21/3/102',from:'Ico_Tha',more:'info',payment_currency:'Ethereum'},

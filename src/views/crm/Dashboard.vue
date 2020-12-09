@@ -253,8 +253,6 @@ export default {
    },
    mqtt: {
 		'home/attributes/#' : function(val) {
-			
-			
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -290,7 +288,6 @@ export default {
 				console.log('SIFIRLA')
 				this.noSignal = 0;
 			}
-			
 	},
 	'home/attributesUp/#' : function(val) {
 			var test = String.fromCharCode.apply(null,val);
@@ -396,8 +393,7 @@ export default {
 				resp.data.forEach(item => {
 					console.log('Dash : ',item)
 					this.deviceList.push(item);
-					if(item.TvStatus == 1) {
-                console.log()
+					if(item.TvStatus == 1 && item.Connection_Status == 1) {
 						this.openDeviceLength++;
 					}else{
 						this.closeDeviceLength++;

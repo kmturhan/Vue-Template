@@ -4,7 +4,7 @@ export default {
   //*************NEW FIELD
   ledScreens: 'Led Screens',
   lcdScreens: 'Lcd Screens',
-  map: 'Map',
+  map: 'Dashboard',
   //*************
   general: 'General',
   overview: 'Overview',

@@ -2,6 +2,7 @@
 
 	<div>
 
+		
 		<div class="table-responsive">
 			<!--<button @click="websocketPub">Test</button>-->
 			<!--<button @click="clickSub">attributesUp</button><br><br>-->
@@ -77,7 +78,7 @@
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
-												<input  aria-checked="false" role="switch" type="checkbox" aria-disabled="false"  data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
+												<input  aria-checked="false" id="input-486" role="switch" type="checkbox" aria-disabled="false"  data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
 												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom red--text text--darken-3"></div>
 												<div class="v-input--switch__track theme--light red--text text--darken-3">
 													<span class="close-switch-text">Off</span>
@@ -382,7 +383,7 @@ tbody tr td{
 </style>
 <script>
 
-import { tabsAndTableDetails } from 'Views/crm/data.js'
+
 import axios from 'axios'
 import JQuery from 'jquery'
 //import Dashboard from 'Views/Dashboard.vue'
@@ -486,7 +487,7 @@ export default {
 					value: "Last_Updated"
 				},
         ],
-        tabsAndTableDetails,
+
 			active: null,
 			tabs:[
 				{
