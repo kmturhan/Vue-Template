@@ -181,7 +181,7 @@
 	transition: all .5 ease;
 }
 .input-switch-disabled {
-	opacity: .1 !important;
+  /*opacity: .1 !important;*/
 	pointer-events: none !important;
 }
 .input-switch-enabled {
