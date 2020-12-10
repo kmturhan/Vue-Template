@@ -93,8 +93,9 @@
 						</v-col>
 						</td>
 						<td class="tvRemoteLock input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'" >
-							<div v-if="item.RemoteLock == 1">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
+
+              <div v-if="item.RemoteLock == 1">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="[item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: {'opacity':'1','pointer-events':'auto'},item.TvStatus == 0 ? {'opacity':'.1','pointer-events':'none'}:{'opacity':'1','pointer-events':'auto'}]" @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -113,7 +114,7 @@
 							</div>
 							
 							<div v-else-if="item.RemoteLock == 0">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " :style="[item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: {'opacity':'1','pointer-events':'auto'},item.TvStatus == 0 ? {'opacity':'.1','pointer-events':'none'}:{'opacity':'1','pointer-events':'auto'}]" @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -131,16 +132,16 @@
 								</div>
 							</div>
 						</td>
-						<td class="pin-kf input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
+						<td class="pin-kf input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''">
 							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kf input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
+						<td class="pin-kf input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''">
 							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kh input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
+						<td class="pin-kh input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''">
 							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
-						<td class="pin-kh input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
+						<td class="pin-kh input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''">
 							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
 						<td>{{ item.TempetureValue }} °C</td>
@@ -503,7 +504,7 @@ export default {
 		'home/telemetry/#': function() {
 			
 		},
-		'home/attributes/#' : function(val) {
+		'home/attributes/#' : function(val) {this.loadData();
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -556,7 +557,7 @@ export default {
 					}
 				})
 			}*/
-			
+
 			console.log('TAG : ',tag)
 			console.log('ATTR CHANNEL')
 			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
@@ -594,7 +595,7 @@ export default {
 								$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 							}
 						})
-						axios.post('http://192.168.10.42:5000/api/test', {
+						axios.post('http://192.168.10.46:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -608,36 +609,39 @@ export default {
 						.then(function (response) {
 							console.log(response.data);
 							console.log('SUCCESS');
-							
+
 						})
 						.catch(function (error) {
 							console.log(error);
 						});
-						var updateDeviceList = this.deviceList;
+            var updateDeviceList = this.deviceList;
 						var connectDevicesIcons = [];
 						this.$el.querySelectorAll('.device-connection').forEach(item => {
 							connectDevicesIcons.push(item)
 						})
-						updateDeviceList.forEach(function(item) {
+						updateDeviceList.forEach((item,index) => {console.log(updateDeviceList[index]);
 							var date1 = new Date(item.Last_Update);
 							var date2 = new Date(dateTime);
 							var diff = date2.getTime() - date1.getTime();
 							if(item.TvID == TVID && item.Token == token) {
-								console.log(item);
+								console.log('update Device : ',item);
+								item.Last_Update = dateTime;
 							}
 							if(diff > 950000) { 
 								$('.device-connect.device-status-'+item.TvID).css('display','none');
 								$('.device-disconnect.device-status-'+item.TvID).css('display','block');
 								console.log('WHAT : ',$('.device-status-'+item.TvID).closest('tr'))
-								$('.device-status-'+item.TvID).closest('td').find('tr.tvstatus').addClass('input-switch-disabled').removeClass('input-switch-enabled')
+								$('.device-status-'+item.TvID).closest('td').find('tr.tvstatus').addClass('input-switch-disabled').removeClass('input-switch-enabled');
 							}else{
 								$('.device-connect.device-status-'+item.TvID).css('display','block');
 								$('.device-disconnect.device-status-'+item.TvID).css('display','none');
+
 							}
 							console.log(connectDevicesIcons)
 						})
-						this.deviceList = updateDeviceList;
+            this.deviceList = updateDeviceList;
 					}
+
 			})
 			}
 		},
@@ -649,9 +653,9 @@ export default {
 			console.log('ATTRIBUTES UP : ',jsonData);
 			var token = topic.split('/')[2];
 			var TvID = dataArray[0];
-            var tvDurum = dataArray[1];
-            var nosignal = dataArray[2];
-            var temperature = dataArray[3];
+      var tvDurum = dataArray[1];
+      var nosignal = dataArray[2];
+      var temperature = dataArray[3];
 			var firmwareVersion = dataArray[4];
 			console.log(TvID,tvDurum,nosignal,temperature,firmwareVersion);
 			var today = new Date();
@@ -660,7 +664,7 @@ export default {
 			var dateTime = date+' '+time;
 			console.log(dateTime);
 			
-			axios.post('http://192.168.10.42:5000/api/allAttributesUpdate', {
+			axios.post('http://192.168.10.46:5000/api/allAttributesUpdate', {
 						updateDate:dateTime,
 						token:token,
 						params: {
@@ -887,25 +891,25 @@ export default {
 		},
 		
 		loadData() {
-			//this.deviceList = [];
+			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
-				
+			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.Connection_Status);
-					this.deviceList.push(item);
-					this.sendDataList.push(item);
-					if(item.TvStatus == 1) {
+					updateData.push(item);
+					if(item.TvStatus == 1 && item.Connection_Status == 1) {
 						this.openDeviceLength++;
-					}else{
+						console.log('Open',this.openDeviceLength);
+					}else if(item.TvStatus == 0 && item.Connection_Status == 1){
 						this.closeDeviceLength++;
+						console.log('Close : ',this.closeDeviceLength)
 					}
 					if(item.Connection_Status == 0) {
 						this.unreachableDevices++;
 					}
 					
 				});
-				
+				this.deviceList = updateData
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
 				console.log('SEND DATA LIST : ',this.sendDataList);
@@ -962,7 +966,7 @@ export default {
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 
 			this.$mqtt.publish('home/telemetry/'+token,{token:token,method:"rpcCommand",params: {tvSerial:serialNumber,command:command,tvId:tvID,swc: '1',cmd: 'gc',on:'01',off:'00'}});
-			axios.post('http://192.168.10.42:5000/api/test',{
+			axios.post('http://192.168.10.46:5000/api/test',{
 				token:token,
 				method:"rpcCommand",
 				params: {
@@ -1019,7 +1023,7 @@ export default {
 					},
 				}
 				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.42:5000/api/test',jsonData)
+				axios.post('http://192.168.10.46:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -1039,9 +1043,7 @@ export default {
 	
 	},
 	
-	watch: {
-		
-	},
+
 	computed: {
 		
 	},

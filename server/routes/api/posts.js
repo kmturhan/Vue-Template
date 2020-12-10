@@ -32,8 +32,6 @@ client.on('connect', function () {
     console.log('connect');
     setInterval(() => {
         sql = "SELECT * FROM Device_Status";
-
-        
         var arrayIDList = [];
         var i;
         var today = new Date();

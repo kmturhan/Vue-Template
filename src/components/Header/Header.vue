@@ -1,6 +1,7 @@
 <!-- Header Structure -->
 <template>
 	<div>
+
 		<v-navigation-drawer
 			v-if="!horizontal"
 			app

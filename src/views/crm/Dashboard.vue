@@ -256,7 +256,7 @@ export default {
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
-			
+
 			var command = Object.keys(jsonData.params)[0];
 			var TVID = jsonData.params[command].split(',')[0];
 			var value = jsonData.params[command].split(',')[1];
@@ -266,22 +266,22 @@ export default {
 			console.log('DB :',db)
 			var i;
 			for (i = 0; i < db.length; i++) {
-				if(db[i].TvStatus == 1){
+				if(db[i].TvStatus == 1 && db[i].Connection_Status == 1){
 					this.openDev++;
-				}else{
+				}else if(db[i].TvStatus == 0 && db[i].Connection_Status == 1){
 					this.closeDev++;
 				}
 				if(db[i].Connection_Status == 0) {
 					this.unreachableDeviceLenght++;
 				}
-				if(db[i].NoSignal == 0) {
+				if(db[i].NoSignal == 0 && db[i].Connection_Status == 1) {
 					this.noSignal++;
 				}
 			}
 			console.log('OPEN CLOSE : ',this.openDev,this.closeDev)
 			this.closeDeviceLength = this.closeDev;
 			this.openDeviceLength = this.openDev;
-			
+
 			if((this.closeDev + this.openDev) == this.totalDeviceLength) {
 				this.closeDev = 0;
 				this.openDev = 0;
@@ -293,16 +293,16 @@ export default {
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			var dataArray = jsonData.params.up.split(',');
-			console.log('DataARRAY : ',dataArray);		
+			console.log('DataARRAY : ',dataArray);
 			//var tvDurum = dataArray[1];
 			this.loadData();
 			var db = this.deviceList;
 			console.log('DB :',db)
 			var i;
 			for (i = 0; i < db.length; i++) {
-				if(db[i].TvStatus == 1){
+				if(db[i].TvStatus == 1 && db[i].Connection_Status == 1){
 					this.openDev++;
-				}else{
+				}else if(db[i].TvStatus == 0 && db[i].Connection_Status == 1){
 					this.closeDev++;
 				}
 			}
@@ -344,7 +344,7 @@ export default {
          icon : "zmdi zmdi-account-add",
          title : "Visitors",
          viewer : this.openDevice,
-         
+
          chartLabel : ['A', 'B', 'C', 'D', 'E'],
          label:"Visitors",
          bgColor:"primary",
@@ -381,7 +381,7 @@ export default {
          chartLabel : ['A', 'B', 'C', 'D', 'E'],
          label:"Deals",
          chartData : [1, 26, 8,22,1]
-      }    
+      }
     };
   },
    methods: {
@@ -389,19 +389,19 @@ export default {
 		this.noSignalDeviceLength = 0;
 			this.deviceList = [];
 			this.unreachableDeviceLenght = 0;
-			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
-				resp.data.forEach(item => {
-					console.log('Dash : ',item)
-					this.deviceList.push(item);
+			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
+				this.deviceList = resp.data;
+        resp.data.forEach(item => {
+          console.log('Dash : ',item)
 					if(item.TvStatus == 1 && item.Connection_Status == 1) {
 						this.openDeviceLength++;
-					}else{
+					}else if(item.TvStatus == 0 && item.Connection_Status == 1){
 						this.closeDeviceLength++;
 					}
-					if(item.NoSignal == 1) {
+					if(item.NoSignal == 1 && item.Connection_Status == 1) {
 						this.noSignalDeviceLength++;
 					}
-					if(item.Connection_Status == 1) {
+					if(item.Connection_Status == 0) {
 						this.unreachableDeviceLenght++;
 					}
 			});
@@ -419,8 +419,7 @@ export default {
 				console.log('Message : ',message)
 			});
 			this.updatedData = this.deviceList;
-   }
+   },
+  };
 
- 
-};
 </script>

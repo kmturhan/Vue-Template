@@ -8,10 +8,10 @@ export const menus = {
 			label: 'New',
 			path: '/dashboard/crm',
 			items: [
-				{ title: 'message.lcdScreens', path: '/default/dashboard/crm', exact: true },
-				{ title: 'message.ledScreens', path: '/default/dashboard/crypto', exact: true },
-				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true, label: 'Old' },
-				{ title: 'message.map' ,path: '/default/dashboard/magazine', exact: true }
+				{ title: 'message.lcdScreens', path: '/default/dashboard/crm', exact: true , image:'/static/img/svg/television.svg'},
+				{ title: 'message.ledScreens', path: '/default/dashboard/crypto', exact: true , image:'/static/img/svg/television.svg'},
+				{ title: 'message.ecommerce', path: '/default/dashboard/ecommerce', exact: true, label: 'Old' , image:'/static/img/svg/settings.svg'},
+				{ title: 'message.map' ,path: '/default/dashboard/magazine', exact: true ,image:'/static/img/svg/dashboard.svg'}
 
 				//{ title: 'message.webAnalytics', path: '/mini/dashboard/web-analytics', exact: true,label: 'Old' },
 				//{ title: 'message.magazine', path: '/horizontal/dashboard/magazine', exact: true,label: 'Old' },

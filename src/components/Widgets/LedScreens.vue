@@ -52,86 +52,8 @@
 							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
-						<td class="tvstatus input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-value="item.TvStatus" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
-						<span style="display:none;" class="tvstatus-value">{{item.TvStatus}}</span>
-						<v-col cols="12" sm="4" md="4" class="col-height-auto">
-							<div v-if="item.TvStatus == 1">
-								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub" aria-disabled="true">
-									<div class="v-input__control">
-										<div class="v-input__slot">
-											<div class="v-input--selection-controls__input">
-												<input aria-checked="true" role="switch" type="checkbox" aria-disabled="false" data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00">
-												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom success--text"></div>
-												<div class="v-input--switch__track theme--light success--text">
-													<span class="open-switch-text">On</span>
-												</div>
-												<div class="v-input--switch__thumb theme--light success--text">
-													<svg version="1.1" id="Layer_1" class="tv-status-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256.026,0c-24.816,0-45.004,20.188-45.004,45.004v181.016c0,24.816,20.188,45.004,45.004,45.004s45.004-20.188,45.004-45.004V45.004C301.03,20.188,280.842,0,256.026,0z"/>	</g></g><g>	<g>		<path d="M406.625,118.959c-18.939-17.083-46.502-15.14-63.041,1.873c-16.632,17.109-17.917,46.086,3.153,65.296			c33.44,30.395,50.343,76.459,42.336,122.928c-10.868,63.067-65.717,112.767-133.05,112.915			c-68.971,0.152-121.809-50.77-132.708-110.617c-8.497-46.747,7.179-93.553,41.972-125.197c21.01-19.127,19.913-48.232,3.234-65.36			c-16.567-17.013-44.295-18.851-63.4-1.56c-52.909,47.923-80.527,118.769-72.843,190.58C44.496,423.995,140.9,512,256.553,512			c114.326,0,207.934-88.216,222.368-194.743C488.985,243.027,461.957,168.899,406.625,118.959z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div v-else-if="item.TvStatus == 0">
-								<div class="pin-ka v-input v-input--hide-details v-input--selection-controls v-input--switch red--text text--darken-3" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub" aria-disabled="false">
-									<div class="v-input__control">
-										<div class="v-input__slot">
-											<div class="v-input--selection-controls__input">
-												<input  aria-checked="false" id="input-486" role="switch" type="checkbox" aria-disabled="false"  data-pin="ka" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
-												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom red--text text--darken-3"></div>
-												<div class="v-input--switch__track theme--light red--text text--darken-3">
-													<span class="close-switch-text">Off</span>
-												</div>
-												<div class="v-input--switch__thumb theme--light red--text text--darken-3">
-													<svg version="1.1" id="Layer_1" class="tv-close-svg tv-status-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="20px" width="20px" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256.026,0c-24.816,0-45.004,20.188-45.004,45.004v181.016c0,24.816,20.188,45.004,45.004,45.004s45.004-20.188,45.004-45.004V45.004C301.03,20.188,280.842,0,256.026,0z"/>	</g></g><g>	<g>		<path d="M406.625,118.959c-18.939-17.083-46.502-15.14-63.041,1.873c-16.632,17.109-17.917,46.086,3.153,65.296			c33.44,30.395,50.343,76.459,42.336,122.928c-10.868,63.067-65.717,112.767-133.05,112.915			c-68.971,0.152-121.809-50.77-132.708-110.617c-8.497-46.747,7.179-93.553,41.972-125.197c21.01-19.127,19.913-48.232,3.234-65.36			c-16.567-17.013-44.295-18.851-63.4-1.56c-52.909,47.923-80.527,118.769-72.843,190.58C44.496,423.995,140.9,512,256.553,512			c114.326,0,207.934-88.216,222.368-194.743C488.985,243.027,461.957,168.899,406.625,118.959z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</v-col>
-						</td>
-						<td class="tvRemoteLock input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'" >
-							<div v-if="item.RemoteLock == 1">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
-									<div class="v-input__control">
-										<div class="v-input__slot">
-											<div class="v-input--selection-controls__input">
-												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"  aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
-												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom success--text"></div>
-												<div class="v-input--switch__track theme--light success--text">
-													<span class="open-switch-text">On</span>
-												</div>
-												<div class="v-input--switch__thumb theme--light success--text">
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="tv-open-svg tv-status-svg" style="transform:rotate(45deg);" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 470.363 470.363" xml:space="preserve"><g>	<g>		<g>			<path d="M331.353,40.469c-0.192-0.21-0.394-0.411-0.603-0.603c-53.004-53.091-139.011-53.163-192.102-0.159     c-0.053,0.053-0.106,0.106-0.159,0.159c-3.462,4.617-2.527,11.166,2.09,14.629c3.715,2.786,8.824,2.786,12.539,0     c45.058-44.902,117.946-44.902,163.004,0c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603     C334.789,50.788,335.059,44.508,331.353,40.469z"/>			<path d="M197.003,94.722c0.792-0.594,1.496-1.298,2.09-2.09c19.54-19.322,50.99-19.322,70.531,0     c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603c4.04-3.706,4.31-9.986,0.603-14.025     c-0.192-0.21-0.394-0.411-0.603-0.603c-27.532-27.556-72.19-27.575-99.745-0.042c-0.014,0.014-0.028,0.028-0.042,0.042     c-4.617,3.462-5.552,10.012-2.09,14.629C185.837,97.249,192.386,98.185,197.003,94.722z"/>			<path d="M293.656,141.22H176.105c-16.986,0.836-30.323,14.863-30.302,31.869v268.016c0.563,16.326,13.966,29.267,30.302,29.257     h117.029c16.336,0.01,29.739-12.931,30.302-29.257V173.09C323.472,156.274,310.436,142.323,293.656,141.22z M213.721,352.812     c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     s10.449,4.678,10.449,10.449V352.812z M213.721,285.416c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449V271.31     c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V285.416z M213.721,218.543c0,5.771-4.678,10.449-10.449,10.449     s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V218.543z M271.19,352.812     c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     c5.771,0,10.449,4.678,10.449,10.449V352.812z M271.19,285.416c0,5.771-4.678,10.449-10.449,10.449     c-5.771,0-10.449-4.678-10.449-10.449V271.31c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V285.416z      M271.19,218.543c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629     c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V218.543z"/>		</g>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							<div v-else-if="item.RemoteLock == 0">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub">
-									<div class="v-input__control">
-										<div class="v-input__slot">
-											<div class="v-input--selection-controls__input">
-												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"   aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.Token" :data-TvID="item.TvID" checked="checked" :data-serial-number="item.Serial_Number" data-on="01" data-off="00" value="red darken-3">
-												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom red--text text--darken-3"></div>
-												<div class="v-input--switch__track theme--light red--text text--darken-3">
-													<span class="close-switch-text">Off</span>
-												</div>
-												<div class="v-input--switch__thumb theme--light red--text text--darken-3">
-													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="tv-close-svg tv-status-svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 470.363 470.363" style="transform: rotate(45deg);" xml:space="preserve"><g>	<g>		<g>			<path d="M331.353,40.469c-0.192-0.21-0.394-0.411-0.603-0.603c-53.004-53.091-139.011-53.163-192.102-0.159     c-0.053,0.053-0.106,0.106-0.159,0.159c-3.462,4.617-2.527,11.166,2.09,14.629c3.715,2.786,8.824,2.786,12.539,0     c45.058-44.902,117.946-44.902,163.004,0c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603     C334.789,50.788,335.059,44.508,331.353,40.469z"/>			<path d="M197.003,94.722c0.792-0.594,1.496-1.298,2.09-2.09c19.54-19.322,50.99-19.322,70.531,0     c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603c4.04-3.706,4.31-9.986,0.603-14.025     c-0.192-0.21-0.394-0.411-0.603-0.603c-27.532-27.556-72.19-27.575-99.745-0.042c-0.014,0.014-0.028,0.028-0.042,0.042     c-4.617,3.462-5.552,10.012-2.09,14.629C185.837,97.249,192.386,98.185,197.003,94.722z"/>			<path d="M293.656,141.22H176.105c-16.986,0.836-30.323,14.863-30.302,31.869v268.016c0.563,16.326,13.966,29.267,30.302,29.257     h117.029c16.336,0.01,29.739-12.931,30.302-29.257V173.09C323.472,156.274,310.436,142.323,293.656,141.22z M213.721,352.812     c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     s10.449,4.678,10.449,10.449V352.812z M213.721,285.416c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449V271.31     c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V285.416z M213.721,218.543c0,5.771-4.678,10.449-10.449,10.449     s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V218.543z M271.19,352.812     c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     c5.771,0,10.449,4.678,10.449,10.449V352.812z M271.19,285.416c0,5.771-4.678,10.449-10.449,10.449     c-5.771,0-10.449-4.678-10.449-10.449V271.31c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V285.416z      M271.19,218.543c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629     c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V218.543z"/>		</g>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</td>
+
+
 						<td class="pin-kf input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
 							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 						</td>
@@ -147,8 +69,8 @@
 						<td>{{ item.TempetureValue }} °C</td>
 						<td v-if="item.NoSignal == '' || item.NoSignal == 0">0</td>
 						<td v-if="item.NoSignal == 1">1</td>
-						<td>{{ item.FirmwareVersion }}</td>
-						<td>{{ item.Serial_Number }}</td>
+
+
 						<td>{{ item.Last_Update }}</td>
 						
 						<td v-for="filter in filterAttributes" :key="filter.fieldPin" class="input-control input-switch-enabled">
@@ -241,6 +163,7 @@
 .tv-status-open {
 	fill: #0f9c0e !important;
 }
+
 .v-slider.v-slider--horizontal.theme--dark .primary {
 	background-color: lightgray !important;
 }
@@ -421,7 +344,7 @@ export default {
 			unreachableDevices: 0,
 			headersForTransactionList: [
 				{
-					text: "Tv ID",
+					text: "Led ID",
 					sortable: false,
 					value: "account"
 				},
@@ -441,21 +364,6 @@ export default {
 					value: "Connection"
 				},
 				{
-					text: "Tv Status",
-					sortable: false,
-					value: "type"
-				},
-				{
-					text: "Remote Lock",
-					sortable: false,
-					value: "amount"
-				},
-				{
-					text: "Voice Value",
-					sortable: false,
-					value: "debit"
-				},
-				{
 					text: "Brightness Value",
 					sortable: false,
 					value: "credit"
@@ -469,17 +377,6 @@ export default {
 					text: "No Signal",
 					sortable: false,
 					value: "No Signal"
-				},
-				
-				{
-					text: "Firmware Version",
-					sortable: false,
-					value: "Firmware Version"
-				},
-				{
-					text: "Serial Number",
-					sortable: false,
-					value: "Serial Number"
 				},
 				{
 					text: "Last Updated",
@@ -595,7 +492,7 @@ export default {
 								$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 							}
 						})
-						axios.post('http://192.168.10.42:5000/api/test', {
+						axios.post('http://192.168.10.46:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -661,7 +558,7 @@ export default {
 			var dateTime = date+' '+time;
 			console.log(dateTime);
 			
-			axios.post('http://192.168.10.42:5000/api/allAttributesUpdate', {
+			axios.post('http://192.168.10.46:5000/api/allAttributesUpdate', {
 						updateDate:dateTime,
 						token:token,
 						params: {
@@ -890,7 +787,7 @@ export default {
 		loadData() {
 			//this.deviceList = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
 				
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.Connection_Status);
@@ -963,7 +860,7 @@ export default {
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 
 			this.$mqtt.publish('home/telemetry/'+token,{token:token,method:"rpcCommand",params: {tvSerial:serialNumber,command:command,tvId:tvID,swc: '1',cmd: 'gc',on:'01',off:'00'}});
-			axios.post('http://192.168.10.42:5000/api/test',{
+			axios.post('http://192.168.10.46:5000/api/test',{
 				token:token,
 				method:"rpcCommand",
 				params: {
@@ -1020,7 +917,7 @@ export default {
 					},
 				}
 				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.42:5000/api/test',jsonData)
+				axios.post('http://192.168.10.46:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -1048,7 +945,7 @@ export default {
 	},
 	
 	created: function() {
-		this.loadData();
+
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
 		})

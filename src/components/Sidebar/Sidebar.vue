@@ -2,6 +2,7 @@
 <template>
 	<div class="sidebar" :class="sidebarSelectedFilter.class">
 		<vue-perfect-scrollbar class="scroll-area" :settings="settings">
+
         <div class="transparent navigation">
           <v-list>
 				<app-logo></app-logo>
@@ -20,9 +21,11 @@
 										:to="!subItem.exact ? `/${getCurrentAppLayoutHandler() + subItem.path}` : subItem.path"
 									>
 									<template v-if="subItem !== null">
+
 										<v-list-item-content>
-											<v-list-item-title style="color:white;z-index:0">
-												{{ textTruncate($t(subItem.title)) }}
+											<v-list-item-title style="color:white;z-index:0;display: flex;align-items: center">
+                        <img  :src="subItem.image" alt="avatar" height="40" width="40" class="img-responsive" style="width: 15px;height: 15px;margin-right: 10px; fill: white;">
+                        {{ textTruncate($t(subItem.title)) }}
 												<template v-if= "subItem.label == 'New'">
 													<span class="sidebar-label">New</span>
 												</template>
@@ -31,8 +34,9 @@
 									</template>
 
 									</v-list-item>
-								
-							</template>	
+
+							</template>
+
 							<template v-else>
 								<v-list-group
 									:ripple="false"
@@ -43,6 +47,7 @@
 									no-action
 									v-model="item.active"
 								>
+
 									<v-list-item slot="activator" :ripple="false">
 										<v-list-item-content style="color:white;z-index:0;">
 											<v-list-item-title>
@@ -66,7 +71,11 @@
 		</vue-perfect-scrollbar>
 	</div>
 </template>
-
+<style>
+.menu-icon-svg {
+  fill: #0D4EA0;
+}
+</style>
 <script>
 import UserBlock from "./UserBlock";
 import { textTruncate, getCurrentAppLayout } from "Helpers/helpers";

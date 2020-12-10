@@ -562,7 +562,7 @@ export default {
   methods:{
 	loadData() {
 		this.deviceList = [];
-			axios.get('http://192.168.10.42:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
 				resp.data.forEach(item => {
           this.deviceList.push(item);
           if(!this.cityList.includes(item.City)){
@@ -586,7 +586,7 @@ export default {
   },
   loadDataGroupBy() {
     this.openCloseScreen = [];
-			axios.get('http://192.168.10.42:5000/api/loadDevicesGroupBy').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadDevicesGroupBy').then(resp => {
 				resp.data.forEach(item => {
           this.openCloseScreen.push(item)
         });
