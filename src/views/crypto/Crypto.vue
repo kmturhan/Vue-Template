@@ -2,13 +2,8 @@
 	<div>
 
       <v-container fluid class="grid-list-xl pt-0">
-         <div class="crypto-dash-wrap"> 
-            <crypto-slider></crypto-slider>
-            <LedScreens></LedScreens>
-
-
-
-
+         <div class="crypto-dash-wrap">
+           <LedScreens></LedScreens>
          </div>
       </v-container>
 	</div>

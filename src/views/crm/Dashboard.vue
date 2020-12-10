@@ -1,5 +1,6 @@
 <template>
 	<div>
+    <crypto-slider></crypto-slider>
       <div class="container container--fluid">
          <div class="app-card" >
             <div style="display: flex;">
@@ -46,7 +47,6 @@
 									<svg xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 16 16" width="40" style="fill:white;"><path d="m12.3789 0h-12.3789l1 1h10.8789v9h-1.87891l1 1h1.37891c.276367 0 .5-.223633.5-.5v-10c0-.276367-.223633-.5-.5-.5z" transform="translate(3.121 1)"/><path d="m0 .707031.327698.327698c-.190491.0705566-.327698.250061-.327698.465271v10c0 .276367.223633.5.5.5h7v2h-4.5v1h10v-1h-4.5v-2h2.79297l4 4 .707031-.707031-15.293-15.293-.707031.707031zm1 10.293v-9h.292969l9 9h-9.29297z"/></svg>
 								</span>
 								<span class="d-flex font-sm fw-bold">Total of Closed Screens : {{ closeDeviceLength }}</span>
-
 							<!--<div class="d-custom-flex align-items-center justify-space-between">
 								<span class="fw-bold">Cihaz Sayısı : {{ closeDeviceLength }}</span>
 							</div>-->
@@ -71,7 +71,6 @@
 			<div class="">
 				<div class="app-card magazine-stats-card crm-stats-card radius shadow">
 					<!---->
-					
 						<div class="pa-6 white--text red-gradient graphDesign">
 							<div class="d-custom-flex align-items-center">
 								<span class="d-inline-block font-3x mr-2">
@@ -79,10 +78,7 @@
 								</span>
 								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Unreachable Screens : {{unreachableDeviceLenght}}</span>
 							</div>
-							
-							
 						</div>
-					
 					<!----><!---->
 				</div>
 			</div>
@@ -108,79 +104,10 @@
 </div>
 		
 		</div>
+
          </div>
       </div>
       <v-container fluid class="grid-list-xl pt-0">
-        <!-- <v-row class="border-rad-sm overflow-hidden crm-stats-card-wrap">
-            <stats-card-v6
-               class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
-               :icon= "visitors.icon"
-               :trade="visitors.trade"
-               :bgColor="visitors.card_color"
-               :openDevice="visitors.trade"
-               :closeDevice="visitors.closeDevice"
-              >
-					
-						<line-chart-v3
-							:label="visitors.label"
-                     :style="{height: '80px',width:'100%', position: 'relative'}"
-							:dataSet= "visitors.chartData"
-							:labels="visitors.chartLabel"
-						></line-chart-v3>
-					
-				</stats-card-v6>
-            <stats-card-v6
-               class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
-               :title="revenue.title"
-               :viewer="revenue.viewer"
-               :trade="revenue.trade"
-               :icon= "revenue.icon"
-               :bgColor="revenue.card_color"
-              >
-               
-                  <line-chart-v3
-                     :label="revenue.label"
-                     :style="{height: '80px',width:'100%', position: 'relative'}"
-                     :dataSet= "revenue.chartData"
-                     :labels="revenue.chartLabel"
-                  ></line-chart-v3>
-               
-            </stats-card-v6>
-            <stats-card-v6
-               class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
-               :title="sales.title"
-               :viewer="sales.viewer"
-               :trade="sales.trade"
-               :icon= "sales.icon"
-               :bgColor="sales.card_color"
-              >
-                  <line-chart-v3
-                     :label="sales.label"
-                     :style="{height: '80px',width:'100%', position: 'relative'}"
-                     :dataSet= "sales.chartData"
-                     :labels="sales.chartLabel"
-                  ></line-chart-v3>
-               
-            </stats-card-v6>
-            <stats-card-v6
-               class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12"
-               :title="deals.title"
-               :viewer="deals.viewer"
-               :trade="deals.trade"
-               :icon= "deals.icon"
-               :bgColor="deals.card_color"
-              >
-               
-                  <line-chart-v3
-                     :label="deals.label"
-                     :style="{height: '80px',width:'100%', position: 'relative'}"
-                     :dataSet= "deals.chartData"
-                     :labels="deals.chartLabel"
-                  ></line-chart-v3>
-               
-            </stats-card-v6>
-         </v-row>-->
-
          <v-row>
             <app-card
 					colClasses="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
@@ -252,42 +179,46 @@ export default {
       //StatsCardV6
    },
    mqtt: {
-		'home/attributes/#' : function(val) {
+		'home/attributes/#' : function(val) {this.loadData();
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
-
+      var openDev = 0;
+      var closeDev = 0;
+      var unreacheableDev = 0;
 			var command = Object.keys(jsonData.params)[0];
 			var TVID = jsonData.params[command].split(',')[0];
 			var value = jsonData.params[command].split(',')[1];
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
-			this.loadData();
+
 			var db = this.deviceList;
 			console.log('DB :',db)
 			var i;
+			db.forEach(item => {console.log(item);
+      })
 			for (i = 0; i < db.length; i++) {
 				if(db[i].TvStatus == 1 && db[i].Connection_Status == 1){
-					this.openDev++;
+					openDev++;
 				}else if(db[i].TvStatus == 0 && db[i].Connection_Status == 1){
-					this.closeDev++;
+					closeDev++;
 				}
 				if(db[i].Connection_Status == 0) {
-					this.unreachableDeviceLenght++;
+					unreacheableDev++;
 				}
 				if(db[i].NoSignal == 0 && db[i].Connection_Status == 1) {
 					this.noSignal++;
 				}
 			}
 			console.log('OPEN CLOSE : ',this.openDev,this.closeDev)
-			this.closeDeviceLength = this.closeDev;
-			this.openDeviceLength = this.openDev;
-
-			if((this.closeDev + this.openDev) == this.totalDeviceLength) {
-				this.closeDev = 0;
-				this.openDev = 0;
+			this.closeDeviceLength = closeDev;
+			this.openDeviceLength = openDev;
+      this.unreachableDeviceLenght = unreacheableDev;
+			//if((this.closeDev + this.openDev) == this.totalDeviceLength) {
+				closeDev = 0;
+				openDev = 0;
 				console.log('SIFIRLA')
 				this.noSignal = 0;
-			}
+			//}
 	},
 	'home/attributesUp/#' : function(val) {
 			var test = String.fromCharCode.apply(null,val);
@@ -326,7 +257,6 @@ export default {
 		noSignalDeviceLength: 0,
 		totalDeviceLength: 0,
 		unreachableDeviceLenght: 0,
-		updatedData: [],
 		noSignal: 0,
 		closeDev: 0,
 		openDev: 0,
@@ -386,39 +316,51 @@ export default {
   },
    methods: {
       loadData() {
-		this.noSignalDeviceLength = 0;
-			this.deviceList = [];
+
 			this.unreachableDeviceLenght = 0;
+			var openDev = 0;
+			var closeDev = 0;
+			var unreachableDev = 0;
+			var noSignalDev = 0;
+			var updatedData = [];
 			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
 				this.deviceList = resp.data;
         resp.data.forEach(item => {
           console.log('Dash : ',item)
-					if(item.TvStatus == 1 && item.Connection_Status == 1) {
-						this.openDeviceLength++;
-					}else if(item.TvStatus == 0 && item.Connection_Status == 1){
-						this.closeDeviceLength++;
-					}
-					if(item.NoSignal == 1 && item.Connection_Status == 1) {
-						this.noSignalDeviceLength++;
-					}
-					if(item.Connection_Status == 0) {
-						this.unreachableDeviceLenght++;
-					}
 			});
-			this.updatedData = this.deviceList;
+			updatedData = this.deviceList;
+      updatedData.forEach(item => {
+        if(item.TvStatus == 1 && item.Connection_Status == 1) {
+          openDev++;
+        }
+        if(item.TvStatus == 0 && item.Connection_Status == 1){
+          closeDev++;
+        }
+        if(item.NoSignal == 1 && item.Connection_Status == 1) {
+          noSignalDev++;
+        }
+        if(item.Connection_Status == 0) {
+          unreachableDev++;
+        }
+
+      })
+      this.unreachableDeviceLenght = unreachableDev;
+      this.openDeviceLength = openDev;
+      this.closeDeviceLength = closeDev;
+      this.noSignalDeviceLength = noSignalDev;
 			this.totalDeviceLength = this.deviceList.length;
 		})
 	},
 },
    created() {
         this.loadData();
-            this.$mqtt.subscribe('home/attributes/#',function(message){
-               console.log('Message : ',message)
+        this.$mqtt.subscribe('home/attributes/#',function(message){
+           console.log('Message : ',message)
 			})
 			this.$mqtt.subscribe('home/attributesUp/#',function(message){
 				console.log('Message : ',message)
 			});
-			this.updatedData = this.deviceList;
+
    },
   };
 
