@@ -37,7 +37,7 @@
 			<v-data-table :headers="headersForTransactionList" :items="deviceList"
 				hide-default-footer>
 				<template v-slot:item="{ item }">
-					<tr v-bind:style="item.TvStatus ? 0 : 'pointer-events:none'">
+					<tr>
 						<td class="text-nowrap">{{ item.TvID }}</td>
 						<td>{{ item.Brand }}</td>
 						<td>{{ item.Model_Number}}</td>
@@ -51,11 +51,11 @@
 							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
-						<td class="tvstatus input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-value="item.TvStatus" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'">
+						<td class="tvstatus input-control"  :data-value="item.TvStatus" :data-tvid="item.TvID">
 						<span style="display:none;" class="tvstatus-value">{{item.TvStatus}}</span>
 						<v-col cols="12" sm="4" md="4" class="col-height-auto">
-							<div v-if="item.TvStatus == 1">
-								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" :style="item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: ''" @click="clickPub" aria-disabled="true">
+							<div v-if="item.TvStatus == 1" v-bind:class="item.Connection_Status == 1 ?  'input-switch-enabled' : 'input-switch-disabled'">
+								<div class="pin-ka v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch success--text" @click="clickPub" aria-disabled="true">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -92,10 +92,9 @@
 							</div>
 						</v-col>
 						</td>
-						<td class="tvRemoteLock input-control input-switch-enabled" :class="'tv-id-'+item.TvID" :data-tvid="item.TvID" v-bind:style="item.TvStatus ? 0 : 'pointer-events:auto;opacity:1;'" >
-
+						<td class="tvRemoteLock input-control input-switch-enabled" :data-tvid="item.TvID" >
               <div v-if="item.RemoteLock == 1">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="[item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: {'opacity':'1','pointer-events':'auto'},item.TvStatus == 0 ? {'opacity':'.1','pointer-events':'none'}:{'opacity':'1','pointer-events':'auto'}]" @click="clickPub">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active v-input--is-dirty success--text" :style="item.TvStatus == 0 ? {'opacity':'.1','pointer-events':'none'}:{'opacity':'1','pointer-events':'auto'}" @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -114,7 +113,7 @@
 							</div>
 							
 							<div v-else-if="item.RemoteLock == 0">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " :style="[item.Connection_Status == 0 ? {'opacity':'.1','pointer-events':'none'}: {'opacity':'1','pointer-events':'auto'},item.TvStatus == 0 ? {'opacity':'.1','pointer-events':'none'}:{'opacity':'1','pointer-events':'auto'}]" @click="clickPub">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch " @click="clickPub">
 									<div class="v-input__control">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -181,7 +180,7 @@
 	transition: all .5 ease;
 }
 .input-switch-disabled {
-  /*opacity: .1 !important;*/
+  opacity: .1 !important;
 	pointer-events: none !important;
 }
 .input-switch-enabled {
@@ -410,6 +409,7 @@ export default {
 			closeDevices: [],
 			filterAttributes: [],
 			TvList:[],
+      closeTvNotification:[],
 			connection: null,
 			loader: false,
 			invoice: [],
@@ -515,8 +515,18 @@ export default {
 			var command = Object.keys(jsonData.params)[0];
 			var TVID = jsonData.params[command].split(',')[0];
 			var value = jsonData.params[command].split(',')[1];
+      var notification = [];
+			if(value == 0) {
+        var json = {
+          datetime: dateTime,
+          tvid: TVID,
+          value: value
+        };
+        notification.push(json);
+      }
+			console.log('Notification : ',notification)
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
-			
+
 			if(command == "km" || command == "ka") {
 			this.$el.querySelectorAll('.pin-ka-svg').forEach(item => {
 				if(item.getAttribute('data-tvid') == TVID) {
@@ -525,9 +535,11 @@ export default {
 					}
 					else if(command == "ka" && value == 0){
 						$(item).addClass('tv-close-svg');
+
 					}
 				}
 			});
+
 			//Eğer attributes'e gelen mesajda ekrandan clicklenen tvid ve pin doğrulanırsa çalışacak kısım.
 			if(command == this.selectedPin && TVID == this.selectedTvID) {
 				console.log('TEST : BAŞARILI');
@@ -609,7 +621,6 @@ export default {
 						.then(function (response) {
 							console.log(response.data);
 							console.log('SUCCESS');
-
 						})
 						.catch(function (error) {
 							console.log(error);
@@ -635,7 +646,6 @@ export default {
 							}else{
 								$('.device-connect.device-status-'+item.TvID).css('display','block');
 								$('.device-disconnect.device-status-'+item.TvID).css('display','none');
-
 							}
 							console.log(connectDevicesIcons)
 						})
@@ -643,6 +653,7 @@ export default {
 					}
 
 			})
+
 			}
 		},
 		'home/attributesUp/#' : function(val,topic) {
@@ -842,18 +853,30 @@ export default {
 					on:'01',
 					off:'00'
 		}};
-		
-		
-		$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-		$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-		var i = 0;
-		this.interval = setInterval(() => {
-			console.log(i++)
-			if(i == 10) {
+
+			this.$el.querySelectorAll('.input-control').forEach(item => {
+        console.log('Input Control : ',item)
+        if(item.getAttribute('data-tvid') == tvID) {
+          $(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+
+        }
+      })
+      this.$el.querySelectorAll('.input-gauch').forEach(item => {
+        console.log('Input Control : ',item)
+        if(item.getAttribute('data-tvid') == tvID) {
+          $(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+
+        }
+      })
+
+
+		//$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		//$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+
 				console.log('Disconnect ');
 				clearInterval(this.interval);
-				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				//$('.input-control').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				//$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
 				$(selectedTag).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
 				$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
 				$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
@@ -867,17 +890,14 @@ export default {
 				}
 				
 		this.$el.querySelectorAll('.input-gauch').forEach(item => {
-			console.log(item)
-			
+			console.log('GAUCH : ',item)
 			if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
-				$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				//$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 			}else {
 				$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 			}
 		})
-	
-			}
-		}, 1000);
+
 		
 		console.log('JSONDATA : ',jsonData,serialNumber)
 		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));

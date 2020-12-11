@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <crypto-slider></crypto-slider>
+
       <div class="container container--fluid">
          <div class="app-card" >
             <div style="display: flex;">

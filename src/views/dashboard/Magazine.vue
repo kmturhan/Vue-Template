@@ -1,7 +1,8 @@
 <template>
    <div>
+     <crypto-slider></crypto-slider>
       <v-container fluid class="stats-wrap">
-         
+
     <ul id="example-1">
 	
 	<!--<div class="il-isimleri">test</div>-->
