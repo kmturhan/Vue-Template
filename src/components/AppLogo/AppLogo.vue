@@ -1,8 +1,8 @@
 <template>
     <div class="site-logo">
         <router-link to="/">
-            <img :src="darkLogo" alt="site logo" width="100" height="30" v-if="sidebarSelectedFilter.class == 'sidebar-overlay-light'">
-            <img :src="appLogo" alt="site logo" width="100" height="30" v-else>
+            <img :src="darkLogo" alt="site logo" width="150" height="150" v-if="sidebarSelectedFilter.class == 'sidebar-overlay-light'">
+            <img :src="appLogo" alt="site logo" width="150" height="150" v-else>
         </router-link>
     </div>
 </template>
