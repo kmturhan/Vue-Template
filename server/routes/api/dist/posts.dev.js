@@ -11,6 +11,22 @@ var fs = require('fs');
 
 var axios = require('axios');
 
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host: 'mqtts.labrus.com',
+  user: 'labrus',
+  password: 'V3r2t6b6n2*',
+  database: 'labrusDB'
+});
+connection.connect();
+connection.query('select * from lcd_devices', function (error, results, fields) {
+  if (error) throw error;
+  console.log("Result : ".concat(results[0].name, " ").concat(fields[0].data));
+  results.forEach(function (item) {
+    console.log(item);
+  });
+});
 var caCRT = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/ca.crt');
 var mosCRT = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/mosquitto.crt');
 var mosKEY = fs.readFileSync('C:/Users/Labrus-Kamil/Desktop/1/mosquitto.key');
@@ -43,6 +59,30 @@ client.on('connect', function () {
     var dateTime = date + ' ' + time;
     console.log('DATETIME : ', dateTime, time);
     db.all(sql, [], function (err, rows) {
+      //console.log('GETDATA : ',rows);
+      if (err) {
+        throw err;
+      }
+
+      rows.forEach(function (item) {
+        var date1 = new Date(item.Last_Update);
+        var date2 = new Date(dateTime);
+        var diff = date2.getTime() - date1.getTime();
+
+        if (diff > 950000) {
+          sql = "UPDATE Device_Status SET Connection_Status = 0 WHERE Token = ? AND TvID = ?";
+          db.all(sql, [item.Token, item.TvID], function (err, rows) {
+            console.log('Zaman Aşımı ' + item.Token + ' Connection 0 updated');
+          });
+          console.log(item.Last_Update, '15 dakika geçti');
+        } else {
+          sql = "UPDATE Device_Status SET Connection_Status = 1 WHERE Token = ? AND TvID = ?";
+          db.all(sql, [item.Token, item.TvID], function (err, rows) {});
+          console.log(item.Last_Update, '15 dakika Geçmedi');
+        }
+      });
+    });
+    connection.query(sql, [], function (err, rows) {
       //console.log('GETDATA : ',rows);
       if (err) {
         throw err;

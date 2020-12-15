@@ -27,6 +27,7 @@
     "leaflet": "^1.4.0",
     "moment": "^2.22.2",
     "mqtt": "^4.2.4",
+    "mysql": "^2.18.1",
     "nprogress": "^0.2.0",
     "paho-mqtt": "^1.1.0",
     "screenfull": "^4.2.1",
