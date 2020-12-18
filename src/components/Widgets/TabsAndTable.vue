@@ -144,7 +144,8 @@
 						<td v-if="item.no_signal == 1">1</td>
 						<td>{{ item.firmware_version }}</td>
 						<td>{{ item.serial_number }}</td>
-						<td>{{ item.last_update.split('T')[0] + ' ' + item.last_update.split('T')[1].split('.')[0] }}</td>
+						<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>
+						<!--td>{{ item.last_update.split('T')[0] + ' ' + item.last_update.split('T')[1].split('.')[0] }}</td>-->
 						
 						<td v-for="filter in filterAttributes" :key="filter.fieldPin" class="input-control input-switch-enabled">
 							<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-pin="filter.fieldPin" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
