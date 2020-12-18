@@ -3,7 +3,7 @@
 
       <div class="container container--fluid">
          <div class="app-card" >
-            <div style="display: flex;">
+            <div style="display: flex;overflow-x:scroll">
 		
 		<div class="flex col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12">
 			<div class="">
