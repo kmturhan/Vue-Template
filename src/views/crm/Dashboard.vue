@@ -1,6 +1,6 @@
 <template>
 	<div>
-    <crypto-slider></crypto-slider>
+
       <div class="container container--fluid">
          <div class="app-card" >
             <div style="display: flex;">
@@ -197,15 +197,15 @@ export default {
 			db.forEach(item => {console.log(item);
       })
 			for (i = 0; i < db.length; i++) {
-				if(db[i].TvStatus == 1 && db[i].Connection_Status == 1){
+				if(db[i].tv_status == 1 && db[i].connection_status == 1){
 					openDev++;
-				}else if(db[i].TvStatus == 0 && db[i].Connection_Status == 1){
+				}else if(db[i].tv_status == 0 && db[i].connection_status == 1){
 					closeDev++;
 				}
-				if(db[i].Connection_Status == 0) {
+				if(db[i].connection_status == 0) {
 					unreacheableDev++;
 				}
-				if(db[i].NoSignal == 0 && db[i].Connection_Status == 1) {
+				if(db[i].no_signal == 0 && db[i].connection_status == 1) {
 					this.noSignal++;
 				}
 			}
@@ -231,9 +231,9 @@ export default {
 			console.log('DB :',db)
 			var i;
 			for (i = 0; i < db.length; i++) {
-				if(db[i].TvStatus == 1 && db[i].Connection_Status == 1){
+				if(db[i].tv_status == 1 && db[i].connection_status == 1){
 					this.openDev++;
-				}else if(db[i].TvStatus == 0 && db[i].Connection_Status == 1){
+				}else if(db[i].tv_status == 0 && db[i].connection_status == 1){
 					this.closeDev++;
 				}
 			}
@@ -323,23 +323,23 @@ export default {
 			var unreachableDev = 0;
 			var noSignalDev = 0;
 			var updatedData = [];
-			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
 				this.deviceList = resp.data;
         resp.data.forEach(item => {
           console.log('Dash : ',item)
 			});
 			updatedData = this.deviceList;
       updatedData.forEach(item => {
-        if(item.TvStatus == 1 && item.Connection_Status == 1) {
+        if(item.tv_status == 1 && item.connection_status == 1) {
           openDev++;
         }
-        if(item.TvStatus == 0 && item.Connection_Status == 1){
+        if(item.tv_status == 0 && item.connection_status == 1){
           closeDev++;
         }
-        if(item.NoSignal == 1 && item.Connection_Status == 1) {
+        if(item.no_signal == 1 && item.connection_status == 1) {
           noSignalDev++;
         }
-        if(item.Connection_Status == 0) {
+        if(item.connection_status == 0) {
           unreachableDev++;
         }
 

@@ -1,7 +1,8 @@
 <template>
    <div>
+     <crypto-slider></crypto-slider>
       <v-container fluid class="stats-wrap">
-         
+
     <ul id="example-1">
 	
 	<!--<div class="il-isimleri">test</div>-->
@@ -562,7 +563,7 @@ export default {
   methods:{
 	loadData() {
 		this.deviceList = [];
-			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item => {
           this.deviceList.push(item);
           if(!this.cityList.includes(item.City)){

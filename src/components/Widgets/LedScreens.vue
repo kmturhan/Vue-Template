@@ -7,7 +7,7 @@
 			<!--<button @click="websocketPub">Test</button>-->
 			<!--<button @click="clickSub">attributesUp</button><br><br>-->
 			<!--<button class="mx-4 my-4 v-btn v-btn--contained theme--light v-size--small primary" @click="overlayOpen">Filter</button>-->
-			<div class="v-overlay theme--light" style="z-index: 99;display:none;">
+			<!--<div class="v-overlay theme--light" style="z-index: 99;display:none;">
 				<div class="v-overlay__scrim" style="opacity: 0.5; background-color: rgb(33, 33, 33); border-color: rgb(33, 33, 33);" @click="overlayClose">
 				
 				</div>
@@ -15,8 +15,7 @@
 					<i class="ti-close" style="cursor:pointer;color:black !important;position:absolute;right:10px;top:10px;" @click="overlayClose"></i>
 		
 					<app-card colClasses="col-12 col-md-12 mt-5" style="flex-wrap:wrap;height:340px">
-						
-						<!--<p>{{ name1 }}</p>-->
+						<p>{{ name1 }}</p>
 						<v-checkbox color="primary" label="Select Input" v-model="name1" value="Select Input" data-pin="xb" data-type="dropdown" data-options-key="20,40,60,70,80,90,A0,91,A1,92,A2,95,A5,98,A8,C0,D0,E0,E1,E2" data-options-value="AV,COMPONENT,RGB,DVI-D (PC),DVI-D (DTV),HDMI1 (DTV),HDMI1 (PC),HDMI2/OPS (DTV), HDMI2/OPS (PC),OPS/HDMI3/DVI-D (DTV),OPS/HDMI3/DVI-D (PC),OPS/DVI-D (DTV),OPS/DVI-D (PC),OPS (DTV),OPS (PC),DISPLAYPORT (DTV),DISPLAYPORT (PC),SuperSign webOS Player,Others,Multi Screen"></v-checkbox>
 						<v-checkbox color="primary" label="Mute" 		v-model="name1" value="Mute" 		data-pin="ke" data-type="switch" data-options-key="0,1" data-options-value=""></v-checkbox>
 						<v-checkbox color="primary" label="Aspect Ratio" v-model="name1" value="Aspect Ratio"  data-pin="kc" data-type="dropdown" data-options-key="01,02,04,06,09,10,21" data-options-value="4:3,16:9,Zoom,Set By Program,Just Scan (720p or higher),Cinema Zoom 1 to 16,58:9,Vertical Zoom,All-Direction Zoom"></v-checkbox>
@@ -33,46 +32,102 @@
 					</app-card>
 					<button @click="detectType" class="ml-5 fw-bold" >Select</button>
 				</div>
-			</div>
-			<app-section-loader :status="loader"></app-section-loader>
+			</div>-->
+			
 			<v-data-table :headers="headersForTransactionList" :items="deviceList"
 				hide-default-footer>
 				<template v-slot:item="{ item }">
-					<tr v-bind:style="item.TvStatus ? 0 : 'pointer-events:none'">
-						<td class="text-nowrap">{{ item.TvID }}</td>
-						<td>{{ item.Brand }}</td>
-						<td>{{ item.Model_Number}}</td>
-						<td v-if="item.Connection_Status == 1" style="">
+					<tr>
+						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
+						<td style="display:flex;align-items:center;">
+							<div style="display:flex;align-items:center;height:100%;" id="name-info">
+								<label>
+									<a href="/default/crypto/market-cap" style="text-decoration:underline;">{{item.device_name}}</a>
+								</label>
+								<svg xmlns="http://www.w3.org/2000/svg" height="15" viewBox="0 -1 401.52289 401" width="15" @click="showInput" style="fill:white;margin-left:10px;cursor:pointer;"><path d="m370.589844 250.972656c-5.523438 0-10 4.476563-10 10v88.789063c-.019532 16.5625-13.4375 29.984375-30 30h-280.589844c-16.5625-.015625-29.980469-13.4375-30-30v-260.589844c.019531-16.558594 13.4375-29.980469 30-30h88.789062c5.523438 0 10-4.476563 10-10 0-5.519531-4.476562-10-10-10h-88.789062c-27.601562.03125-49.96875 22.398437-50 50v260.59375c.03125 27.601563 22.398438 49.96875 50 50h280.589844c27.601562-.03125 49.96875-22.398437 50-50v-88.792969c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m376.628906 13.441406c-17.574218-17.574218-46.066406-17.574218-63.640625 0l-178.40625 178.40625c-1.222656 1.222656-2.105469 2.738282-2.566406 4.402344l-23.460937 84.699219c-.964844 3.472656.015624 7.191406 2.5625 9.742187 2.550781 2.546875 6.269531 3.527344 9.742187 2.566406l84.699219-23.464843c1.664062-.460938 3.179687-1.34375 4.402344-2.566407l178.402343-178.410156c17.546875-17.585937 17.546875-46.054687 0-63.640625zm-220.257812 184.90625 146.011718-146.015625 47.089844 47.089844-146.015625 146.015625zm-9.40625 18.875 37.621094 37.625-52.039063 14.417969zm227.257812-142.546875-10.605468 10.605469-47.09375-47.09375 10.609374-10.605469c9.761719-9.761719 25.589844-9.761719 35.351563 0l11.738281 11.734375c9.746094 9.773438 9.746094 25.589844 0 35.359375zm0 0"/></svg>
+							</div>
+							<br>
+							<div style="display:none;"  id="name-change" >
+								<div style="display:flex;align-items:center;">
+								<input type="text" @blur="leaveInput" :value="item.device_name" style="width:140px;height:30px;text-align:center;border:2px solid white;border-radius:10px;padding:0 5px;width:auto;" :data-device-id="item.Id"> 
+								<svg class="" xmlns="http://www.w3.org/2000/svg" @click="leaveInput" id="Bold" enable-background="new 0 0 24 24" height="15" viewBox="0 0 24 24" width="15" style="margin-left:5px;cursor:pointer;display:block;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+								</div>
+							</div>
+						</td>
+						<td>{{ item.brand }}</td>
+						<td><a href="https://www.google.com.tr" target="_blank">{{ item.model_name}}</a></td>
+						<td v-if="item.connection_status == 1" style="">
+							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;fill:#e4002b" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
+						<td v-if="item.connection_status == 0" style="margin-right:auto;margin-left:auto;">
+							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;fill:#e4002b;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
+						<td v-if="item.dvi_status == 1" style="">
+							<svg  class="device-connection device-disconnect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;fill:#e4002b;"><g>	<g>		<path fill="#e4002b;" d="M562.27,511.274l305.892-305.888c1.935-1.937,1.935-5.809,0-9.68l-44.532-42.592    c-1.936-1.937-3.868-1.937-3.868-1.937c-1.94,0-1.94,0-3.872,1.937L510,459.002l-305.887-306.13    c-1.939-1.936-3.873-1.936-3.873-1.936c-1.939,0-1.939,0-3.872,1.936l-44.528,44.77c-1.939,1.935-1.939,5.808,0,9.68    L457.728,513.21L151.84,816.92c-1.939,1.936-1.939,5.808,0,9.68l42.592,44.527c1.936,1.939,3.869,1.939,3.869,1.939    s1.939,0,3.873-1.939L510,563.545l305.889,305.89c1.936,1.936,3.872,1.936,3.872,1.936s1.935,0,3.868-1.936l42.592-44.532    c1.94-1.935,1.94-5.807,0-9.68L562.27,511.274z"/>	</g></g></svg>
+							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<!--<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612"  xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>-->
+						</td>
+						<td v-if="item.dvi_status == 0" style="margin-right:auto;margin-left:auto;">
+							<svg  class="device-connection device-disconnect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;margin-right:auto;margin-left:auto;fill:"><g>	<g>		<path fill="#e4002b;" d="M562.27,511.274l305.892-305.888c1.935-1.937,1.935-5.809,0-9.68l-44.532-42.592    c-1.936-1.937-3.868-1.937-3.868-1.937c-1.94,0-1.94,0-3.872,1.937L510,459.002l-305.887-306.13    c-1.939-1.936-3.873-1.936-3.873-1.936c-1.939,0-1.939,0-3.872,1.936l-44.528,44.77c-1.939,1.935-1.939,5.808,0,9.68    L457.728,513.21L151.84,816.92c-1.939,1.936-1.939,5.808,0,9.68l42.592,44.527c1.936,1.939,3.869,1.939,3.869,1.939    s1.939,0,3.873-1.939L510,563.545l305.889,305.89c1.936,1.936,3.872,1.936,3.872,1.936s1.935,0,3.868-1.936l42.592-44.532    c1.94-1.935,1.94-5.807,0-9.68L562.27,511.274z"/>	</g></g></svg>
+							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<!--<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;fill:#e4002b;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>-->
+						</td>
+						<td>-</td>
+						<td class="tvRemoteLock input-control" :data-tvid="item.Id" :data-value="item.screen_on_off">
 							
-							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
-							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-						</td>
-						<td v-if="item.Connection_Status == 0" style="margin-right:auto;margin-left:auto;">
+            <div v-if="item.screen_on_off == 1"  :data-value="item.screen_on_off">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls" >
+									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :data-value="item.screen_on_off" @click="clickPub">
+										<div class="v-input__slot">
+											<div class="v-input--selection-controls__input">
+												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"  aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
+												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom success--text"></div>
+												<div class="v-input--switch__track theme--light success--text">
+													<span class="open-switch-text">On</span>
+												</div>
+												<div class="v-input--switch__thumb theme--light success--text">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="tv-open-svg tv-status-svg" style="transform:rotate(45deg);" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 470.363 470.363" xml:space="preserve"><g>	<g>		<g>			<path d="M331.353,40.469c-0.192-0.21-0.394-0.411-0.603-0.603c-53.004-53.091-139.011-53.163-192.102-0.159     c-0.053,0.053-0.106,0.106-0.159,0.159c-3.462,4.617-2.527,11.166,2.09,14.629c3.715,2.786,8.824,2.786,12.539,0     c45.058-44.902,117.946-44.902,163.004,0c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603     C334.789,50.788,335.059,44.508,331.353,40.469z"/>			<path d="M197.003,94.722c0.792-0.594,1.496-1.298,2.09-2.09c19.54-19.322,50.99-19.322,70.531,0     c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603c4.04-3.706,4.31-9.986,0.603-14.025     c-0.192-0.21-0.394-0.411-0.603-0.603c-27.532-27.556-72.19-27.575-99.745-0.042c-0.014,0.014-0.028,0.028-0.042,0.042     c-4.617,3.462-5.552,10.012-2.09,14.629C185.837,97.249,192.386,98.185,197.003,94.722z"/>			<path d="M293.656,141.22H176.105c-16.986,0.836-30.323,14.863-30.302,31.869v268.016c0.563,16.326,13.966,29.267,30.302,29.257     h117.029c16.336,0.01,29.739-12.931,30.302-29.257V173.09C323.472,156.274,310.436,142.323,293.656,141.22z M213.721,352.812     c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     s10.449,4.678,10.449,10.449V352.812z M213.721,285.416c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449V271.31     c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V285.416z M213.721,218.543c0,5.771-4.678,10.449-10.449,10.449     s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V218.543z M271.19,352.812     c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     c5.771,0,10.449,4.678,10.449,10.449V352.812z M271.19,285.416c0,5.771-4.678,10.449-10.449,10.449     c-5.771,0-10.449-4.678-10.449-10.449V271.31c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V285.416z      M271.19,218.543c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629     c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V218.543z"/>		</g>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							
-							<svg class="device-connection device-connect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="margin-top:5px;cursor:pointer;display:none;margin-right:auto;margin-left:auto;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
-							<svg class="device-connection device-disconnect" :class="'device-status-'+item.TvID"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+							<div v-else-if="item.screen_on_off == 0" ref="thebutton" :data-value="item.screen_on_off">
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch" >
+									<div class="v-input__control" :class="[item.connection_status == 1 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :data-value="item.screen_on_off" @click="clickPub">
+										<div class="v-input__slot">
+											<div class="v-input--selection-controls__input">
+												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"   aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
+												<div class="v-input--selection-controls__ripple v-input--selection-controls__ripple-custom red--text text--darken-3"></div>
+												<div class="v-input--switch__track theme--light red--text text--darken-3">
+													<span class="close-switch-text">Off</span>
+												</div>
+												<div class="v-input--switch__thumb theme--light red--text text--darken-3">
+													<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="tv-close-svg tv-status-svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 470.363 470.363" style="transform: rotate(45deg);" xml:space="preserve"><g>	<g>		<g>			<path d="M331.353,40.469c-0.192-0.21-0.394-0.411-0.603-0.603c-53.004-53.091-139.011-53.163-192.102-0.159     c-0.053,0.053-0.106,0.106-0.159,0.159c-3.462,4.617-2.527,11.166,2.09,14.629c3.715,2.786,8.824,2.786,12.539,0     c45.058-44.902,117.946-44.902,163.004,0c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603     C334.789,50.788,335.059,44.508,331.353,40.469z"/>			<path d="M197.003,94.722c0.792-0.594,1.496-1.298,2.09-2.09c19.54-19.322,50.99-19.322,70.531,0     c3.706,4.04,9.986,4.31,14.025,0.603c0.21-0.192,0.411-0.394,0.603-0.603c4.04-3.706,4.31-9.986,0.603-14.025     c-0.192-0.21-0.394-0.411-0.603-0.603c-27.532-27.556-72.19-27.575-99.745-0.042c-0.014,0.014-0.028,0.028-0.042,0.042     c-4.617,3.462-5.552,10.012-2.09,14.629C185.837,97.249,192.386,98.185,197.003,94.722z"/>			<path d="M293.656,141.22H176.105c-16.986,0.836-30.323,14.863-30.302,31.869v268.016c0.563,16.326,13.966,29.267,30.302,29.257     h117.029c16.336,0.01,29.739-12.931,30.302-29.257V173.09C323.472,156.274,310.436,142.323,293.656,141.22z M213.721,352.812     c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     s10.449,4.678,10.449,10.449V352.812z M213.721,285.416c0,5.771-4.678,10.449-10.449,10.449s-10.449-4.678-10.449-10.449V271.31     c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V285.416z M213.721,218.543c0,5.771-4.678,10.449-10.449,10.449     s-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449s10.449,4.678,10.449,10.449V218.543z M271.19,352.812     c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629c0-5.771,4.678-10.449,10.449-10.449     c5.771,0,10.449,4.678,10.449,10.449V352.812z M271.19,285.416c0,5.771-4.678,10.449-10.449,10.449     c-5.771,0-10.449-4.678-10.449-10.449V271.31c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V285.416z      M271.19,218.543c0,5.771-4.678,10.449-10.449,10.449c-5.771,0-10.449-4.678-10.449-10.449v-14.629     c0-5.771,4.678-10.449,10.449-10.449c5.771,0,10.449,4.678,10.449,10.449V218.543z"/>		</g>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</td>
-
-
-						<td class="pin-kf input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
-							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
-						</td>
-						<td class="pin-kf input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
-							<v-slider v-model="item.VoiceValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kf" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
-						</td>
-						<td class="pin-kh input-gauch input-switch-enabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-if="item.TvStatus == 1">
-							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
-						</td>
-						<td class="pin-kh input-gauch input-switch-disabled"  :class="'tv-id-'+item.TvID" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" v-else style="opacity:.1;pointer-events:none;">
-							<v-slider v-model="item.BrightnessValue" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
-						</td>
-						<td>{{ item.TempetureValue }} °C</td>
-						<td v-if="item.NoSignal == '' || item.NoSignal == 0">0</td>
-						<td v-if="item.NoSignal == 1">1</td>
-
-
-						<td>{{ item.Last_Update }}</td>
 						
+						
+						
+						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
+							<v-slider v-model="item.brightness_value" v-bind:max="255" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
+						</td>
+						
+						<!--<td>{{ item.temperature_value }} °C</td>-->
+						<!--<td>{{ item.voltage_value}} V</td>-->
+						
+						
+						<td>{{ item.firmware_version}}</td>
+						<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>
 						<td v-for="filter in filterAttributes" :key="filter.fieldPin" class="input-control input-switch-enabled">
 							<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-pin="filter.fieldPin" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
 								<option v-for="(value, index) in filter.fieldKey" v-bind:key="value" :value="value">{{filter.fieldValue[index]}}</option>
@@ -95,11 +150,38 @@
 					</tr>
 				</template>
 			</v-data-table>
+			<!--<div style="position:relative">
+			<v-switch v-model="ex" color="red darken-3"  style="position:relative;"> 
+			</v-switch>
+			<span style="position:absolute;top:0">{{ex == true ? 'ON':'OFF'}}</span>
+			</div>-->
+			<!--<button class="danger" @click="clickTest">Test</button>-->
 		</div>
 	</div>
 </template>
 <style>
-.input-switch {
+
+
+.tv-close-svg {
+	right: 4px;
+}
+.open-switch-text {
+	left: 7px;
+	top: 1px;
+	color: white;
+	font-size: 12px;
+	position: absolute;
+	font-weight: bold;
+}
+.close-switch-text {
+	right: 7px;
+	color: white;
+	font-size: 12px;
+	position: absolute;
+	font-weight: bold;
+	top:2px;
+}
+div.input-switch {
 	transition: all .5 ease;
 }
 .input-switch-disabled {
@@ -110,12 +192,13 @@
 	opacity: 1 !important;
 	pointer-events: auto !important;
 }
-.v-input--selection-controls__ripple-custom {
+div.v-input--selection-controls__ripple-custom {
 	width: 36px;
 	height: 36px;
-	left: -9px !important;
-	top: calc(50% - 21px) !important;
+	left: -13px !important;
+	top: calc(50% - 22px) !important;
 }
+
 .v-application .primary.lighten-3 {
 	background-color: lightgray !important;
 }
@@ -171,9 +254,9 @@
 .v-slider {
 	cursor: pointer !important;
 }
-.v-input--switch__track {
+div.v-input--switch__track {
 	height: 20px;
-	width: 55px;
+	width: 60px;
 }
 .v-application .red {
 	background-color: #e4002b !important;
@@ -182,6 +265,7 @@
 .v-slider--horizontal .v-slider__track-container {
 	height: 4px !important;
 }
+
 .v-application--is-ltr .v-input--switch.v-input--is-dirty .v-input--selection-controls__ripple, .v-application--is-ltr .v-input--switch.v-input--is-dirty .v-input--switch__thumb {
 	transform: translate(34px,0);
 }
@@ -189,19 +273,29 @@
 .v-input--switch__thumb {
 	height: 27px;
 	width: 27px;
-	right: -2px;
+	right: 2px;
 }
 .v-input--selection-controls__ripple{
 	width: 36px;
 	height: 36px;
-	left: -13px;
-	top: calc(50% - 25px);
+	left: -18px !important;
+	top: calc(50% - 22px);
 }
-.v-input--selection-controls.v-input {
+.v-input--is-label-active .v-input--switch__thumb  {
+	right: -40px;
+}
+.v-input--is-label-active .v-input--switch__thumb.success--text {
+	right: -40px;
+}
+.v-input--is-label-active .v-input--selection-controls__ripple {
+	left: 29px !important;
+	top: calc(50% - 22px) !important;
+}
+div.v-input--selection-controls.v-input {
 	margin-top: 0;
 	padding-top: 0;
 }
-.v-input__slot {
+div.v-input__slot {
 	margin-bottom: 0;
 	left: -10px;
 	display: flex;
@@ -310,20 +404,23 @@ tbody tr td{
 import axios from 'axios'
 import JQuery from 'jquery'
 //import Dashboard from 'Views/Dashboard.vue'
+import { tabsAndTableDetails } from 'Views/crypto/data.js'
 
-
-let $ = JQuery
+let $ = JQuery;
 
 export default {
 	
 	data () {
 		return {
+			ex:'ON',
+			deviceList: [],
 			val: '',
 			name1: [],
 			e1:null,
 			filterType:[],
 			selectedTvID: 0,
 			selectedPin: '',
+			selectedtag:'',
 			interval: 0,
 			openDeviceLength: 0,
 			closeDeviceLength: 0,
@@ -336,7 +433,7 @@ export default {
 			connection: null,
 			loader: false,
 			invoice: [],
-			deviceList: [],
+			
 			ex3: { label: "thumb-color", val: 40, color: "red" },
 			gaugeValue: [],
 			selector: "",
@@ -344,9 +441,9 @@ export default {
 			unreachableDevices: 0,
 			headersForTransactionList: [
 				{
-					text: "Led ID",
+					text: "Name",
 					sortable: false,
-					value: "account"
+					value:"name"
 				},
 				{
 					text: "Brand",
@@ -354,29 +451,40 @@ export default {
 					value: "Brand" 
 				},
 				{
-					text: "Model Number",
+					text: "Model Name",
 					sortable: false,
-					value: "Model Number"
+					value: "Model Name"
 				},
 				{
-					text: "Connection",
+					text: "Connection Status",
 					sortable: false,
-					value: "Connection"
+					value: "Connection Status "
+				},
+				{
+					text: "DVI Status",
+					sortable: false,
+					value: "DVI Status"
+				},
+				{
+					text: "Resolution",
+					sortable: false,
+					value: "Resolution"
+				},
+				{
+					text: "Screen On/Off",
+					sortable:false,
+					value: "Screen On/Off"
 				},
 				{
 					text: "Brightness Value",
 					sortable: false,
 					value: "credit"
 				},
+				
 				{
-					text: "Tempature Value",
+					text: "Firmware Version",
 					sortable: false,
-					value: "balance"
-				},
-				{
-					text: "No Signal",
-					sortable: false,
-					value: "No Signal"
+					value:"Firmware Version"
 				},
 				{
 					text: "Last Updated",
@@ -384,7 +492,7 @@ export default {
 					value: "Last_Updated"
 				},
         ],
-
+tabsAndTableDetails,
 			active: null,
 			tabs:[
 				{
@@ -392,6 +500,8 @@ export default {
 				}
 			]
 		}
+			
+		
 	},
 	mounted(){
 		
@@ -399,7 +509,68 @@ export default {
 	},
 	mqtt: {
 		'home/telemetry/#': function() {
+			if(this.ex == true) {
+				this.ex = 'ON'
+			}else{
+				this.ex = 'OFF'
+			}
 			
+		},
+		'home/attribute/led_novastar/#': function(val){
+
+			var test = String.fromCharCode.apply(null,val);
+			var jsonData = JSON.parse(test);
+			console.log(jsonData);
+			console.log('Screen on off : ',jsonData.params.screen_on_off);
+			var updateDeviceList = this.deviceList;
+			console.log(updateDeviceList);
+			if(jsonData.params.screen_on_off == 0) {
+				this.$el.querySelectorAll('.pin-km').forEach(item => {
+					console.log('pin-km : ',item)
+				$(item).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
+				$(item).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__track span').addClass('close-switch-text').removeClass('open-switch-text');
+				$(item).find('svg').removeClass('tv-close-svg').addClass('tv-open-svg');
+				clearInterval(this.interval);
+				$('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch').addClass('input-switch-enabled').removeClass('input-switch-disabled');
+				$(item).find('.v-input--switch__track span').text('Off')
+				$(item).children().data('value',0);
+				updateDeviceList.forEach((item,index) => {
+					updateDeviceList[index].screen_on_off = 0;
+				})
+			})
+			}else if (jsonData.params.screen_on_off == 1){
+					
+					this.$el.querySelectorAll('.pin-km').forEach(item => {
+					console.log('pin-km : ',item)
+				$(item).addClass('v-input--is-label-active  success--text').removeClass('red--text text--darken-3');
+				$(item).find('.v-input--selection-controls__ripple').addClass('success--text').removeClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__track').addClass('success--text').removeClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__thumb').addClass('success--text').removeClass('red--text text--darken-3');
+				$(item).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
+				$(item).find('svg').addClass('tv-close-svg').removeClass('tv-open-svg');
+				clearInterval(this.interval);
+				$('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch').addClass('input-switch-enabled').removeClass('input-switch-disabled');
+				$(item).children().data('value',1);
+				$(item).find('.v-input--switch__track span').text('On')
+					updateDeviceList.forEach((item,index) => {
+					updateDeviceList[index].screen_on_off = 1;
+				})
+			})
+			}
+			
+			console.log('BRIGHTNESS : ',jsonData.params.brigtnessWrite,'TYPEOF  : ',typeof jsonData.params.brigtnessWrite)
+			if(typeof jsonData.params.brigtnessWrite !== 'undefined') {
+				
+				updateDeviceList.forEach((item,index) => {
+					updateDeviceList[index].brightness_value = jsonData.params.brigtnessWrite;
+				})
+			}
+			this.deviceList = updateDeviceList;
 		},
 		'home/attributes/#' : function(val) {
 			var test = String.fromCharCode.apply(null,val);
@@ -433,52 +604,26 @@ export default {
 				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
 			}
 			var tag = [];
-			/*if(command == 'ka') {
-				this.$el.querySelectorAll('td .v-input').forEach(item => {
-				if($(item).find('input')){
-					console.log($(item).find('input').attr('data-tvid'));
-					if($(item).find('input').attr('data-tvid') == TVID){
-						console.log('Seçilen ITEM : ',item);
-							if(value == 0) {
-								$(item).closest('td').css('opacity','.1');
-								$(item).closest('td').css('pointer-events','none')
-								$(item).closest('td.tvstatus').css('opacity','1')
-								$(item).closest('td.tvstatus').css('pointer-events','auto')
-								$(item).closest('td.tvRemoteLock').css('opacity','1');
-								$(item).closest('td.tvRemoteLock').css('pointer-events','auto')
-							}else if(value == 1){
-								$(item).closest('td').css('opacity','1');
-								$(item).closest('td').css('pointer-events','auto');
-							}
-						}
-					}
-				})
-			}*/
+			
 			
 			console.log('TAG : ',tag)
 			console.log('ATTR CHANNEL')
-			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
-					if(item.getAttribute('data-tvid') == TVID) {
-						var testTag = item.closest('.pin-' + command)
-						if(value == 1) {
-							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active v-input--is-dirty success--text');
+			this.$el.querySelectorAll('.pin-km input').forEach(item => {
+					
+						var testTag = item.closest('.pin-km')
+						
+							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
 							$(testTag).find('.v-input--switch__track span').text('On');
 							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
+							
 							$(testTag).find('svg').removeClass('tv-close-svg');
-							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')
-						} else {
-							$(testTag).removeClass('v-input--is-label-active v-input--is-dirty success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track span').removeClass('open-switch-text').addClass('close-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('Off');
-							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('svg').addClass('tv-close-svg');
-							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('0')
-						}
+							
+						
+							
+					
 						console.log('TESTTAG',$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text());
 						var serialNumber = item.getAttribute('data-serial-number');
 						console.log(serialNumber);
@@ -517,7 +662,7 @@ export default {
 							connectDevicesIcons.push(item)
 						})
 						updateDeviceList.forEach(function(item) {
-							var date1 = new Date(item.Last_Update);
+							var date1 = new Date(item.last_update);
 							var date2 = new Date(dateTime);
 							var diff = date2.getTime() - date1.getTime();
 							if(item.TvID == TVID && item.Token == token) {
@@ -535,137 +680,45 @@ export default {
 							console.log(connectDevicesIcons)
 						})
 						this.deviceList = updateDeviceList;
-					}
 			})
 			}
 		},
-		'home/attributesUp/#' : function(val,topic) {
-			console.log('TABS ATTRIBUTES CHANNEL',token)
-			var test = String.fromCharCode.apply(null,val);
-			var jsonData = JSON.parse(test);
-			var dataArray = jsonData.params.up.split(',');
-			console.log('ATTRIBUTES UP : ',jsonData);
-			var token = topic.split('/')[2];
-			var TvID = dataArray[0];
-            var tvDurum = dataArray[1];
-            var nosignal = dataArray[2];
-            var temperature = dataArray[3];
-			var firmwareVersion = dataArray[4];
-			console.log(TvID,tvDurum,nosignal,temperature,firmwareVersion);
-			var today = new Date();
-			var date = today.getFullYear()+'-'+String((today.getMonth()+1)).padStart(2,"0")+'-'+String(today.getDate()).padStart(2,"0");
-			var time = String(today.getHours()).padStart(2,"0") + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
-			var dateTime = date+' '+time;
-			console.log(dateTime);
-			
-			axios.post('http://192.168.10.46:5000/api/allAttributesUpdate', {
-						updateDate:dateTime,
-						token:token,
-						params: {
-							tvDurum:tvDurum,
-							tvId:TvID,
-							nosignal:nosignal,
-							temperature: temperature,
-							firmwareVersion: firmwareVersion
-					}})
-					.then(function (response) {
-						console.log(response);
-						console.log('SUCCESS');
-					})
-					.catch((err) =>  {
-						console.log(err);
-					});
-					
-					console.log('EL : ',this.$el.querySelectorAll('.pin-ka'));
-					this.$el.querySelectorAll('.pin-ka input').forEach(item => {
-						console.log('PIN KA INPUT : ',$(item).closest('tr').children());
-						if(item.getAttribute('data-tvid') == TvID) {
-							var testTag = item.closest('.pin-ka');
-							console.log('TESTTAGGG : ',testTag);
-							if(tvDurum == 1) {
-							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active v-input--is-dirty success--text');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('On');
-							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
-							console.log('ONNN ::CLOSE : ',this.closeDeviceLength,'OPEN : ',this.openDeviceLength);
-							}
-							else {
-							$(testTag).removeClass('v-input--is-label-active v-input--is-dirty success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track span').removeClass('open-switch-text').addClass('close-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('Off');
-							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
-							
-							console.log('OFF : CLOSE : ',this.closeDeviceLength,'OPEN : ', this.openDeviceLength);
-							}
-						}
-					})
-					var updateDeviceList = this.deviceList;
-					updateDeviceList.forEach(function(item,index){
-						console.log('TVV: ',TvID,tvDurum)
-						var date1 = new Date(item.Last_Update);
-						var date2 = new Date(dateTime);
-						var diff = date2.getTime() - date1.getTime();
-						if(diff > 950000) { 
-							updateDeviceList[index].Connection_Status = 0;
-						}else{
-							updateDeviceList[index].Connection_Status = 1;
-						}
-						if(item.TvID == TvID && parseInt(tvDurum) != 0) {
-							console.log('OKEY',item.TvID,TvID,parseInt(tvDurum))
-							updateDeviceList[index].Last_Update = dateTime
-							updateDeviceList[index].NoSignal = nosignal;
-							updateDeviceList[index].TemperatureValue = temperature;
-							updateDeviceList[index].FirmwareVersion = firmwareVersion;
-							
-						}
-						else if(item.TvID == TvID && parseInt(tvDurum) == 0) {
-							updateDeviceList[index].Last_Update = dateTime;
-							updateDeviceList[index].TvStatus = tvDurum;
-						}
-						console.log('DB LAST UPDATE',updateDeviceList[index].Last_Update);
-
-					})
-					this.deviceList = updateDeviceList;
-
-					
-
-					console.log('Device List : ',this.deviceList)
-					this.$el.querySelectorAll('.input-gauch').forEach(item => {
-						console.log(item);
-						
-						if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text') ) {
-							$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-						}else {
-							$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-						}
-					})
-				//	this.$el.querySelectorAll('td .v-input').forEach(item => {
-				//if($(item).find('input')) {
-				//	console.log($(item).find('input').attr('data-tvid'));
-				//	if($(item).find('input').attr('data-tvid') == TvID){
-				//		console.log('Seçilen ITEM : ',item);
-				//			if(tvDurum == 0) {
-				//				$(item).closest('td').css('opacity','.1');
-				//				$(item).closest('td').css('pointer-events','none')
-				//				$(item).closest('td.tvstatus').css('opacity','1')
-				//				$(item).closest('td.tvstatus').css('pointer-events','auto')
-				//				$(item).closest('td.tvRemoteLock').css('opacity','1');
-				//				$(item).closest('td.tvRemoteLock').css('pointer-events','auto');
-				//			} else if(tvDurum == 1) {
-				//				$(item).closest('td').css('opacity','1');
-				//				$(item).closest('td').css('pointer-events','auto');
-				//			}
-				//	}
-				//}
-			//})
-		}
-		
 	},
 	methods: {
+		showInput: function() {
+			$('#name-change').show();
+			
+			$('#name-info').hide();
+		},
+		leaveInput: function(e) {
+			console.log(e.target.value);
+			var deviceID = e.target.getAttribute('data-device-id');
+			var jsonData = {
+				name: e.target.value,
+				deviceId: deviceID
+			}
+			axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
+			.then(function (response) {
+				console.log(response)
+
+				$('#name-change').hide();
+				$('#name-info label a').text(e.target.value)
+				$('#name-info').show();
+			})
+			
+		},
+		clickTest: function() {
+			console.log('TEST')
+			var token = 'uHmintRAyuvTAkexgHmv';
+			var jsonData = { 
+				token:token,
+				method:"rpcCommand",
+				params: {
+					commandId: 11,
+				}
+			}
+			this.$mqtt.publish('home/telemetry/led_novastar/'+token, JSON.stringify(jsonData));
+		},
 		selectSendData: function(val) {
 			console.log('SELECT SEND DATA',val.target.value);
 			var token = val.target.getAttribute('data-token');
@@ -699,66 +752,59 @@ export default {
 				$(this).addClass('v-overlay--active');
 			});
 		},
-		clickSub: function() {
-			var jsonData = { method: 'getUpdateAll', params: { up: '2,00,00,37,26.1' } };//up: '2,01,00,37,26.1'
-			this.$mqtt.publish('home/attributesUp/mVThJflRGKgZYkZ18!hU', JSON.stringify(jsonData));
-	},
+		
 		clickPub: function() {
-			var selectedTag = $(event.currentTarget);
-			$(event.currentTarget).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
-			console.log('CLICK PUB : ',$(event.currentTarget).closest('tr'));
-			if($(event.currentTarget).find('.v-input--switch__track span').text() == "On") {
-				$(event.currentTarget).find('.v-input--switch__track span').text('Off');
-			}else {
-				$(event.currentTarget).find('.v-input--switch__track span').text('On')
-			}
-			
-			
-			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
+			var selectedTag = $(event.currentTarget).data('value');
+			console.log('Event current:',$(event.currentTarget));
+			var commandOnOff;
+			//var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
+			//var value = event.currentTarget.getAttribute('data-value');
+			
 			this.selectedTvID = tvID;
 			this.selectedPin = command;
+			console.log('TVID :',tvID)
+			if(selectedTag == 1){
+				commandOnOff = '6';
+			}
+			else if(selectedTag == 0){
+				commandOnOff = '5';
+			}
 			var jsonData = {
-				token:token,
 				method:"rpcCommand",
 				params: {
-					tvSerial:serialNumber,
-					command:command,
-					tvId:tvID,
-					swc:1,
-					cmd: 'gc',
-					on:'01',
-					off:'00'
-		}};
-		
-		
-		$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+					commandId:commandOnOff,
+			}};
+		$('.v-input__control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		
 		var i = 0;
 		this.interval = setInterval(() => {
 			console.log(i++)
-			if(i == 10) {
+			if(i == 7) {
 				console.log('Disconnect ');
+				console.log(selectedTag)
+			$(selectedTag).toggleClass('v-input--is-label-active  success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
+			$(selectedTag).find('svg').removeClass('tv-close-svg').addClass('tv-open-svg');
+			console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
+			
 				clearInterval(this.interval);
-				$('.input-control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.v-input__control.tv-id-'+this.selectedTvID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 				$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
-				$(selectedTag).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
-				$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
-				$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
-				$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
-				$(selectedTag).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
+				
 				console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
 				if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
 					$(selectedTag).find('.v-input--switch__track span').text('Off');
 				}else {
 					$(selectedTag).find('.v-input--switch__track span').text('On')
 				}
+
 				
 		this.$el.querySelectorAll('.input-gauch').forEach(item => {
 			console.log(item)
@@ -769,48 +815,31 @@ export default {
 				$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 			}
 		})
-	
 			}
+			
 		}, 1000);
-		
 		console.log('JSONDATA : ',jsonData,serialNumber)
-		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
-		},	
-		websocketPub: function() {
-			this.unreachableDevices = 0;
+		this.$mqtt.publish('home/telemetry/led_novastar/'+'eXFRrVFMJDglqeBzmFIl',JSON.stringify(jsonData));
 		},
-		next () {
-			const active = parseInt(this.active)
-			this.active = (active < 2 ? active + 1 : 0)
-		},
-		
 		loadData() {
-			//this.deviceList = [];
+			this.deviceList = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
+				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach(item=> {
-					console.log('resp Connection Status : ',item.Connection_Status);
+					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
 					this.deviceList.push(item);
 					this.sendDataList.push(item);
-					if(item.TvStatus == 1) {
-						this.openDeviceLength++;
-					}else{
-						this.closeDeviceLength++;
-					}
-					if(item.Connection_Status == 0) {
-						this.unreachableDevices++;
-					}
 					
 				});
-				
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
 				console.log('SEND DATA LIST : ',this.sendDataList);
 			});
 			
 		},
-		detectType() {
+		/*detectType() {
 			var test = event.currentTarget.parentElement.querySelectorAll('input:checked');
 			if(this.headersForTransactionList.length > 11) {
 				this.headersForTransactionList.splice(12,this.headersForTransactionList.length-11);	
@@ -840,63 +869,15 @@ export default {
 				this.headersForTransactionList.push(dynamicFilterType[i])
 				console.log(this.deviceList[i]);
 			}
-		},
-		postData() {
-			$(event.currentTarget).toggleClass('v-input--is-label-active v-input--is-dirty success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			setTimeout(function(){
-				if(command != 'ka') {
-				console.log('Red Text İçeriyor')
-				//console.log($(event.currentTarget).closest('td').toggleClass('test'));
-				//console.log($(event.currentTarget).closest('v-input__control'))
-			}
-			})
-			
-			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
-			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
-			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
-			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
-
-			this.$mqtt.publish('home/telemetry/'+token,{token:token,method:"rpcCommand",params: {tvSerial:serialNumber,command:command,tvId:tvID,swc: '1',cmd: 'gc',on:'01',off:'00'}});
-			axios.post('http://192.168.10.46:5000/api/test',{
-				token:token,
-				method:"rpcCommand",
-				params: {
-					tvSerial:serialNumber,
-					command:command,
-					tvId:tvID,
-					swc: '1',
-					cmd: 'gc',
-					on:'01',
-					off:'00'
-				}
-			}).then((response,request) => {
-				console.log('SUCCESS POST',response);
-				console.log('SUCCESS REQUEST : ',request)
-				response.end();
-			}).catch((err) =>  {
-				console.log(err);
-			});
-			//this.$mqtt.publish('home/telemetry/'+token,JSON.stringify({token:"mVThJflRGKgZYkZ18!hU",method:"setValueSes",params:{tvSerial:"405MAKRMK373",command:"kf",value: 20,tvId:2}}))
-			//console.log('TOKEN : ',token,'serialNumber : ',serialNumber)
-		},
-		dynamicValue() {
-			var test = event.currentTarget.querySelector('input');
-			console.log(window.getSelection().toString())
-			console.log(this.$refs.currentTarget.parent())
-			//var test = document.getElementById(this.currentTarget);
-			console.log(test);
-		},
+		},*/
 		mouseupp() {
 			console.log('UPP')
 			var tagName = this.selector.closest('td');
 			console.log('TAGNAME : ',tagName)
-			var tvid = tagName.getAttribute('data-TvID');
+			//var tvid = tagName.getAttribute('data-TvID');
 			var token = tagName.getAttribute('data-token');
-			var serialNumber = tagName.getAttribute('data-serial-number');
-			var pin = tagName.getAttribute('data-pin');	
+			//var serialNumber = tagName.getAttribute('data-serial-number');
+			//var pin = tagName.getAttribute('data-pin');	
 			var today = new Date();
 			var date = today.getFullYear()+'-'+String((today.getMonth()+1)).padStart(2,"0")+'-'+String(today.getDate()).padStart(2,"0");
 			var time = String(today.getHours()).padStart(2,"0") + ":" + String(today.getMinutes()).padStart(2,"0") + ":" + String(today.getSeconds()).padStart(2,"0");
@@ -904,19 +885,20 @@ export default {
 			
 			setTimeout(() => {
 				var value = this.selector.getAttribute('value');
-				console.log('VALUE : ',value)
+				console.log('VALUE : ',value,dateTime)
 				var jsonData = {
-					updateDate:dateTime,
-					token:token,
-					method:"setValueSes",
+					
+					method:"rpcCommand",
 					params: {
-						tvSerial: serialNumber,
-						value:value,
-						command: pin,
-						tvId:tvid
+						commandId: '2',
+						brightness: value
+						//value:value,
+						//command: pin,
+						//tvId:tvid
 					},
 				}
-				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
+				console.log('TOKEN : ',token)
+				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
 				axios.post('http://192.168.10.46:5000/api/test',jsonData)
 				
 				.then((response) => {
@@ -945,7 +927,7 @@ export default {
 	},
 	
 	created: function() {
-
+		this.loadData();
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
 		})
@@ -955,26 +937,12 @@ export default {
 		this.$mqtt.subscribe('home/telemetry/#',function(message){
 			console.log('Telemetry Topic : ',message);
 		})
+		this.$mqtt.subscribe('home/attribute/led_novastar/#',function(message){
+			console.log('Novastar',message);
+		})
 		
-		/*axios.post('http://localhost:5000/api/test',{
-				token:token,
-				method:"rpcCommand",
-				params: {
-					tvSerial:serialNumber,
-					command:command,
-					tvId:tvID,
-					swc: '1',
-					cmd: 'gc',
-					on:'01',
-					off:'00'
-				}
-			}).then((response,request) => {
-				console.log('SUCCESS POST',response);
-				console.log('SUCCESS REQUEST : ',request)
-				response.end();
-			}).catch((err) =>  {
-				console.log(err);
-			});*/
+			
 	}
 }
+
 </script>
