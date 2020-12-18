@@ -970,16 +970,16 @@ export default {
 			this.unreachableDevices = 0;
 			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
-					console.log('resp Connection Status : ',item.Connection_Status);
+					console.log('resp Connection Status : ',item.connection_status);
 					updateData.push(item);
-					if(item.TvStatus == 1 && item.Connection_Status == 1) {
+					if(item.tv_status == 1 && item.connection_status == 1) {
 						this.openDeviceLength++;
 						console.log('Open',this.openDeviceLength);
-					}else if(item.TvStatus == 0 && item.Connection_Status == 1){
+					}else if(item.tv_status == 0 && item.connection_status == 1){
 						this.closeDeviceLength++;
 						console.log('Close : ',this.closeDeviceLength)
 					}
-					if(item.Connection_Status == 0) {
+					if(item.connection_status == 0) {
 						this.unreachableDevices++;
 					}
 					
