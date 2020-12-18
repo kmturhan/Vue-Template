@@ -89,7 +89,7 @@
 								<span class="d-inline-block font-3x mr-2">
 									<i class="zmdi zmdi-money-box"></i>
 								</span>
-								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Screen Without Signal : {{ noSignalDeviceLength }}</span>
+								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">DVI Disconnect : {{ noSignalDeviceLength }}</span>
 							</div>
 						
 						<div class="d-custom-flex align-items-center justify-space-between">
@@ -155,15 +155,9 @@ background: linear-gradient(172deg, rgb(70 77 105) 27%, rgb(0 0 0) 175%)
 }
 </style>
 <script>
-
-
-//import LineChartV3 from "Components/Charts/LineChartV3";
-//import StatsCardV6 from "Components/StatsCardV6/StatsCardV6";
-
 import axios from 'axios';
 export default {
    components:{
-      
       //LineChartV3,
       //StatsCardV6
    },
@@ -208,7 +202,8 @@ export default {
 				
 				this.noSignal = 0;
 			//}
-	},
+    },
+   },
    data() {
     return {
       openDeviceLength: 0,
@@ -271,8 +266,9 @@ export default {
          label:"Deals",
          chartData : [1, 26, 8,22,1]
       }
-    };
-  },
+    }
+   },
+  
    methods: {
       loadData() {
 			this.unreachableDeviceLenght = 0;
@@ -319,5 +315,6 @@ export default {
 			});
 
    },
-  };
+   }
+
 </script>
