@@ -2,9 +2,9 @@
  * App Config File
  */
 export default {
-	appLogo: '/static/img/labrus-logo-standart-1.png',                                   // App Logo,
+	appLogo: '/static/img/labrus-logo.svg',                                   // App Logo,
 	darkLogo: '/static/img/site-dark-logo.png',							    // dark logo
-	appLogo2: '/static/img/labrus-logo-standart-1.png',                                    // App Logo 2 For Login & Signup Page
+	appLogo2: '/static/img/labrus-logo.svg',                                    // App Logo 2 For Login & Signup Page
 	brand: 'Labrus',                                        			        // Brand Name
 	copyrightText: 'Labrus © 2020 All Rights Reserved.',                     // Copyright Text
 	enableUserTour: process.env.NODE_ENV === 'production' ? true : false,   // Enable User Tour

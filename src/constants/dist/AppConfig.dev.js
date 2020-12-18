@@ -9,11 +9,11 @@ exports["default"] = void 0;
  * App Config File
  */
 var _default = {
-  appLogo: '/static/img/labrus-logo-standart-1.png',
+  appLogo: '/static/img/labrus-logo.svg',
   // App Logo,
   darkLogo: '/static/img/site-dark-logo.png',
   // dark logo
-  appLogo2: '/static/img/labrus-logo-standart-1.png',
+  appLogo2: '/static/img/labrus-logo.svg',
   // App Logo 2 For Login & Signup Page
   brand: 'Labrus',
   // Brand Name
