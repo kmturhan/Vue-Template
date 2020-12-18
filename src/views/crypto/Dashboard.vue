@@ -73,7 +73,7 @@
 								<span class="d-inline-block font-3x mr-2">
 									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="40px" height="40px"  viewBox="0 0 480 480" style="fill:white;enable-background:new 0 0 480 480;" xml:space="preserve"><g>	<g>		<path d="M472,168H8c-4.418,0-8,3.582-8,8v256c0,4.418,3.582,8,8,8h160v16h-32c-4.418,0-8,3.582-8,8c0,4.418,3.582,8,8,8h208    c4.418,0,8-3.582,8-8c0-4.418-3.582-8-8-8h-24v-16h152c4.418,0,8-3.582,8-8V176C480,171.582,476.418,168,472,168z M304,456H184    v-16h120V456z M464,424H16V184h448V424z"/>	</g></g><g>	<g>		<rect x="320" y="392" width="80" height="16"/>	</g></g><g>	<g>		<rect x="416" y="392" width="16" height="16"/>	</g></g><g>	<g>		<path d="M341.656,50.112C285.522-6.031,194.503-6.038,138.36,50.096c-0.005,0.005-0.011,0.011-0.016,0.016    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c49.891-49.896,130.784-49.899,180.68-0.008    c0.003,0.003,0.005,0.005,0.008,0.008c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002    C343.998,53.646,343.155,51.612,341.656,50.112z"/>	</g></g><g>	<g>		<path d="M317.656,74.112c-42.883-42.888-112.415-42.892-155.303-0.009c-0.003,0.003-0.006,0.006-0.009,0.009    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c36.664-36.584,96.024-36.584,132.688,0    c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002C319.998,77.646,319.155,75.612,317.656,74.112z"/>	</g></g><g>	<g>		<path d="M293.656,98.112c-29.62-29.633-77.654-29.644-107.288-0.024c-0.008,0.008-0.016,0.016-0.024,0.024    c-3.069,3.178-2.981,8.243,0.197,11.312c3.1,2.994,8.015,2.994,11.115,0c23.377-23.386,61.286-23.393,84.672-0.016    c0.005,0.005,0.011,0.011,0.016,0.016c1.5,1.5,3.534,2.344,5.656,2.344c4.418-0.001,7.999-3.583,7.998-8.002    C295.998,101.646,295.155,99.612,293.656,98.112z"/>	</g></g><g>	<g>		<path d="M269.656,122.344c-16.39-16.35-42.922-16.35-59.312,0c-3.069,3.178-2.981,8.243,0.197,11.312    c3.1,2.994,8.015,2.994,11.115,0c10.139-10.113,26.549-10.113,36.688,0c3.178,3.069,8.242,2.982,11.312-0.196    C272.65,130.359,272.65,125.444,269.656,122.344z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 								</span>
-								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Unreachable Screens : {{unreachableDeviceLenght}}</span>
+								<span class="d-flex font-sm fw-bold justify-center" style="width:100%;">Unreachable Devices : {{unreachableDeviceLenght}}</span>
 							</div>
 						</div>
 					<!----><!---->
@@ -168,7 +168,7 @@ export default {
       //StatsCardV6
    },
    mqtt: {
-		'home/attributes/#' : function(val) {this.loadData();
+		'home/attribute/led_novastar/#' : function(val) {this.loadData();
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -186,15 +186,15 @@ export default {
 			db.forEach(item => {console.log(item);
       })
 			for (i = 0; i < db.length; i++) {
-				if(db[i].tv_status == 1 && db[i].connection_status == 1){
+				if(db[i].screen_on_off == 1 && db[i].connection_status == 1){
 					openDev++;
-				}else if(db[i].tv_status == 0 && db[i].connection_status == 1){
+				}else if(db[i].screen_on_off == 0 && db[i].connection_status == 1){
 					closeDev++;
 				}
 				if(db[i].connection_status == 0) {
 					unreacheableDev++;
 				}
-				if(db[i].no_signal == 0 && db[i].connection_status == 1) {
+				if(db[i].dvi_status == 0 && db[i].connection_status == 1) {
 					this.noSignal++;
 				}
 			}
@@ -209,36 +209,6 @@ export default {
 				this.noSignal = 0;
 			//}
 	},
-	'home/attributesUp/#' : function(val) {
-			var test = String.fromCharCode.apply(null,val);
-			var jsonData = JSON.parse(test);
-			var dataArray = jsonData.params.up.split(',');
-			console.log('DataARRAY : ',dataArray);
-			//var tvDurum = dataArray[1];
-			this.loadData();
-			var db = this.deviceList;
-			console.log('DB :',db)
-			var i;
-			for (i = 0; i < db.length; i++) {
-				if(db[i].tv_status == 1 && db[i].connection_status == 1){
-					this.openDev++;
-				}else if(db[i].tv_status == 0 && db[i].connection_status == 1){
-					this.closeDev++;
-				}
-			}
-			//
-			//
-			console.log('OPEN CLOSE : ',this.openDev,this.closeDev)
-			this.closeDeviceLength = this.closeDev;
-			this.openDeviceLength = this.openDev;
-			if((this.closeDev + this.openDev) == this.totalDeviceLength) {
-				this.closeDev = 0;
-				this.openDev = 0;
-				console.log('Sıfırlandı ATTR UP')
-				this.noSignal = 0;
-			}
-		}
-   },
    data() {
     return {
       openDeviceLength: 0,
@@ -309,7 +279,7 @@ export default {
 			var openDev = 0;
 			var closeDev = 0;
 			var unreachableDev = 0;
-			var noSignalDev = 0;
+			var dviSignalDev = 0;
 			var updatedData = [];
 			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
 				this.deviceList = resp.data;
@@ -318,14 +288,14 @@ export default {
 			});
 			updatedData = this.deviceList;
       updatedData.forEach(item => {
-        if(item.tv_status == 1 && item.connection_status == 1) {
+        if(item.screen_on_off == 1 && item.connection_status == 1) {
           openDev++;
         }
-        if(item.tv_status == 0 && item.connection_status == 1){
+        if(item.screen_on_off == 0 && item.connection_status == 1){
           closeDev++;
         }
-        if(item.no_signal == 1 && item.connection_status == 1) {
-          noSignalDev++;
+        if(item.dvi_status == 1 && item.connection_status == 1) {
+          dviSignalDev++;
         }
         if(item.connection_status == 0) {
           unreachableDev++;
@@ -334,7 +304,7 @@ export default {
       this.unreachableDeviceLenght = unreachableDev;
       this.openDeviceLength = openDev;
       this.closeDeviceLength = closeDev;
-      this.noSignalDeviceLength = noSignalDev;
+      this.noSignalDeviceLength = dviSignalDev;
 			this.totalDeviceLength = this.deviceList.length;
 		})
 	},
