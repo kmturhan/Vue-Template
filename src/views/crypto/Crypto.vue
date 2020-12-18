@@ -3,7 +3,9 @@
 
       <v-container fluid class="grid-list-xl pt-0">
          <div class="crypto-dash-wrap">
+           <Dashboard></Dashboard>
            <LedScreens></LedScreens>
+           
          </div>
       </v-container>
 	</div>
@@ -15,13 +17,14 @@
 
 import { ChartConfig } from "Constants/chart-config";
 import LedScreens from 'Components/Widgets/LedScreens';
-
+import Dashboard from 'Views/crypto/Dashboard';
 
 
 
 export default {
    components:{
      LedScreens,
+     Dashboard
    },
    data() { 
     return {
