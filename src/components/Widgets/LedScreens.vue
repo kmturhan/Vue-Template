@@ -637,7 +637,7 @@ tabsAndTableDetails,
 								$(item).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 							}
 						})
-						axios.post('http://192.168.10.46:5000/api/test', {
+						axios.post('http://192.168.1.202:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -697,7 +697,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -824,7 +824,7 @@ tabsAndTableDetails,
 		loadData() {
 			this.deviceList = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach(item=> {
@@ -899,7 +899,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.46:5000/api/test',jsonData)
+				axios.post('http://192.168.1.202:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)

@@ -146,7 +146,6 @@
 						<td>{{ item.serial_number }}</td>
 						<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>
 						<!--td>{{ item.last_update.split('T')[0] + ' ' + item.last_update.split('T')[1].split('.')[0] }}</td>-->
-						
 						<td v-for="filter in filterAttributes" :key="filter.fieldPin" class="input-control input-switch-enabled">
 							<select v-if="filter.fieldType == 'dropdown'" style="width:100%;border:1px solid black;border-radius:5px;" @change="selectSendData" :data-pin="filter.fieldPin" :data-token="item.Token" :data-TvID="item.TvID" :data-serial-number="item.Serial_Number">
 								<option v-for="(value, index) in filter.fieldKey" v-bind:key="value" :value="value">{{filter.fieldValue[index]}}</option>
@@ -544,7 +543,9 @@ export default {
 		'home/telemetry/#': function() {
 			
 		},
-		'home/attributes/#' : function(val) {this.loadData();
+		'home/attributes/#' : function(val) {
+			
+		
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -562,22 +563,34 @@ export default {
           tvid: TVID,
           value: value
         };
-        notification.push(json);
+		if(command != "ka") {
+			setTimeout(() => {
+			this.loadData();
+		}, 5000);
+		}else {
+			this.loadData();
+		}
+		notification.push(json);	 
 	}
-				if(command == "ka" && value == 1) {
-					$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-					$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-					$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-					$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				} else if(command == "ka" && value == 0){
-					$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-					$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-					$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled')
-					$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-				}else {
-					$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-					$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				}
+		if(command == "ka" && value == 1) {
+			setTimeout(() => {
+				$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');	
+			}, 5000);
+			
+		} else if(command == "ka" && value == 0){
+			setTimeout(() => {
+				$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled')
+				$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');	
+			}, 5000);
+		}else {
+			$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+			$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+		}
 			
 			console.log('Notification : ',notification)
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
@@ -630,15 +643,19 @@ export default {
 					if(item.getAttribute('data-tvid') == TVID) {
 						var testTag = item.closest('.pin-' + command)
 						if(value == 1) {
-							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('On');
-							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('svg').removeClass('tv-close-svg');
-							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')
+							
+								$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
+								$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
+								$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
+								$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
+								$(testTag).find('.v-input--switch__track span').text('On');
+								$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
+								$(testTag).find('svg').removeClass('tv-close-svg');
+								$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')	
+							
+							
 						} else {
+							
 							$(testTag).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
@@ -647,6 +664,7 @@ export default {
 							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('svg').addClass('tv-close-svg');
 							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('0')
+							
 						}
 						console.log('TESTTAG',$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text());
 						var serialNumber = item.getAttribute('data-serial-number');
@@ -665,7 +683,7 @@ export default {
 							})	
 						}, 2000);*/
 						
-						axios.post('http://192.168.10.46:5000/api/test', {
+						axios.post('http://192.168.1.202:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -707,7 +725,10 @@ export default {
 							}
 							console.log(connectDevicesIcons)
 						})
-            this.deviceList = updateDeviceList;
+						
+							this.deviceList = updateDeviceList;
+						
+            
 					}
 
 			})
@@ -733,7 +754,7 @@ export default {
 			var dateTime = date+' '+time;
 			console.log(dateTime);
 			
-			axios.post('http://192.168.10.46:5000/api/allAttributesUpdate', {
+			axios.post('http://192.168.1.202:5000/api/allAttributesUpdate', {
 						updateDate:dateTime,
 						token:token,
 						params: {
@@ -956,6 +977,9 @@ export default {
 
 		
 		console.log('JSONDATA : ',jsonData,serialNumber)
+		
+		
+		
 		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
 		},	
 		websocketPub: function() {
@@ -969,7 +993,7 @@ export default {
 		loadData() {
 			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					updateData.push(item);
@@ -985,7 +1009,9 @@ export default {
 					}
 					
 				});
-				this.deviceList = updateData
+				
+					this.deviceList = updateData	
+				
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
 				console.log('SEND DATA LIST : ',this.sendDataList);
@@ -1042,7 +1068,7 @@ export default {
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 
 			this.$mqtt.publish('home/telemetry/'+token,{token:token,method:"rpcCommand",params: {tvSerial:serialNumber,command:command,tvId:tvID,swc: '1',cmd: 'gc',on:'01',off:'00'}});
-			axios.post('http://192.168.10.46:5000/api/test',{
+			axios.post('http://192.168.1.202:5000/api/test',{
 				token:token,
 				method:"rpcCommand",
 				params: {
@@ -1099,7 +1125,7 @@ export default {
 					},
 				}
 				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.46:5000/api/test',jsonData)
+				axios.post('http://192.168.1.202:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)

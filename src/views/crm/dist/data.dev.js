@@ -8,7 +8,7 @@ exports.taxRatesDetails = exports.paymentDetails = exports.clientData = exports.
 var axios = require('axios');
 
 var dataJson = [];
-axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(function (resp) {
+axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(function (resp) {
   resp.data.forEach(function (item) {
     //dataJson.push(item);
     console.log(item);
