@@ -1,6 +1,6 @@
 <template>
 	<div>
-
+    
       <v-container fluid class="grid-list-xl pt-0">
          <div class="crypto-dash-wrap">
            <Dashboard></Dashboard>
@@ -10,7 +10,9 @@
       </v-container>
 	</div>
 </template>
+<style>
 
+</style>
 <script>
 
 // Widgets 
