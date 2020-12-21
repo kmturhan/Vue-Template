@@ -140,9 +140,11 @@
 							<v-slider v-model="item.brightness_value" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.Token" :data-TvID="item.tv_id" :data-serial-number="item.serial_number" aria-disabled="false"></v-slider>
 						</td>
 						
-						<td>{{ item.temperature_value }} °C</td>
-						<td v-if="item.no_signal == '' || item.no_signal == 0">0</td>
-						<td v-if="item.no_signal == 1">1</td>
+						<td v-if="item.connection_status == 1">{{ item.temperature_value }} °C</td>
+						<td v-if="item.connection_status == 0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: #e4002b;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></td>
+						<td v-if="item.no_signal == '' || item.no_signal == 0 && item.connection_status == 1">0</td>
+						<td v-if="item.no_signal == 1 && item.connection_status == 1">1</td>
+						<td v-if="item.connection_status == 0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: #e4002b;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></td>
 						<td>{{ item.firmware_version }}</td>
 						<td>{{ item.serial_number }}</td>
 						<!--<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>-->
@@ -581,6 +583,7 @@ export default {
 			}, 4000);
 			clearInterval(this.interval)
 		} else if(command == "ka" && value == 0){
+			$('#notificationIcon').addClass('animated infinite wobble')
 			setTimeout(() => {
 				$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 				$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
