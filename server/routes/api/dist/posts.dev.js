@@ -259,7 +259,7 @@ client.on('message', function (topic, message) {
       } else {
         sql = "UPDATE Device_Status SET Last_Update = ?,TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
         mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?,tv_status = 1, no_signal = ?, temperature_value = ?, firmware_version = ? WHERE token = ? AND tv_id = ?";
-        db.all(sql, [dateTime, nosignal, temperature, firmwareVersion, token, TvID], function (err, rows) {//console.log("Success AttributesUp Update ALL");
+        db.all(sql, [dateTime, parseInt(nosignal), temperature, firmwareVersion, token, TvID], function (err, rows) {//console.log("Success AttributesUp Update ALL");
         });
         connection.query(mysqlQuery, [dateTime, nosignal, temperature, firmwareVersion, token, TvID], function (error, results, fields) {
           if (error) throw error;

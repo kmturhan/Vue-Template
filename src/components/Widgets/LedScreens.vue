@@ -6,7 +6,7 @@
 							<v-card-title>
 								<span>More</span>
 								<v-spacer></v-spacer>
-								<v-menu bottom left>
+								<v-menu>
 									<template v-slot:activator="{ on }">
 										<v-btn icon v-on="on">
 											<v-icon @click.stop="dialog3=false">close</v-icon>
@@ -14,8 +14,51 @@
 									</template>
 								</v-menu>
 							</v-card-title>
+							<v-row style="width:85%;margin-left:auto;margin-right:auto;">
+								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;">
+									<v-text-field
+										label="Name"
+										v-model="form1.name"
+										:rules="form1.nameRules"
+										:counter="30"
+										required></v-text-field>
+										<v-checkbox
+											class=""
+											:label="$t('Day Light / Day Sun Set Auto')"
+											color="primary"
+											v-model="checked"
+										></v-checkbox>
+										<div style="display:flex;justify-content:space-around" v-if="checked">
+										<label>
+											Day Light
+										</label>
+										<label>
+											Day Sun Set
+										</label>
+										</div>
+									<!--<v-text-field
+										label="Day Light"
+										v-model="form1.day_light"
+										
+										:counter="30"
+										required></v-text-field>
+										<v-text-field
+										label="Day Sun Set"
+										v-model="form1.day_sun_set"
+										
+										:counter="30"
+										required></v-text-field>-->
+										<v-btn
+										@click="submit"
+										:disabled="!form2.valid"
+										color="success"
+										class="mr-3">
+										{{$t("message.submit")}}
+									</v-btn>
+								</v-form>
+							</v-row>
 							<v-card-actions>
-								<v-btn color="error" @click.stop="dialog3=false">Close</v-btn>
+								<!--<v-btn color="error" @click.stop="dialog3=false">Save</v-btn>-->
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
@@ -59,7 +102,7 @@
 					<tr>
 						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
 						<td style="display:flex;align-items:center;justify-content:center;">
-							<div style="display:flex;align-items:center;height:100%;" id="name-info">
+							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id">
 								<label>
 									<!--<a href="/default/crypto/market-cap" style="text-decoration:underline;">{{item.device_name}}</a>-->
 									{{item.device_name}}
@@ -147,15 +190,14 @@
 						<!--<td>{{ item.voltage_value}} V</td>-->
 						
 						
-						<td>{{ item.firmware_version}}</td>
+						<td>{{ item.firmware_version }}</td>
 						<!--<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>-->
 						<td>{{ String((new Date(item.last_update).getDate())).padStart(2,"0")+'-'+String(((new Date(item.last_update).getMonth()+1))).padStart(2,"0")+'-'+new Date(item.last_update).getFullYear() + " "+String((new Date(item.last_update).getHours())).padStart(2,"0") + ':'+String((new Date(item.last_update).getMinutes())).padStart(2,"0")+ ":"+String((new Date(item.last_update).getSeconds())).padStart(2,"0")}}</td>
 						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id">
 							<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;width:15px;height:15px;cursor:pointer;fill:white;" xml:space="preserve"><g>	<path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z"/>	<path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z"/>	<path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 							<ul class="more-list"  @mousedown="menuClose">
-								<a href="/default/crypto/market-cap"><li>Yönet</li></a><hr>
-								<li @click.stop="dialog3 = true" >Düzenle</li>
-
+								<a href="/default/crypto/market-cap"><li>Manage</li></a><hr>
+								<li @click.stop="dialog3 = true" :data-device-id="item.Id" @click="assignDeviceID" :data-device-name="item.device_name">Edit</li>
 							</ul>
 						</td>
 						
@@ -191,10 +233,20 @@
 	</div>
 </template>
 <style>
-body{
-	position: relative;
+.v-form .v-input--selection-controls__ripple {
+	left: -13px !important;
+	top: calc(50% - 25px) !important;
 }
-
+.v-form .v-input--is-label-active .v-input--selection-controls__ripple {
+	left: -13px !important;
+	top: calc(50% - 25px) !important;
+}
+.v-text-field__details{
+	margin-top: 5px;
+}
+div.v-input__slot {
+	left: 0 !important;
+}
 .td-options {
 	position: relative;
 }
@@ -476,6 +528,9 @@ export default {
 	
 	data () {
 		return {
+			checked:false,
+			deviceName: "",
+			selectedDeviceID: 0,
 			dialog3: false,
 			ex:'ON',
 			deviceList: [],
@@ -503,6 +558,47 @@ export default {
 			selector: "",
 			val0: 0,
 			unreachableDevices: 0,
+			dateFormatted: null,
+		menu2:false,
+		date1: null,
+		menu1: false,
+		time:null,
+		date2: new Date().toISOString().substr(0, 10),
+	form1: {
+        valid: false,
+        name: "",
+        nameRules: [
+          v => !!v || "Name is required",
+          v => v.length <= 30 || "Name must be less than 30 characters"
+        ],
+        email: "",
+        emailRules: [
+          v => !!v || "E-mail is required",
+          v =>
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            "E-mail must be valid"
+        ]
+      },
+      form2: {
+        valid: true,
+		name: "",
+		day_light: "",
+		day_sun_set: "",
+        nameRules: [
+          v => !!v || "Name is required",
+          v => (v && v.length <= 30) || "Name must be less than 20 characters"
+        ],
+        email: "",
+        emailRules: [
+          v => !!v || "E-mail is required",
+          v =>
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+            "E-mail must be valid"
+        ],
+        select: null,
+        items: ["05min", "10min", "15min", "20min"],
+        checkbox: false
+      },
 			headersForTransactionList: [
 				{
 					text: "Name",
@@ -665,7 +761,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -792,7 +888,7 @@ tabsAndTableDetails,
 		loadData() {
 			this.deviceList = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach(item=> {
@@ -867,7 +963,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.46:5000/api/test',jsonData)
+				axios.post('http://192.168.1.202:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -884,7 +980,63 @@ tabsAndTableDetails,
 		console.log('DOWN : ',this.selector);
 		console.log(this.val0);
 	},
-	
+	formatDate(date) {
+      if (!date) {
+        return null;
+      }
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) {
+        return null;
+      }
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    },
+	submit() {
+      if (this.$refs.form.validate()) {
+		console.log("form submit");
+		console.log(this.form1.name);
+		//console.log(e.target.value);
+		//var deviceID = e.target.getAttribute('data-device-id');
+		var jsonData = {
+			name: this.form1.name,
+			deviceId: this.selectedDeviceID
+		}
+		var updateData = this.deviceList;
+		axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
+		.then(function (response) {
+			console.log(response)
+
+			updateData.forEach(item => {
+				if(item.Id == jsonData.deviceId) {
+					//$('#name-info label a').text(jsonData.name)
+					item.device_name = jsonData.name
+				}
+			})
+			
+			
+		})
+		this.deviceList = updateData;
+		
+		this.dialog3 = false;
+		//console.log(this.form1.email);
+		//console.log(this.form2.select);
+		//console.log(this.time)
+		//console.log(this.date1)
+
+      }
+	},
+	assignDeviceID(e) {
+		this.selectedDeviceID = e.target.getAttribute('data-device-id')
+		console.log('selectedDeviceID : ',this.selectedDeviceID) 
+		
+		this.form1.name = e.target.getAttribute('data-device-name');
+	},
+    clear() {
+      this.$refs.form.reset();
+    }
 	},
 	
 	watch: {

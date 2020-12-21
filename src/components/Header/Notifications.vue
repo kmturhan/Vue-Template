@@ -17,7 +17,6 @@
 				<v-list-item v-for="notification in notificationDevice" :key="notification.Id" >
 					<i class="mr-3 zmdi zmdi-email error--text"></i>
 					<span>{{notification.tv_id}} - {{notification.model}} - {{notification.connection_status == 0 ? 'Disconnect':'Close'}}</span>
-					
 				</v-list-item>
 			</v-list>
 		</div>
@@ -33,11 +32,11 @@ i.zmdi-notifications-active:before{
 </style>
 <script>
 import axios from 'axios'
-import JQuery from 'jquery'
+//import JQuery from 'jquery'
 //import Dashboard from 'Views/Dashboard.vue'
 
 
-let $ = JQuery
+//let $ = JQuery;
 	export default {
 		
 		data() {
@@ -66,14 +65,13 @@ let $ = JQuery
 		},
     methods: {
 		test() {
-			$('#notificationIcon').removeClass('animated infinite wobble');
-			$('#notificationIcon').before().css('color','white');
+			
 			console.log('test');
 		},
 	loadData() {
 			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					
