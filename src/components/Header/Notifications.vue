@@ -3,15 +3,15 @@
 		<template v-slot:activator="{ on }">
 			<v-btn class="notification-icon ma-0" v-on="on" icon large >
 				<!--<i class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg"></i>-->
-        <i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length <=0"></i>
+        <i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length <= 0" :class="notificationDevice.length > 0 ? 'animated infinite wobble':''"></i>
 
-			<i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length > 0"></i>
+			<i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length > 0" :class="notificationDevice.length > 0 ? 'animated infinite wobble':''"></i>
 			</v-btn>
 		</template>
 		<div class="dropdown-content">
 			<div class="dropdown-top d-custom-flex justify-space-between primary">
 				<span class="white--text fw-bold">Notifications</span>
-				<span class="v-badge warning">{{notificationDevice.length}} NEW</span>
+				<span class="v-badge error">{{notificationDevice.length}} NEW</span>
 			</div>
 			<v-list class="dropdown-list">
 				<v-list-item v-for="notification in notificationDevice" :key="notification.Id" >
@@ -23,7 +23,14 @@
 		</div>
 	</v-menu>
 </template>
-
+<style>
+i.animated.infinite.wobble.zmdi-notifications-active:before{
+	color: #e4002b !important;
+}
+i.zmdi-notifications-active:before{
+	color: white !important;
+}
+</style>
 <script>
 import axios from 'axios'
 import JQuery from 'jquery'
@@ -60,6 +67,7 @@ let $ = JQuery
     methods: {
 		test() {
 			$('#notificationIcon').removeClass('animated infinite wobble');
+			$('#notificationIcon').before().css('color','white');
 			console.log('test');
 		},
 	loadData() {
@@ -91,13 +99,18 @@ let $ = JQuery
 	mqtt:{
 		'home/attributes/#' : function() {
 			this.loadData();
+		},
+		'home/attributesUp/#' : function() {
+			this.loadData();
 		}
-		
 	},
 	
 	created: function(){
 		this.loadData();
 		this.$mqtt.subscribe('home/attributes/#',function(message){
+			console.log('Message : ',message)
+		})
+		this.$mqtt.subscribe('home/attributesUp/#',function(message){
 			console.log('Message : ',message)
 		})
 	},
