@@ -545,8 +545,6 @@ export default {
 			
 		},
 		'home/attributes/#' : function(val) {
-			
-		
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);

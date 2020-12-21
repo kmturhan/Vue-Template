@@ -3,18 +3,21 @@
 		<template v-slot:activator="{ on }">
 			<v-btn class="notification-icon ma-0" v-on="on" icon large >
 				<!--<i class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg"></i>-->
-        <i class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg"></i>
+        <i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length <=0"></i>
+
+			<i id="notificationIcon" class="zmdi grey--text zmdi-notifications-active animated infinite wobble zmdi-hc-fw font-lg" @click="test" v-if="notificationDevice.length > 0"></i>
 			</v-btn>
 		</template>
 		<div class="dropdown-content">
 			<div class="dropdown-top d-custom-flex justify-space-between primary">
 				<span class="white--text fw-bold">Notifications</span>
-				<span class="v-badge warning">4 NEW</span>
+				<span class="v-badge warning">{{notificationDevice.length}} NEW</span>
 			</div>
 			<v-list class="dropdown-list">
-				<v-list-item v-for="notification in notifications" :key="notification.title" >
-					<i class="mr-3 zmdi" :class="notification.icon"></i>
-					<span>{{ $t(notification.title) }}</span>
+				<v-list-item v-for="notification in notificationDevice" :key="notification.Id" >
+					<i class="mr-3 zmdi zmdi-email error--text"></i>
+					<span>{{notification.tv_id}} - {{notification.model}} - {{notification.connection_status == 0 ? 'Disconnect':'Close'}}</span>
+					
 				</v-list-item>
 			</v-list>
 		</div>
@@ -22,9 +25,18 @@
 </template>
 
 <script>
+import axios from 'axios'
+import JQuery from 'jquery'
+//import Dashboard from 'Views/Dashboard.vue'
+
+
+let $ = JQuery
 	export default {
+		
 		data() {
 			return {
+				deviceList:[],
+				notificationDevice: [],
 				notifications: [{
 						title: "message.totalAppMemory",
 						icon: "zmdi-storage primary--text"
@@ -36,6 +48,7 @@
 					{
 						title: "message.unreadMail",
 						icon: "zmdi-email error--text"
+					
 					},
 					{
 						title: "message.feedback",
@@ -45,7 +58,55 @@
 			};
 		},
     methods: {
+		test() {
+			$('#notificationIcon').removeClass('animated infinite wobble');
+			console.log('test');
+		},
+	loadData() {
+			var updateData = [];
+			this.unreachableDevices = 0;
+			axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(resp => {
+				resp.data.forEach(item=> {
+					console.log('resp Connection Status : ',item.connection_status);
+					
+					if(item.tv_status == 0 && item.connection_status == 1) {
+						updateData.push(item);
+					}
+					if(item.connection_status == 0) {
+						updateData.push(item)
+					}
+					
+				});
+				
+						
+				this.deviceList = updateData
+				this.notificationDevice = updateData;
+				
+				console.log('Data.js : ',resp.data);
+				console.log(this.deviceList);
+				console.log('SEND DATA LIST : ',this.notificationDevice);
+			});
+		}
+	},
+	mqtt:{
+		'home/attributes/#' : function() {
+			
+			this.loadData();
+		
+		
+		}
 
-    },
+			
+
+			
+		
+	},
+	
+	created: function(){
+		this.loadData();
+		this.$mqtt.subscribe('home/attributes/#',function(message){
+			console.log('Message : ',message)
+		})
+	},
 	};
 </script>
