@@ -93,6 +93,7 @@
 						</v-col>
 						</td>
 						<td class="tvRemoteLock input-control" :data-tvid="item.tv_id" >
+							
               <div v-if="item.remote_lock == 1">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--is-label-active success--text" >
 									<div class="v-input__control"  :class="[item.connection_status == 1 && item.tv_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.tv_id]"  @click="clickPub">
@@ -898,16 +899,25 @@ export default {
 	},
 		clickPub: function() {
 			var selectedTag = $(event.currentTarget);
-			$(event.currentTarget).toggleClass('v-input--is-label-active success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
-			$(event.currentTarget).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
+			
+			console.log('SELECTED TAG : ',selectedTag);
+			if($(selectedTag).hasClass('v-input__control')){
+				console.log($(selectedTag).parent())
+				$(selectedTag).parent().toggleClass('v-input--is-label-active success--text').toggleClass('red--text text--darken-3');
+			}
+			else{
+				$(selectedTag).toggleClass('v-input--is-label-active success--text').toggleClass('red--text text--darken-3');
+			}
+			
+			$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
+			$(selectedTag).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
 			console.log('CLICK PUB : ',$(event.currentTarget));
-			if($(event.currentTarget).find('.v-input--switch__track span').text() == "On") {
-				$(event.currentTarget).find('.v-input--switch__track span').text('Off');
+			if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
+				$(selectedTag).find('.v-input--switch__track span').text('Off');
 			}else {
-				$(event.currentTarget).find('.v-input--switch__track span').text('On')
+				$(selectedTag).find('.v-input--switch__track span').text('On')
 			}
 			
 			
