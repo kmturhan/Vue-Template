@@ -16,8 +16,9 @@
 								</v-menu>
 							</v-card-title>
 							<v-row style="width:85%;margin-left:auto;margin-right:auto;">
-								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;" class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-									<div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
+								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;" class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
+									<div style="display:flex;">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
 									
 									<v-text-field
 										label="Name"
@@ -35,7 +36,7 @@
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
 									<div style="display:flex;justify-content:space-around" v-if="checked">
-										<div style="display:flex;flex-direction:column" class="col-7">
+										<div style="display:flex;flex-direction:column" class="col-6">
 										<v-menu
 											ref="menu"
 											:close-on-content-click="false"
@@ -99,8 +100,6 @@
 												></v-text-field>
 											</template>
 											<v-time-picker v-model="time2" @change="$refs.menu2.save(time2)"></v-time-picker>
-											
-										
 										</v-menu>
 										<!--<v-text-field
 										label="Sunset Time"
@@ -119,7 +118,69 @@
 										</div>
 									</div>
 									</div>
-									
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+										<div style="position:relative;margin-top:67px;">
+										<v-checkbox
+											class=""
+											:label="$t('Black Screen On/Off')"
+											color="primary"
+											v-model="checkedSwitch"
+										></v-checkbox>
+										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
+										</div>
+										<div v-if="checkedSwitch" style="display:flex;margin-top:11px;">
+											
+											<v-menu
+											ref="timeBlackScreenOnEdit"
+											:close-on-content-click="false"
+											v-model="timeBlackScreenOnEdit"
+											transition="scale-transition"
+											offset-y
+											:nudge-right="40"
+											max-width="290px"
+											min-width="290px"
+											:return-value.sync="timeBlackScreenOn"
+										>
+											<template v-slot:activator="{ on }">
+												<v-text-field
+													v-on="on"
+													label="Open Time"
+													v-model="timeBlackScreenOn"
+													prepend-icon="access_time"
+													readonly
+													:rules="form1.timeRules"
+													required
+												></v-text-field>
+											</template>
+											<v-time-picker v-model="timeBlackScreenOn" @change="$refs.timeBlackScreenOnEdit.save(timeBlackScreenOn)"></v-time-picker>
+										</v-menu>
+											<v-menu
+											ref="timeBlackScreenOffEdit"
+											:close-on-content-click="false"
+											v-model="timeBlackScreenOffEdit"
+											transition="scale-transition"
+											offset-y
+											:nudge-right="40"
+											max-width="290px"
+											min-width="290px"
+											:return-value.sync="timeBlackScreenOff"
+										>
+											<template v-slot:activator="{ on }">
+												<v-text-field
+													v-on="on"
+													label="Close Time"
+													v-model="timeBlackScreenOff"
+													prepend-icon="access_time"
+													readonly
+													:rules="form1.timeRules"
+													required
+												></v-text-field>
+											</template>
+											<v-time-picker v-model="timeBlackScreenOff" @change="$refs.timeBlackScreenOffEdit.save(timeBlackScreenOff)"></v-time-picker>
+										</v-menu>
+										</div>
+									</div>
+									</div>
 									<!--<v-text-field
 										label="Day Light"
 										v-model="form1.day_light"
@@ -132,15 +193,21 @@
 										
 										:counter="30"
 										required></v-text-field>-->
+										<div style="width:100%;align-items:center;justify-content:center;display:flex;">
 										<v-btn
 										@click="submit"
 										:disabled="!form2.valid"
 										color="success"
-										class="mr-3">
+										class="mr-3"
+										style="width:40%;"
+										>
+										
 										{{$t("Save")}}
 									</v-btn>
+									</div>
 								</v-form>
 							</v-row>
+							
 							<v-card-actions>
 								<!--<v-btn color="error" @click.stop="dialog3=false">Save</v-btn>-->
 							</v-card-actions>
@@ -183,7 +250,7 @@
 				hide-default-footer>
 				<template v-slot:item="{ item }">
 					<tr>
-						
+						<td>{{deviceList.indexOf(item) + 1}}</td>
 						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
 						<td style="display:flex;align-items:center;justify-content:center;">
 							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id">
@@ -263,8 +330,6 @@
 								</div>
 							</div>
 						</td>
-						
-						
 						
 						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
 							<v-slider v-model="item.brightness_value" v-bind:max="255" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
@@ -613,9 +678,9 @@ import { tabsAndTableDetails } from 'Views/crypto/data.js'
 let $ = JQuery;
 
 export default {
-	
 	data () {
 		return {
+			checkedSwitch:false,
 			selectedInfoItem:[],
 			selectedName: "",
 			test:[{val:40,color:'red'}],
@@ -655,9 +720,14 @@ export default {
 		menu2:false,
 		date1: null,
 		menu1: false,
+		
 		time:null,
 		time1:null,
 		time2:null,
+		timeBlackScreenOnEdit: false,
+		timeBlackScreenOffEdit: false,
+		timeBlackScreenOn: null,
+		timeBlackScreenOff: null,
 		date2: new Date().toISOString().substr(0, 10),
 	form1: {
         valid: false,
@@ -699,6 +769,11 @@ export default {
         checkbox: false
       },
 			headersForTransactionList: [
+				{
+					text:"#",
+					sortable: false,
+					value:"#"
+				},
 				{
 					text: "Name",
 					sortable: false,
@@ -988,12 +1063,18 @@ tabsAndTableDetails,
 			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
-				resp.data.forEach(item=> {
+				resp.data.forEach((item)=> {
+
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
+					console.log('LED : ',item)
+					
 					updateData.push(item)
+					
+					
 					this.sendDataList.push(item);
 					
 				});
+				
 				this.deviceList = updateData;
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
@@ -1106,7 +1187,9 @@ tabsAndTableDetails,
 			sunriseValue: this.sunriseItem.val,
 			sunsetValue: this.sunsetItem.val,
 			sunriseTime: this.time,
-			sunsetTime: this.time2
+			sunsetTime: this.time2,
+			blackScreenOpenTime: this.timeBlackScreenOff,
+			blackScreenCloseTime: this.timeBlackScreenOn,
 		}
 		var updateData = this.deviceList;
 		axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)

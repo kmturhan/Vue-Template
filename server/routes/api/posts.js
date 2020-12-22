@@ -506,19 +506,20 @@ connection.query(mysqlQuery,[],(err,result,fields)=> {
 
 router.post('/nameUpdate',function(req,res){
     var mysqlQuery;
-    console.log(`Name Update : ${req.body.deviceId} - ${req.body.name}`)
-    if(req.body.isBrightnessAuto == false) {
+    var data = req.body;
+    console.log(`Name Update : ${data.deviceId} - ${data.name}`)
+    if(data.isBrightnessAuto == false) {
         mysqlQuery = "UPDATE led_devices SET device_name = ? WHERE Id = ?";
          
-        connection.query(mysqlQuery, [req.body.name, req.body.deviceId],(err,results,fields) => {
+        connection.query(mysqlQuery, [data.name, data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');        
         })
     }else{
-        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [req.body.name,req.body.sunriseValue,req.body.sunsetValue,req.body.sunriseTime,req.body.sunsetTime,req.body.deviceId, req.body.deviceId],(err,results,fields) => {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?, black_screen_open_time = ?, black_screen_close_time = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
-            console.log(req.body.name,req.body.sunriseValue,req.body.sunsetValue,req.body.sunriseTime,req.body.sunsetTime,req.body.deviceId, req.body.deviceId)
+            console.log(data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.deviceId, data.deviceId)
         })
     }
    

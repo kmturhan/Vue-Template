@@ -284,10 +284,10 @@ export default {
 			});
 			updatedData = this.deviceList;
       updatedData.forEach(item => {
-        if(item.screen_on_off == 1 && item.connection_status == 1) {
+        if(item.dvi_status == 1 && item.connection_status == 1) {
           openDev++;
         }
-        if(item.screen_on_off == 0 && item.connection_status == 1){
+        if(item.dvi_status == 0 && item.connection_status == 1){
           closeDev++;
         }
         if(item.dvi_status == 1 && item.connection_status == 1) {
