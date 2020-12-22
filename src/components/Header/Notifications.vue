@@ -71,7 +71,7 @@ import axios from 'axios'
 	loadData() {
 			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					

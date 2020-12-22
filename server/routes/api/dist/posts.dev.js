@@ -66,14 +66,10 @@ client.on('connect', function () {
 
         if (diff > 950000) {
           sql = "UPDATE Device_Status SET Connection_Status = 0 WHERE Token = ? AND TvID = ?";
-          db.all(sql, [item.Token, item.TvID], function (err, rows) {
-            console.log('Zaman Aşımı ' + item.Token + ' Connection 0 updated');
-          });
-          console.log(item.Last_Update, '15 dakika geçti');
+          db.all(sql, [item.Token, item.TvID], function (err, rows) {});
         } else {
           sql = "UPDATE Device_Status SET Connection_Status = 1 WHERE Token = ? AND TvID = ?";
           db.all(sql, [item.Token, item.TvID], function (err, rows) {});
-          console.log(item.Last_Update, '15 dakika Geçmedi');
         }
       });
     });
@@ -90,40 +86,26 @@ client.on('connect', function () {
 
         if (diff > 950000) {
           mysqlQuery = "UPDATE lcd_devices_status SET connection_status = 0 WHERE token = ? AND tv_id = ?";
-          connection.query(mysqlQuery, [item.token, item.tv_id], function (err, rows) {
-            console.log('Zaman Aşımı ' + item.token + ' Connection 0 updated');
-          });
-          console.log(item.last_update, '15 dakika geçti');
+          connection.query(mysqlQuery, [item.token, item.tv_id], function (err, rows) {});
         } else {
           mysqlQuery = "UPDATE lcd_devices_status SET connection_status = 1 WHERE token = ? AND tv_id = ?";
           connection.query(mysqlQuery, [item.token, item.tv_id], function (err, rows) {});
-          console.log(item.last_update, '15 dakika Geçmedi');
         }
       });
     });
     connection.query(mysqlQueryLed, [], function (err, results, fields) {
       results.forEach(function (item) {
-        console.log('mysqlLed : ', item);
         var timestampSave = Date.parse(item.last_update);
         var timestampCurrent = Date.now();
-        console.log('timestamp : ', timestampCurrent, 'Current : ', timestampSave);
         var testStamp = timestampCurrent - timestampSave;
-        console.log('timestamp Fark : ', testStamp);
 
         if (testStamp > 900000) {
-          console.log('15 dakkadan fazla');
           var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 0 WHERE token = ?";
           console.log(item.token);
-          connection.query(mysqlUpdateQuery, [item.token, item.sender_id, item.receiver_id], function (err, result, fields) {
-            console.log('Connection Update OK! 0');
-          });
+          connection.query(mysqlUpdateQuery, [item.token, item.sender_id, item.receiver_id], function (err, result, fields) {});
         } else {
           var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 1 WHERE token = ?";
-          connection.query(mysqlUpdateQuery, [item.token], function (err, result, fields) {
-            console.log(item.token);
-            console.log('Connection Update OK! 1');
-          });
-          console.log("15 dakikadan az");
+          connection.query(mysqlUpdateQuery, [item.token], function (err, result, fields) {});
         }
       });
     });
@@ -407,7 +389,6 @@ router.get('/loadLcdDevices', function (req, res) {
 router.get('/loadLedDevices', function (req, res) {
   var mysqlQuery = "SELECT * FROM led_devices";
   connection.query(mysqlQuery, [], function (err, result, fields) {
-    console.log('LOAD LED DEVICES', result);
     res.json(result);
   });
 });
@@ -516,11 +497,23 @@ router.get('/loadDevicesGroupBy', function (req, res) {
   });
 });
 router.post('/nameUpdate', function (req, res) {
+  var mysqlQuery;
   console.log("Name Update : ".concat(req.body.deviceId, " - ").concat(req.body.name));
-  var mysqlQuery = "UPDATE led_devices SET device_name = ? WHERE Id = ?";
-  connection.query(mysqlQuery, [req.body.name, req.body.deviceId], function (err, results, fields) {
-    console.log('Name Update OK!');
-  });
+
+  if (req.body.isBrightnessAuto == false) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [req.body.name, req.body.deviceId], function (err, results, fields) {
+      console.log('Name Update OK!');
+    });
+  } else {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [req.body.name, req.body.sunriseValue, req.body.sunsetValue, req.body.sunriseTime, req.body.sunsetTime, req.body.deviceId, req.body.deviceId], function (err, results, fields) {
+      console.log('Name Update OK!');
+      console.log(err);
+      console.log(req.body.name, req.body.sunriseValue, req.body.sunsetValue, req.body.sunriseTime, req.body.sunsetTime, req.body.deviceId, req.body.deviceId);
+    });
+  }
+
   res.json('Name Update OK!');
 });
 module.exports = router;

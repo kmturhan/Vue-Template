@@ -1,10 +1,11 @@
 <template>
 
 	<div>
-	<v-dialog v-model="dialog3" max-width="500px">
+	
+	<v-dialog v-model="dialog3" max-width="800px">
 						<v-card>
 							<v-card-title>
-								<span>More</span>
+								<span>Edit Screen {{selectedName}}</span>
 								<v-spacer></v-spacer>
 								<v-menu>
 									<template v-slot:activator="{ on }">
@@ -15,27 +16,110 @@
 								</v-menu>
 							</v-card-title>
 							<v-row style="width:85%;margin-left:auto;margin-right:auto;">
-								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;">
+								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;" class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+									<div class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
+									
 									<v-text-field
 										label="Name"
 										v-model="form1.name"
 										:rules="form1.nameRules"
 										:counter="30"
 										required></v-text-field>
+										<div style="position:relative;">
 										<v-checkbox
 											class=""
-											:label="$t('Day Light / Day Sun Set Auto')"
+											:label="$t('Sunrise / Sunset')"
 											color="primary"
 											v-model="checked"
 										></v-checkbox>
-										<div style="display:flex;justify-content:space-around" v-if="checked">
-										<label>
-											Day Light
-										</label>
-										<label>
-											Day Sun Set
-										</label>
+										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
+									<div style="display:flex;justify-content:space-around" v-if="checked">
+										<div style="display:flex;flex-direction:column" class="col-7">
+										<v-menu
+											ref="menu"
+											:close-on-content-click="false"
+											v-model="menu1"
+											transition="scale-transition"
+											offset-y
+											:nudge-right="40"
+											max-width="290px"
+											min-width="290px"
+											:return-value.sync="time"
+										>
+											<template v-slot:activator="{ on }">
+												<v-text-field
+													v-on="on"
+													label="Sunrise Time"
+													v-model="time"
+													prepend-icon="access_time"
+													readonly
+													:rules="form1.timeRules"
+													required
+												></v-text-field>
+											</template>
+											<v-time-picker v-model="time" @change="$refs.menu.save(time)"></v-time-picker>
+										</v-menu>
+										<!--<v-text-field
+										label="Sunrise Time"
+										v-model="sunriseItem.time"
+										:rules="form1.nameRules"
+										:counter="5"
+										
+										required></v-text-field>-->
+										<div style="position:relative">
+										<div style="display:flex;align-items:center;">
+											<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:white;"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
+											<v-slider v-model="sunriseItem.val" v-bind:max="255" :thumb-color="sunriseItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
+										</div>
+										<label style="position:absolute;top:32px;left:66px;font-size:14px;">{{sunriseItem.val}}</label>
+										</div>
+										</div>
+										<div style="display:flex;flex-direction:column;" class="col-7">
+										<v-menu
+											ref="menu2"
+											:close-on-content-click="false"
+											v-model="menu2"
+											transition="scale-transition"
+											offset-y
+											:nudge-right="40"
+											max-width="290px"
+											min-width="290px"
+											:return-value.sync="time2"
+										>
+											<template v-slot:activator="{ on }">
+												<v-text-field
+													v-on="on"
+													label="Sunset Time"
+													v-model="time2"
+													prepend-icon="access_time"
+													readonly
+													:rules="form1.timeRules"
+													required
+												></v-text-field>
+											</template>
+											<v-time-picker v-model="time2" @change="$refs.menu2.save(time2)"></v-time-picker>
+											
+										
+										</v-menu>
+										<!--<v-text-field
+										label="Sunset Time"
+										v-model="sunsetItem.time"
+										:rules="form1.nameRules"
+										:counter="5"
+										required></v-text-field>-->
+										<div style="position:relative;">
+										<div style="display:flex;align-items:center;">
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:white;"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
+										<v-slider v-model="sunsetItem.val" v-bind:max="255" :thumb-color="sunsetItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
+										
+										</div>
+										<label style="position:absolute;top:32px;left:66px;font-size:14px;">{{sunsetItem.val}}</label>
+										</div>
+										</div>
+									</div>
+									</div>
+									
 									<!--<v-text-field
 										label="Day Light"
 										v-model="form1.day_light"
@@ -53,7 +137,7 @@
 										:disabled="!form2.valid"
 										color="success"
 										class="mr-3">
-										{{$t("message.submit")}}
+										{{$t("Save")}}
 									</v-btn>
 								</v-form>
 							</v-row>
@@ -62,7 +146,6 @@
 							</v-card-actions>
 						</v-card>
 					</v-dialog>
-	
 	
 		
 		<div class="table-responsive">
@@ -100,6 +183,7 @@
 				hide-default-footer>
 				<template v-slot:item="{ item }">
 					<tr>
+						
 						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
 						<td style="display:flex;align-items:center;justify-content:center;">
 							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id">
@@ -197,7 +281,7 @@
 							<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;width:15px;height:15px;cursor:pointer;fill:white;" xml:space="preserve"><g>	<path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z"/>	<path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z"/>	<path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 							<ul class="more-list"  @mousedown="menuClose">
 								<a href="/default/crypto/market-cap"><li>Manage</li></a><hr>
-								<li @click.stop="dialog3 = true" :data-device-id="item.Id" @click="assignDeviceID" :data-device-name="item.device_name">Edit</li>
+								<li @click.stop="dialog3 = true" :data-device-id="item.Id" @click="assignDeviceID" :data-device-name="item.device_name" :data-token="item.token">Edit</li>
 							</ul>
 						</td>
 						
@@ -233,6 +317,9 @@
 	</div>
 </template>
 <style>
+.v-text-field__slot label {
+	font-size: 14px;
+}
 .v-form .v-input--selection-controls__ripple {
 	left: -13px !important;
 	top: calc(50% - 25px) !important;
@@ -256,6 +343,7 @@ ul.more-list {
 	margin-left: auto;
 	margin-right: auto;
 	flex-direction: column;
+	left: -95px;
 	border-radius: 10px;
 	padding-left: 0 !important;
 	
@@ -528,6 +616,9 @@ export default {
 	
 	data () {
 		return {
+			selectedInfoItem:[],
+			selectedName: "",
+			test:[{val:40,color:'red'}],
 			checked:false,
 			deviceName: "",
 			selectedDeviceID: 0,
@@ -554,6 +645,8 @@ export default {
 			loader: false,
 			invoice: [],
 			ex3: { label: "thumb-color", val: 40, color: "red" },
+			sunriseItem: { label: "thumb-color", val: 40, color: "red",time: "15:30"},
+			sunsetItem:{ label:"thumb-color",val:100, color:"red", time:"17:00"},
 			gaugeValue: [],
 			selector: "",
 			val0: 0,
@@ -563,10 +656,16 @@ export default {
 		date1: null,
 		menu1: false,
 		time:null,
+		time1:null,
+		time2:null,
 		date2: new Date().toISOString().substr(0, 10),
 	form1: {
         valid: false,
-        name: "",
+		name: "",
+		time:"15:30",
+		timeRules: [
+			v => !!v || "Time is required",
+		],
         nameRules: [
           v => !!v || "Name is required",
           v => v.length <= 30 || "Name must be less than 30 characters"
@@ -631,9 +730,9 @@ export default {
 					value: "Resolution"
 				},
 				{
-					text: "Screen On/Off",
+					text: "Black Screen",
 					sortable:false,
-					value: "Screen On/Off"
+					value: "Black Screen"
 				},
 				{
 					text: "Brightness Value",
@@ -681,7 +780,6 @@ tabsAndTableDetails,
 			
 		},
 		'home/attribute/led_novastar/#': function(val){
-
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -761,7 +859,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -872,7 +970,6 @@ tabsAndTableDetails,
 				
 		this.$el.querySelectorAll('.input-gauch').forEach(item => {
 			console.log(item)
-			
 			if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
 				$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 			}else {
@@ -886,17 +983,18 @@ tabsAndTableDetails,
 		this.$mqtt.publish('home/telemetry/led_novastar/'+'eXFRrVFMJDglqeBzmFIl',JSON.stringify(jsonData));
 		},
 		loadData() {
-			this.deviceList = [];
+			var updateData =[];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach(item=> {
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
-					this.deviceList.push(item);
+					updateData.push(item)
 					this.sendDataList.push(item);
 					
 				});
+				this.deviceList = updateData;
 				console.log('Data.js : ',resp.data);
 				console.log(this.deviceList);
 				console.log('SEND DATA LIST : ',this.sendDataList);
@@ -963,7 +1061,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.1.202:5000/api/test',jsonData)
+				axios.post('http://192.168.10.46:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -998,41 +1096,56 @@ tabsAndTableDetails,
       if (this.$refs.form.validate()) {
 		console.log("form submit");
 		console.log(this.form1.name);
+		console.log('VAL : ',this.sunriseItem.val)
 		//console.log(e.target.value);
 		//var deviceID = e.target.getAttribute('data-device-id');
 		var jsonData = {
 			name: this.form1.name,
-			deviceId: this.selectedDeviceID
+			deviceId: this.selectedDeviceID,
+			isBrightnessAuto: this.checked,
+			sunriseValue: this.sunriseItem.val,
+			sunsetValue: this.sunsetItem.val,
+			sunriseTime: this.time,
+			sunsetTime: this.time2
 		}
 		var updateData = this.deviceList;
-		axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
+		axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
 		.then(function (response) {
 			console.log(response)
-
 			updateData.forEach(item => {
 				if(item.Id == jsonData.deviceId) {
 					//$('#name-info label a').text(jsonData.name)
 					item.device_name = jsonData.name
 				}
 			})
-			
-			
 		})
 		this.deviceList = updateData;
-		
+
 		this.dialog3 = false;
+		
 		//console.log(this.form1.email);
 		//console.log(this.form2.select);
 		//console.log(this.time)
 		//console.log(this.date1)
-
       }
 	},
 	assignDeviceID(e) {
+		this.loadData();
 		this.selectedDeviceID = e.target.getAttribute('data-device-id')
 		console.log('selectedDeviceID : ',this.selectedDeviceID) 
-		
+		this.selectedName = e.target.getAttribute('data-device-name');
 		this.form1.name = e.target.getAttribute('data-device-name');
+		this.deviceList.forEach(item => {
+			if(item.Id == this.selectedDeviceID) {
+				this.selectedInfoItem = item;
+				console.log('ASSIGN DEVICE ID : ',item);
+			}
+		})
+		this.form1.name = this.selectedInfoItem.device_name;
+		this.time = this.selectedInfoItem.sunrise_time.split(':')[0] + ":"+ this.selectedInfoItem.sunrise_time.split(':')[1];
+		this.time2 = this.selectedInfoItem.sunset_time.split(':')[0] + ":"+this.selectedInfoItem.sunset_time.split(':')[1]
+		this.sunsetItem.val = this.selectedInfoItem.sunset_value;
+		this.sunriseItem.val = this.selectedInfoItem.sunrise_value;
 	},
     clear() {
       this.$refs.form.reset();
