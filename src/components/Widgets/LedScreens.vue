@@ -35,11 +35,13 @@
 										></v-checkbox>
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
-									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:160px" v-if="checked">
-										<div>
-											<span>test</span>
-										</div>
+									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column" v-if="checked">
 										
+											<v-col cols="12" sm="12">
+												<v-select  hide-details label="Select"  v-bind:items="items"  v-model="e3"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
+											</v-col>	
+										
+										<div style="display:flex;">
 										<div style="display:flex;flex-direction:column" class="col-6">
 										
 										<v-menu
@@ -81,7 +83,9 @@
 										<label style="position:absolute;top:32px;left:66px;font-size:14px;">{{sunriseItem.val}}</label>
 										</div>
 										</div>
-										<div style="display:flex;flex-direction:column;" class="col-7">
+
+										<div style="display:flex;flex-direction:column;" class="col-6">
+											
 										<v-menu
 											ref="menu2"
 											:close-on-content-click="false"
@@ -121,10 +125,13 @@
 										<label style="position:absolute;top:32px;left:66px;font-size:14px;">{{sunsetItem.val}}</label>
 										</div>
 										</div>
+										</div>
 									</div>
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+										
 										<div style="position:relative;margin-top:67px;">
+											
 										<v-checkbox
 											class=""
 											:label="$t('Black Screen On/Off')"
@@ -133,7 +140,12 @@
 										></v-checkbox>
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
-										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:20px 10px;height:160px;">
+										
+										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column">
+											<v-col cols="12" sm="12">
+												<v-select  hide-details label="Select"  v-bind:items="items"  v-model="e3"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
+											</v-col>
+											<div style="display:flex;margin-top:10px">
 											<v-menu
 											ref="timeBlackScreenOffEdit"
 											:close-on-content-click="false"
@@ -182,7 +194,7 @@
 											</template>
 											<v-time-picker v-model="timeBlackScreenOn" @change="$refs.timeBlackScreenOnEdit.save(timeBlackScreenOn)"></v-time-picker>
 										</v-menu>
-											
+											</div>
 										</div>
 									</div>
 									</div>
@@ -715,6 +727,11 @@ let $ = JQuery;
 export default {
 	data () {
 		return {
+			items: [
+				{ text: "Automatic"},
+				{ text: "Always" },
+				
+			],
 			settingsMenu:false,
 			checkedSwitch:false,
 			selectedInfoItem:[],
