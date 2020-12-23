@@ -36,7 +36,12 @@
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
 									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:160px" v-if="checked">
+										<div>
+											<span>test</span>
+										</div>
+										
 										<div style="display:flex;flex-direction:column" class="col-6">
+										
 										<v-menu
 											ref="menu"
 											:close-on-content-click="false"
@@ -129,31 +134,6 @@
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
 										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:20px 10px;height:160px;">
-											
-											<v-menu
-											ref="timeBlackScreenOnEdit"
-											:close-on-content-click="false"
-											v-model="timeBlackScreenOnEdit"
-											transition="scale-transition"
-											offset-y
-											:nudge-right="40"
-											max-width="290px"
-											min-width="290px"
-											:return-value.sync="timeBlackScreenOn"
-										>
-											<template v-slot:activator="{ on }">
-												<v-text-field
-													v-on="on"
-													label="Open Time"
-													v-model="timeBlackScreenOn"
-													prepend-icon="access_time"
-													readonly
-													:rules="form1.timeRules"
-													required
-												></v-text-field>
-											</template>
-											<v-time-picker v-model="timeBlackScreenOn" @change="$refs.timeBlackScreenOnEdit.save(timeBlackScreenOn)"></v-time-picker>
-										</v-menu>
 											<v-menu
 											ref="timeBlackScreenOffEdit"
 											:close-on-content-click="false"
@@ -168,7 +148,7 @@
 											<template v-slot:activator="{ on }">
 												<v-text-field
 													v-on="on"
-													label="Close Time"
+													label="On Time"
 													v-model="timeBlackScreenOff"
 													prepend-icon="access_time"
 													readonly
@@ -178,6 +158,31 @@
 											</template>
 											<v-time-picker v-model="timeBlackScreenOff" @change="$refs.timeBlackScreenOffEdit.save(timeBlackScreenOff)"></v-time-picker>
 										</v-menu>
+											<v-menu
+											ref="timeBlackScreenOnEdit"
+											:close-on-content-click="false"
+											v-model="timeBlackScreenOnEdit"
+											transition="scale-transition"
+											offset-y
+											:nudge-right="40"
+											max-width="290px"
+											min-width="290px"
+											:return-value.sync="timeBlackScreenOn"
+										>
+											<template v-slot:activator="{ on }">
+												<v-text-field
+													v-on="on"
+													label="Off Time"
+													v-model="timeBlackScreenOn"
+													prepend-icon="access_time"
+													readonly
+													:rules="form1.timeRules"
+													required
+												></v-text-field>
+											</template>
+											<v-time-picker v-model="timeBlackScreenOn" @change="$refs.timeBlackScreenOnEdit.save(timeBlackScreenOn)"></v-time-picker>
+										</v-menu>
+											
 										</div>
 									</div>
 									</div>

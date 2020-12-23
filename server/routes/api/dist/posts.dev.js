@@ -97,7 +97,7 @@ client.on('connect', function () {
       results.forEach(function (item) {
         var timestampSave = Date.parse(item.last_update);
         var timestampCurrent = Date.now();
-        var testStamp = timestampCurrent - timestampSave;
+        var testStamp = timestampCurrent - timestampSave; //Connection_Status durumu her 15 dakikada güncelleniyor.
 
         if (testStamp > 900000) {
           var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 0 WHERE token = ?";
@@ -110,6 +110,80 @@ client.on('connect', function () {
       });
     });
   }, 30000);
+  setInterval(function () {
+    var date = new Date();
+    mysql = "SELECT Id,token,sunrise_time,sunrise_value,sunset_time,sunset_value,black_screen_open_time,black_screen_close_time,is_brightness_auto,is_black_screen_auto FROM led_devices";
+    connection.query(mysql, [], function (err, result, fields) {
+      result.forEach(function (item) {
+        var currentTimeHour = date.getHours();
+        var currentTimeMinute = date.getMinutes();
+
+        if (item.is_black_screen_auto) {
+          var openTimeHour = item.black_screen_open_time.split(":")[0];
+          var openTimeMinute = item.black_screen_open_time.split(":")[1];
+          var closeTimeHour = item.black_screen_close_time.split(":")[0];
+          var closeTimeMinute = item.black_screen_close_time.split(":")[1]; //var closeTime =  item.black_screen_close_time;
+          //console.log(`OPEN HOUR : ${item.black_screen_open_time.split(":")[0]} MINUTES : ${item.black_screen_open_time.split(":")[1]}`);
+          //console.log(`CLOSE HOUR : ${item.black_screen_close_time.split(":")[0]} MINUTES : ${item.black_screen_close_time.split(":")[1]}`)
+
+          if (currentTimeHour == openTimeHour && currentTimeMinute == openTimeMinute) {
+            var jsonData = {
+              method: "rpcCommand",
+              params: {
+                commandId: '5'
+              }
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+          }
+
+          console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
+
+          if (currentTimeHour == closeTimeHour && currentTimeMinute == closeTimeMinute) {
+            var jsonData = {
+              method: "rpcCommand",
+              params: {
+                commandId: '6'
+              }
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+          }
+        }
+
+        if (item.is_brightness_auto) {
+          var sunriseTimeHour = item.sunrise_time.split(':')[0];
+          var sunriseTimeMinute = item.sunrise_time.split(':')[1];
+          var sunriseValue = item.sunrise_value;
+          var sunsetTimeHour = item.sunset_time.split(':')[0];
+          var sunsetTimeMinute = item.sunset_time.split(':')[1];
+          var sunsetValue = item.sunset_value;
+          console.log("".concat(sunriseTimeHour, ":").concat(sunriseTimeMinute, " = ").concat(sunriseValue, " ---").concat(sunsetTimeHour, " -").concat(sunsetTimeMinute, " -").concat(sunsetValue));
+
+          if (currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
+            var jsonData = {
+              method: "rpcCommand",
+              params: {
+                commandId: '2',
+                brightness: sunriseValue
+              }
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+          }
+
+          if (currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute) {
+            var jsonData = {
+              method: "rpcCommand",
+              params: {
+                commandId: '2',
+                brightness: sunsetValue
+              }
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+          }
+        }
+      });
+    });
+    console.log('HOUR : ', date.getHours(), 'MINUTE : ', date.getMinutes());
+  }, 10000);
   client.subscribe('home', function () {
     console.log("Home topic Listening"); //var jsonMethod = '{ "method": "getTvId", "params": { } }';
     //client.publish('home/telemetry/mVThJflRGKgZYkZ18!hU', jsonMethod);
