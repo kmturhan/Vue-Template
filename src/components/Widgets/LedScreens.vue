@@ -35,7 +35,7 @@
 										></v-checkbox>
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
-									<div style="display:flex;justify-content:space-around" v-if="checked">
+									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:160px" v-if="checked">
 										<div style="display:flex;flex-direction:column" class="col-6">
 										<v-menu
 											ref="menu"
@@ -128,7 +128,7 @@
 										></v-checkbox>
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
-										<div v-if="checkedSwitch" style="display:flex;margin-top:11px;">
+										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:20px 10px;height:160px;">
 											
 											<v-menu
 											ref="timeBlackScreenOnEdit"
@@ -203,6 +203,16 @@
 										>
 										
 										{{$t("Save")}}
+									</v-btn>
+									<v-btn
+										@click.stop="dialog3 = false"
+										:disabled="!form2.valid"
+										color="secondary"
+										class="mr-3"
+										style="width:40%;"
+										>
+										
+										{{$t("Cancel")}}
 									</v-btn>
 									</div>
 								</v-form>
@@ -291,7 +301,7 @@
 						<td v-if="item.connection_status == 0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: red;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></td>
 						<td>-</td>
 						<td class="tvRemoteLock input-control" :data-tvid="item.Id" :data-value="item.screen_on_off">
-							
+							{{item.screen_on_off}}
             <div v-if="item.screen_on_off == 1"  :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls" >
 									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :data-value="item.screen_on_off" @click="clickPub">
@@ -312,7 +322,7 @@
 							</div>
 							
 							<div v-else-if="item.screen_on_off == 0" ref="thebutton" :data-value="item.screen_on_off">
-								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch" >
+								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch">
 									<div class="v-input__control" :class="[item.connection_status == 1 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :data-value="item.screen_on_off" @click="clickPub">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
@@ -344,7 +354,7 @@
 						<td>{{ String((new Date(item.last_update).getDate())).padStart(2,"0")+'-'+String(((new Date(item.last_update).getMonth()+1))).padStart(2,"0")+'-'+new Date(item.last_update).getFullYear() + " "+String((new Date(item.last_update).getHours())).padStart(2,"0") + ':'+String((new Date(item.last_update).getMinutes())).padStart(2,"0")+ ":"+String((new Date(item.last_update).getSeconds())).padStart(2,"0")}}</td>
 						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id">
 							<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;width:15px;height:15px;cursor:pointer;fill:white;" xml:space="preserve"><g>	<path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z"/>	<path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z"/>	<path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-							<ul class="more-list"  @mousedown="menuClose">
+							<ul class="more-list" @mousedown="menuClose" @click.stop="settingsMenu = false">
 								<a href="/default/crypto/market-cap"><li>Manage</li></a><hr>
 								<li @click.stop="dialog3 = true" :data-device-id="item.Id" @click="assignDeviceID" :data-device-name="item.device_name" :data-token="item.token">Edit</li>
 							</ul>
@@ -700,6 +710,7 @@ let $ = JQuery;
 export default {
 	data () {
 		return {
+			settingsMenu:false,
 			checkedSwitch:false,
 			selectedInfoItem:[],
 			selectedName: "",
@@ -866,24 +877,20 @@ tabsAndTableDetails,
 		
 	},
 	mqtt: {
-		'home/telemetry/#': function() {
-			if(this.ex == true) {
-				this.ex = 'ON'
-			}else{
-				this.ex = 'OFF'
-			}
-			
-		},
 		'home/attribute/led_novastar/#': function(val){
+			console.log('TESTSETSETSE')
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
-			console.log(jsonData);
+			console.log('LED NOVASTAR : ',jsonData);
 			console.log('Screen on off : ',jsonData.params.screen_on_off);
+			console.log('ATTR;')
 			var updateDeviceList = this.deviceList;
 			console.log(updateDeviceList);
+			console.log('TEST : ',jsonData.params)
 			if(jsonData.params.screen_on_off == 0) {
-				this.$el.querySelectorAll('.pin-km').forEach(item => {
-					console.log('pin-km : ',item)
+				console.log("Screen ON OFF : 0")
+				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
+				console.log('pin-km : ',item)
 				$(item).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 				$(item).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
 				$(item).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
@@ -891,17 +898,21 @@ tabsAndTableDetails,
 				$(item).find('.v-input--switch__track span').addClass('close-switch-text').removeClass('open-switch-text');
 				$(item).find('svg').removeClass('tv-close-svg').addClass('tv-open-svg');
 				clearInterval(this.interval);
-				$('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				$('.input-gauch').addClass('input-switch-enabled').removeClass('input-switch-disabled');
+				$('.v-input__control.tv-id-'+this.selectedTvID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch.tv-id-'+this.selectedTvID).addClass('input-switch-enabled').removeClass('input-switch-disabled');
 				$(item).find('.v-input--switch__track span').text('Off')
 				$(item).children().data('value',0);
 				updateDeviceList.forEach((item,index) => {
-					updateDeviceList[index].screen_on_off = 0;
+					if(item.Id == this.selectedTvID) {
+						updateDeviceList[index].screen_on_off = 0;
+					}
+					
+					
 				})
 			})
 			}else if (jsonData.params.screen_on_off == 1){
-					
-					this.$el.querySelectorAll('.pin-km').forEach(item => {
+					console.log("SCREEN ON OFF 1")
+					this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
 					console.log('pin-km : ',item)
 				$(item).addClass('v-input--is-label-active  success--text').removeClass('red--text text--darken-3');
 				$(item).find('.v-input--selection-controls__ripple').addClass('success--text').removeClass('red--text text--darken-3');
@@ -910,15 +921,19 @@ tabsAndTableDetails,
 				$(item).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
 				$(item).find('svg').addClass('tv-close-svg').removeClass('tv-open-svg');
 				clearInterval(this.interval);
-				$('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				$('.input-gauch').addClass('input-switch-enabled').removeClass('input-switch-disabled');
+				$('.v-input__control.tv-id-'+this.selectedTvID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch.tv-id-'+this.selectedTvID).addClass('input-switch-enabled').removeClass('input-switch-disabled');
 				$(item).children().data('value',1);
 				$(item).find('.v-input--switch__track span').text('On')
 					updateDeviceList.forEach((item,index) => {
-					updateDeviceList[index].screen_on_off = 1;
+					if(item.Id == this.selectedTvID) {
+						updateDeviceList[index].screen_on_off = 1;
+					}
+					
+					
 				})
 			})
-			}
+			
 			
 			console.log('BRIGHTNESS : ',jsonData.params.brigtnessWrite,'TYPEOF  : ',typeof jsonData.params.brigtnessWrite)
 			if(typeof jsonData.params.brigtnessWrite !== 'undefined') {
@@ -927,7 +942,9 @@ tabsAndTableDetails,
 					updateDeviceList[index].brightness_value = jsonData.params.brigtnessWrite;
 				})
 			}
+			console.log('UPDATE : ',updateDeviceList)
 			this.deviceList = updateDeviceList;
+			}
 		},
 	},
 	methods: {
@@ -941,6 +958,7 @@ tabsAndTableDetails,
 		dropdownMoreMenu: function(e) {
 			$('.more-list').find('li').hide();
 			$(e.target).closest('td').find('.more-list li').show();
+			console.log($(e.target).closest('td').find('.more-list li').hasClass('.more-list li'));
 		},
 		showInput: function() {
 			$('#name-change').show();
@@ -954,7 +972,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -1014,19 +1032,19 @@ tabsAndTableDetails,
 			var selectedTag = $(event.currentTarget).data('value');
 			console.log('Event current:',$(event.currentTarget));
 			var commandOnOff;
-			//var token = event.currentTarget.querySelector('input').getAttribute('data-token');
+			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
-			//var value = event.currentTarget.getAttribute('data-value');
-			
+			var value = event.currentTarget.getAttribute('data-value');
+			console.log('SELECTED TAG : ',selectedTag,'VALUE : ',value)
 			this.selectedTvID = tvID;
 			this.selectedPin = command;
 			console.log('TVID :',tvID)
-			if(selectedTag == 1){
+			if(value == 1){
 				commandOnOff = '6';
 			}
-			else if(selectedTag == 0){
+			else if(value == 0){
 				commandOnOff = '5';
 			}
 			var jsonData = {
@@ -1058,11 +1076,9 @@ tabsAndTableDetails,
 				console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
 				if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
 					$(selectedTag).find('.v-input--switch__track span').text('Off');
-				}else {
+				} else {
 					$(selectedTag).find('.v-input--switch__track span').text('On')
 				}
-
-				
 		this.$el.querySelectorAll('.input-gauch.tv-id-'+this.selectedTvID).forEach(item => {
 			console.log(item)
 			if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
@@ -1075,12 +1091,12 @@ tabsAndTableDetails,
 			
 		}, 1000);
 		console.log('JSONDATA : ',jsonData,serialNumber)
-		this.$mqtt.publish('home/telemetry/led_novastar/'+'eXFRrVFMJDglqeBzmFIl',JSON.stringify(jsonData));
+		this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
 		},
 		loadData() {
 			var updateData =[];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach((item)=> {
@@ -1162,7 +1178,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.1.202:5000/api/test',jsonData)
+				axios.post('http://192.168.10.30:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -1203,22 +1219,32 @@ tabsAndTableDetails,
 		var jsonData = {
 			name: this.form1.name,
 			deviceId: this.selectedDeviceID,
-			isBrightnessAuto: this.checked,
 			sunriseValue: this.sunriseItem.val,
 			sunsetValue: this.sunsetItem.val,
 			sunriseTime: this.time,
 			sunsetTime: this.time2,
-			blackScreenOpenTime: this.timeBlackScreenOff,
-			blackScreenCloseTime: this.timeBlackScreenOn,
+			isBrightnessAuto: this.checked,
+			blackScreenOpenTime: this.timeBlackScreenOn,
+			blackScreenCloseTime: this.timeBlackScreenOff,
+			blackScreenAuto: this.checkedSwitch,
+
 		}
 		var updateData = this.deviceList;
-		axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
+		axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
 		.then(function (response) {
 			console.log(response)
 			updateData.forEach(item => {
 				if(item.Id == jsonData.deviceId) {
 					//$('#name-info label a').text(jsonData.name)
 					item.device_name = jsonData.name
+					item.black_screen_close_time = jsonData.blackScreenCloseTime,
+					item.black_screen_open_time = jsonData.blackScreenOpenTime,
+					item.sunrise_value = jsonData.sunriseValue,
+					item.sunrise_time = jsonData.sunriseTime,
+					item.sunsetValue = jsonData.sunsetValue,
+					item.sunsetTime = jsonData.sunsetTime,
+					item.is_brightness_auto = jsonData.isBrightnessAuto,
+					item.is_black_screen_auto = jsonData.blackScreenAuto
 				}
 			})
 		})

@@ -169,20 +169,19 @@ export default {
       var openDev = 0;
       var closeDev = 0;
       var unreacheableDev = 0;
-			var command = Object.keys(jsonData.params)[0];
-			var TVID = jsonData.params[command].split(',')[0];
-			var value = jsonData.params[command].split(',')[1];
-			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
+			
+			
+			
+			
 
 			var db = this.deviceList;
 			console.log('DB :',db)
 			var i;
-			db.forEach(item => {console.log(item);
-      })
+			
 			for (i = 0; i < db.length; i++) {
-				if(db[i].screen_on_off == 1 && db[i].connection_status == 1){
+				if(db[i].dvi_status == 1 && db[i].connection_status == 1){
 					openDev++;
-				}else if(db[i].screen_on_off == 0 && db[i].connection_status == 1){
+				}else if(db[i].dvi_status == 0 && db[i].connection_status == 1){
 					closeDev++;
 				}
 				if(db[i].connection_status == 0) {
@@ -197,10 +196,9 @@ export default {
 			this.openDeviceLength = openDev;
       this.unreachableDeviceLenght = unreacheableDev;
 			//if((this.closeDev + this.openDev) == this.totalDeviceLength) {
-				closeDev = 0;
-				openDev = 0;
 				
-				this.noSignal = 0;
+				
+				
 			//}
     },
    },
@@ -277,7 +275,7 @@ export default {
 			var unreachableDev = 0;
 			var dviSignalDev = 0;
 			var updatedData = [];
-			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
 				this.deviceList = resp.data;
         resp.data.forEach(item => {
           console.log('Dash : ',item)

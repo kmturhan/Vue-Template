@@ -507,19 +507,38 @@ connection.query(mysqlQuery,[],(err,result,fields)=> {
 router.post('/nameUpdate',function(req,res){
     var mysqlQuery;
     var data = req.body;
+    console.log(data);
     console.log(`Name Update : ${data.deviceId} - ${data.name}`)
-    if(data.isBrightnessAuto == false) {
-        mysqlQuery = "UPDATE led_devices SET device_name = ? WHERE Id = ?";
+    if(data.isBrightnessAuto == false && data.blackScreenAuto == false) {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
          
-        connection.query(mysqlQuery, [data.name, data.deviceId],(err,results,fields) => {
+        connection.query(mysqlQuery, [data.name,data.isBrightnessAuto,data.blackScreenAuto, data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');        
         })
-    }else{
-        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?, black_screen_open_time = ?, black_screen_close_time = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.deviceId],(err,results,fields) => {
+
+    }else if(data.isBrightnessAuto && data.blackScreenAuto){
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
-            console.log(data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.deviceId, data.deviceId)
+            console.log(mysqlQuery);
+            
+        })
+    }else if(data.isBrightnessAuto){
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
+            console.log('Name Update OK!');
+            console.log(err);
+            console.log(mysqlQuery);
+            
+        })
+    } else if (data.blackScreenAuto){
+        mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
+            console.log('Name Update OK!');
+            console.log(err);
+            console.log(mysqlQuery);
+            console.log(data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.deviceId,data.blackScreenAuto)
         })
     }
    
