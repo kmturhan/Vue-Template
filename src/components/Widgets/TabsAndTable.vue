@@ -684,7 +684,7 @@ export default {
 							})	
 						}, 2000);*/
 						
-						axios.post('http://192.168.10.46:5000/api/test', {
+						axios.post('http://192.168.1.202:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -755,7 +755,7 @@ export default {
 			var dateTime = date+' '+time;
 			console.log(dateTime);
 			clearInterval(this.interval)
-			axios.post('http://192.168.10.46:5000/api/allAttributesUpdate', {
+			axios.post('http://192.168.1.202:5000/api/allAttributesUpdate', {
 						updateDate:dateTime,
 						token:token,
 						params: {
@@ -1046,7 +1046,7 @@ export default {
 		loadData() {
 			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLcdDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					updateData.push(item);
@@ -1121,7 +1121,7 @@ export default {
 			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 
 			this.$mqtt.publish('home/telemetry/'+token,{token:token,method:"rpcCommand",params: {tvSerial:serialNumber,command:command,tvId:tvID,swc: '1',cmd: 'gc',on:'01',off:'00'}});
-			axios.post('http://192.168.10.46:5000/api/test',{
+			axios.post('http://192.168.1.202:5000/api/test',{
 				token:token,
 				method:"rpcCommand",
 				params: {
@@ -1178,7 +1178,7 @@ export default {
 					},
 				}
 				this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.46:5000/api/test',jsonData)
+				axios.post('http://192.168.1.202:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)

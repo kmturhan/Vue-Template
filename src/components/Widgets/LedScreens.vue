@@ -382,6 +382,26 @@
 	</div>
 </template>
 <style>
+.v-picker__title {
+	height: 75px;
+	padding: 0 16px !important;
+}
+.v-time-picker-title__time .v-picker__title__btn, .v-time-picker-title__time span  {
+	font-size: 40px !important;
+}
+.v-time-picker-title .v-time-picker-title__ampm.v-time-picker-title__ampm--readonly {
+	font-size: 12px;
+}
+.v-menu__content.theme--dark.v-menu__content--fixed.menuable__content__active {
+	min-width: 230px !important;
+}
+.v-picker__body {
+	width: 230px !important;
+	height: 230px !important;
+}
+.v-menu__content .theme--dark .v-menu__content--fixed .menuable__content__active{
+	min-width: 210px;
+}
 .v-text-field__slot label {
 	font-size: 14px;
 }
@@ -934,7 +954,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -1043,7 +1063,7 @@ tabsAndTableDetails,
 				}
 
 				
-		this.$el.querySelectorAll('.input-gauch').forEach(item => {
+		this.$el.querySelectorAll('.input-gauch.tv-id-'+this.selectedTvID).forEach(item => {
 			console.log(item)
 			if(!$(item).closest('tr').find('td.tvstatus .v-input').hasClass('red--text')) {
 				$(item).removeClass('input-switch-disabled').addClass('input-switch-enabled');
@@ -1060,7 +1080,7 @@ tabsAndTableDetails,
 		loadData() {
 			var updateData =[];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach((item)=> {
@@ -1142,7 +1162,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/telemetry/led_novastar/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.46:5000/api/test',jsonData)
+				axios.post('http://192.168.1.202:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -1192,7 +1212,7 @@ tabsAndTableDetails,
 			blackScreenCloseTime: this.timeBlackScreenOn,
 		}
 		var updateData = this.deviceList;
-		axios.post('http://192.168.10.46:5000/api/nameUpDate',jsonData)
+		axios.post('http://192.168.1.202:5000/api/nameUpDate',jsonData)
 		.then(function (response) {
 			console.log(response)
 			updateData.forEach(item => {
@@ -1229,6 +1249,9 @@ tabsAndTableDetails,
 		this.time2 = this.selectedInfoItem.sunset_time.split(':')[0] + ":"+this.selectedInfoItem.sunset_time.split(':')[1]
 		this.sunsetItem.val = this.selectedInfoItem.sunset_value;
 		this.sunriseItem.val = this.selectedInfoItem.sunrise_value;
+		this.timeBlackScreenOn = this.selectedInfoItem.black_screen_open_time.split(':')[0] + ":"+ this.selectedInfoItem.black_screen_open_time.split(':')[1];
+		this.timeBlackScreenOff = this.selectedInfoItem.black_screen_close_time.split(':')[0] + ":"+ this.selectedInfoItem.black_screen_close_time.split(':')[1];
+		
 	},
     clear() {
       this.$refs.form.reset();

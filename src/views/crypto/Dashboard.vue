@@ -277,7 +277,7 @@ export default {
 			var unreachableDev = 0;
 			var dviSignalDev = 0;
 			var updatedData = [];
-			axios.get('http://192.168.10.46:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.202:5000/api/loadLedDevices').then(resp => {
 				this.deviceList = resp.data;
         resp.data.forEach(item => {
           console.log('Dash : ',item)
