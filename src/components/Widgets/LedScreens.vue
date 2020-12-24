@@ -728,8 +728,8 @@ export default {
 	data () {
 		return {
 			items: [
-				{ text: "Automatic"},
-				{ text: "Always" },
+				{ text: "Always"},
+				{ text: "Week" },
 				
 			],
 			settingsMenu:false,
@@ -873,9 +873,9 @@ export default {
 					value:"Firmware Version"
 				},
 				{
-					text: "Last Updated",
+					text: "Status Update Time",
 					sortable: false,
-					value: "Last_Updated"
+					value: "Status Update Time"
 				},
 				{
 					text: "",
