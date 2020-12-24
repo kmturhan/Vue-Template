@@ -112,18 +112,30 @@ client.on('connect', function () {
                     var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 0 WHERE token = ?";
                     console.log(item.token);
                     connection.query(mysqlUpdateQuery,[item.token,item.sender_id,item.receiver_id],(err,result,fields) => {
-                        
+                        var jsonData = {
+                            method: 'statusUpdateTime',
+                            params: {
+                                connection_status: 0
+                            }
+                        }
+                        client.publish('home/attribute/led_novastar/' + item.token, JSON.stringify(jsonData));
                     })
                 }else{
                     var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 1 WHERE token = ?";
                     connection.query(mysqlUpdateQuery,[item.token],(err,result,fields) => {
-                        
+                        var jsonData = {
+                            method: 'statusUpdateTime',
+                            params: {
+                                connection_status: 1
+                            }
+                        }
+                        client.publish('home/attribute/led_novastar/' + item.token, JSON.stringify(jsonData));
                     })
                     
                 }
             })
         })
-    }, 30000);
+    }, 15000);
 
     setInterval(() => {
         var date = new Date();

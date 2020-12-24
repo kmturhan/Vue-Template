@@ -38,7 +38,7 @@
 				hide-default-footer >
 				<template v-slot:item="{ item }">
 					<tr>
-						<td class="text-nowrap">{{ item.tv_id }}</td>
+						<td class="text-nowrap">{{deviceList.indexOf(item) + 1}}</td>
 						<td>{{ item.brand }}</td>
 						<td>{{ item.model}}</td>
 						<td v-if="item.connection_status == 1" style="">
@@ -463,9 +463,9 @@ export default {
 			unreachableDevices: 0,
 			headersForTransactionList: [
 				{
-					text: "Tv ID",
+					text: "#",
 					sortable: false,
-					value: "account"
+					value: "#"
 				},
 				{
 					text: "Brand",
@@ -524,9 +524,9 @@ export default {
 					value: "Serial Number"
 				},
 				{
-					text: "Last Updated",
+					text: "Status Update Time",
 					sortable: false,
-					value: "Last_Updated"
+					value: "Status Update Time"
 				},
         ],
         tabsAndTableDetails,
@@ -644,7 +644,6 @@ export default {
 					if(item.getAttribute('data-tvid') == TVID) {
 						var testTag = item.closest('.pin-' + command)
 						if(value == 1) {
-							
 								$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
 								$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
 								$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
@@ -653,10 +652,7 @@ export default {
 								$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
 								$(testTag).find('svg').removeClass('tv-close-svg');
 								$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')	
-							
-							
 						} else {
-							
 							$(testTag).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');

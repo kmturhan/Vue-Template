@@ -102,14 +102,30 @@ client.on('connect', function () {
         if (testStamp > 900000) {
           var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 0 WHERE token = ?";
           console.log(item.token);
-          connection.query(mysqlUpdateQuery, [item.token, item.sender_id, item.receiver_id], function (err, result, fields) {});
+          connection.query(mysqlUpdateQuery, [item.token, item.sender_id, item.receiver_id], function (err, result, fields) {
+            var jsonData = {
+              method: 'statusUpdateTime',
+              params: {
+                connection_status: 0
+              }
+            };
+            client.publish('home/attribute/led_novastar/' + item.token, JSON.stringify(jsonData));
+          });
         } else {
           var mysqlUpdateQuery = "UPDATE led_devices SET connection_status = 1 WHERE token = ?";
-          connection.query(mysqlUpdateQuery, [item.token], function (err, result, fields) {});
+          connection.query(mysqlUpdateQuery, [item.token], function (err, result, fields) {
+            var jsonData = {
+              method: 'statusUpdateTime',
+              params: {
+                connection_status: 1
+              }
+            };
+            client.publish('home/attribute/led_novastar/' + item.token, JSON.stringify(jsonData));
+          });
         }
       });
     });
-  }, 30000);
+  }, 15000);
   setInterval(function () {
     var date = new Date();
     mysql = "SELECT Id,token,sunrise_time,sunrise_value,sunset_time,sunset_value,black_screen_open_time,black_screen_close_time,is_brightness_auto,is_black_screen_auto FROM led_devices";

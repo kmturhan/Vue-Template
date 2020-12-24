@@ -17,16 +17,18 @@
 							</v-card-title>
 							<v-row style="width:85%;margin-left:auto;margin-right:auto;">
 								<v-form v-model="form1.valid" ref="form" style="display:flex;flex-direction:column;" class="col-xl-12 col-lg-6 col-md-6 col-sm-6 col-12">
-									<div style="display:flex;">
-									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-									
-									<v-text-field
+									<div style="display:flex;flex-direction:column;">
+										<v-text-field
 										label="Name"
 										v-model="form1.name"
 										:rules="form1.nameRules"
 										:counter="30"
 										required></v-text-field>
-										<div style="position:relative;">
+										<div style="display:flex;margin-top:30px;">
+									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" style="display:flex;flex-direction:column;">
+									
+									
+										<div style="position:relative;display:flex;">
 										<v-checkbox
 											class=""
 											:label="$t('Sunrise / Sunset')"
@@ -38,7 +40,7 @@
 									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column" v-if="checked">
 										
 											<v-col cols="12" sm="12">
-												<v-select  hide-details label="Select"  v-bind:items="items"  v-model="e3"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
+												<v-select  hide-details label="Select" @change="testChangeSelect" v-bind:items="items"  v-model="times"  v-bind:error-messages="['Please select an option']"  item-value="text" ></v-select>
 											</v-col>	
 										
 										<div style="display:flex;">
@@ -75,6 +77,14 @@
 										:counter="5"
 										
 										required></v-text-field>-->
+										<div style="display:flex;">
+											<v-col cols="12" sm="12">
+												<v-select  hide-details label="Sunrise Time"  v-bind:items="times"  v-model="selectSun"  v-bind:error-messages="['Please select an option']" item-value="text"></v-select>
+											</v-col>
+											
+											
+										</div>
+										
 										<div style="position:relative">
 										<div style="display:flex;align-items:center;">
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:white;"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
@@ -82,6 +92,7 @@
 										</div>
 										<label style="position:absolute;top:32px;left:66px;font-size:14px;">{{sunriseItem.val}}</label>
 										</div>
+										
 										</div>
 
 										<div style="display:flex;flex-direction:column;" class="col-6">
@@ -110,6 +121,9 @@
 											</template>
 											<v-time-picker v-model="time2" @change="$refs.menu2.save(time2)"></v-time-picker>
 										</v-menu>
+										<v-col cols="12" sm="12">
+												<v-select  hide-details label="Sunset Time"  v-bind:items="times"  v-model="selectSunsetTime"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
+											</v-col>
 										<!--<v-text-field
 										label="Sunset Time"
 										v-model="sunsetItem.time"
@@ -130,7 +144,7 @@
 									</div>
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
 										
-										<div style="position:relative;margin-top:67px;">
+										<div style="position:relative;">
 											
 										<v-checkbox
 											class=""
@@ -141,10 +155,9 @@
 										<label style="position:absolute;top:19px;font-size:8px;left:32px;">*test</label>
 										</div>
 										
-										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column">
+										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:10px;height:230px;flex-direction:column;">
 											<v-col cols="12" sm="12">
-												<v-select  hide-details label="Select"  v-bind:items="items"  v-model="e3"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
-											</v-col>
+												<v-select  hide-details label="Select"  v-bind:items="items"  v-model="selectBlackScreen"  v-bind:error-messages="['Please select an option']"  item-value="text"></v-select>
 											<div style="display:flex;margin-top:10px">
 											<v-menu
 											ref="timeBlackScreenOffEdit"
@@ -193,10 +206,17 @@
 												></v-text-field>
 											</template>
 											<v-time-picker v-model="timeBlackScreenOn" @change="$refs.timeBlackScreenOnEdit.save(timeBlackScreenOn)"></v-time-picker>
+										
 										</v-menu>
+											
 											</div>
+											
+											</v-col>
+											
 										</div>
 									</div>
+									</div>
+									
 									</div>
 									<!--<v-text-field
 										label="Day Light"
@@ -210,7 +230,7 @@
 										
 										:counter="30"
 										required></v-text-field>-->
-										<div style="width:100%;align-items:center;justify-content:center;display:flex;">
+										<div style="width:100%;align-items:center;justify-content:center;display:flex;margin-top:30px;">
 										<v-btn
 										@click="submit"
 										:disabled="!form2.valid"
@@ -318,7 +338,6 @@
 						<td v-if="item.connection_status == 0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: red;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></td>
 						<td>-</td>
 						<td class="tvRemoteLock input-control" :data-tvid="item.Id" :data-value="item.screen_on_off">
-							{{item.screen_on_off}}
             <div v-if="item.screen_on_off == 1"  :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls" >
 									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :data-value="item.screen_on_off" @click="clickPub">
@@ -727,9 +746,21 @@ let $ = JQuery;
 export default {
 	data () {
 		return {
+			selectSunriseTime:'',
+			times:[
+				{text:"00:00"},
+				{text:"01:00"},
+				{text:"02:00"},
+				{text:"03:00"},
+				{text:"04:00"},
+				{text:"05:00"},
+				{text:"06:00"},
+				{text:"07:00"},
+				{text:"08:00"},
+			],
 			items: [
-				{ text: "Always"},
-				{ text: "Week" },
+				{ text: "Always",value:true},
+				{ text: "Week" ,value:false},
 				
 			],
 			settingsMenu:false,
@@ -738,6 +769,9 @@ export default {
 			selectedName: "",
 			test:[{val:40,color:'red'}],
 			checked:false,
+			selectSun:'',
+			selectSunset:'',
+			selectBlackScreen:'',
 			deviceName: "",
 			selectedDeviceID: 0,
 			dialog3: false,
@@ -773,7 +807,6 @@ export default {
 		menu2:false,
 		date1: null,
 		menu1: false,
-		
 		time:null,
 		time1:null,
 		time2:null,
@@ -899,8 +932,10 @@ tabsAndTableDetails,
 		
 	},
 	mqtt: {
-		'home/attribute/led_novastar/#': function(val){
+		'home/attribute/led_novastar/#': function(val,topic){
+			var token = topic.split('/')[3];
 			console.log('TESTSETSETSE')
+			console.log('TOKEN : ',token)
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log('LED NOVASTAR : ',jsonData);
@@ -909,6 +944,24 @@ tabsAndTableDetails,
 			var updateDeviceList = this.deviceList;
 			console.log(updateDeviceList);
 			console.log('TEST : ',jsonData.params)
+
+			if(jsonData.method == 'statusUpdateTime') {
+				console.log('status update time')
+				if(jsonData.params.connection_status == 0) {
+					updateDeviceList.forEach((item,index) => {
+					if(item.token == token) {
+						updateDeviceList[index].connection_status = 0;
+					}
+				})
+				}else if(jsonData.params.connection_status == 1){
+					console.log('Status update time')
+					updateDeviceList.forEach((item,index) => {
+						if(item.token == token) {
+							updateDeviceList[index].connection_status = 1;
+						}
+					})
+				}
+			}
 			if(jsonData.params.screen_on_off == 0) {
 				console.log("Screen ON OFF : 0")
 				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
@@ -925,17 +978,16 @@ tabsAndTableDetails,
 				$(item).find('.v-input--switch__track span').text('Off')
 				$(item).children().data('value',0);
 				updateDeviceList.forEach((item,index) => {
-					if(item.Id == this.selectedTvID) {
+					console.log('TOKEN : ',item.token, token)
+					if(item.token == token) {
 						updateDeviceList[index].screen_on_off = 0;
 					}
-					
-					
 				})
 			})
 			}else if (jsonData.params.screen_on_off == 1){
-					console.log("SCREEN ON OFF 1")
-					this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
-					console.log('pin-km : ',item)
+				console.log("SCREEN ON OFF 1")
+				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
+				console.log('pin-km : ',item)
 				$(item).addClass('v-input--is-label-active  success--text').removeClass('red--text text--darken-3');
 				$(item).find('.v-input--selection-controls__ripple').addClass('success--text').removeClass('red--text text--darken-3');
 				$(item).find('.v-input--switch__track').addClass('success--text').removeClass('red--text text--darken-3');
@@ -948,26 +1000,29 @@ tabsAndTableDetails,
 				$(item).children().data('value',1);
 				$(item).find('.v-input--switch__track span').text('On')
 					updateDeviceList.forEach((item,index) => {
-					if(item.Id == this.selectedTvID) {
+						console.log('TOKEN : ',item.token, token)
+					if(item.token== token) {
 						updateDeviceList[index].screen_on_off = 1;
 					}
-					
-					
 				})
 			})
-			
-			
+			}
 			console.log('BRIGHTNESS : ',jsonData.params.brigtnessWrite,'TYPEOF  : ',typeof jsonData.params.brigtnessWrite)
 			if(typeof jsonData.params.brigtnessWrite !== 'undefined') {
-				
+				console.log('NOT UNDEFINED')
 				updateDeviceList.forEach((item,index) => {
-					updateDeviceList[index].brightness_value = jsonData.params.brigtnessWrite;
+					console.log('TOKEN : ',item.token, token)
+					if(item.token == token) {
+						updateDeviceList[index].brightness_value = jsonData.params.brigtnessWrite;
+					}
+					
 				})
 			}
 			console.log('UPDATE : ',updateDeviceList)
 			this.deviceList = updateDeviceList;
 			}
-		},
+			
+	
 	},
 	methods: {
 		popup: function() {
@@ -1122,13 +1177,9 @@ tabsAndTableDetails,
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach((item)=> {
-
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
 					console.log('LED : ',item)
-					
 					updateData.push(item)
-					
-					
 					this.sendDataList.push(item);
 					
 				});
@@ -1293,13 +1344,14 @@ tabsAndTableDetails,
 			}
 		})
 		this.form1.name = this.selectedInfoItem.device_name;
-		this.time = this.selectedInfoItem.sunrise_time.split(':')[0] + ":"+ this.selectedInfoItem.sunrise_time.split(':')[1];
-		this.time2 = this.selectedInfoItem.sunset_time.split(':')[0] + ":"+this.selectedInfoItem.sunset_time.split(':')[1]
+		this.time = this.selectedInfoItem.sunrise_time.split(':')[0] + ":" + this.selectedInfoItem.sunrise_time.split(':')[1];
+		this.time2 = this.selectedInfoItem.sunset_time.split(':')[0] + ":" + this.selectedInfoItem.sunset_time.split(':')[1]
 		this.sunsetItem.val = this.selectedInfoItem.sunset_value;
 		this.sunriseItem.val = this.selectedInfoItem.sunrise_value;
 		this.timeBlackScreenOn = this.selectedInfoItem.black_screen_open_time.split(':')[0] + ":"+ this.selectedInfoItem.black_screen_open_time.split(':')[1];
 		this.timeBlackScreenOff = this.selectedInfoItem.black_screen_close_time.split(':')[0] + ":"+ this.selectedInfoItem.black_screen_close_time.split(':')[1];
-		
+		this.checked = this.selectedInfoItem.is_brightness_auto;
+		this.checkedSwitch = this.selectedInfoItem.is_black_screen_auto;
 	},
     clear() {
       this.$refs.form.reset();
@@ -1327,8 +1379,6 @@ tabsAndTableDetails,
 		this.$mqtt.subscribe('home/attribute/led_novastar/#',function(message){
 			console.log('Novastar',message);
 		})
-		
-			
 	}
 }
 

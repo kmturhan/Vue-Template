@@ -169,11 +169,6 @@ export default {
       var openDev = 0;
       var closeDev = 0;
       var unreacheableDev = 0;
-			
-			
-			
-			
-
 			var db = this.deviceList;
 			console.log('DB :',db)
 			var i;
