@@ -40,7 +40,7 @@
 									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column" v-if="checked">
 										
 										<v-col cols="12" sm="12">
-											<v-select :rules="form3.emptyRules" hide-details label="Automatic / Always" v-bind:items="autoWeekOptionsArray" v-model="selectedSunOptions"  item-value="text" ></v-select>
+											<v-select :rules="form3.emptyRules" hide-details label="Automatic / Always" v-bind:items="autoWeekOptionsArray" v-model="selectedSunOptions.state"  item-value="text" ></v-select>
 										</v-col>	
 										
 										<div style="display:flex;">
@@ -84,12 +84,12 @@
 											</div>
 											<div style="display:flex;margin-top:-10px;">
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
-												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API time</label>
-												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
 										</div>
@@ -137,12 +137,12 @@
 											</div>
 											<div style="display:flex;margin-top:-10px;">
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;" >
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
-												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
-												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
 										</div>
@@ -862,6 +862,7 @@ export default {
 			selectSunset:'',
 			selectSunsetTime:'',
 			selectBlackScreenOptions:'',
+			
 			deviceName: "",
 			selectedDeviceID: 0,
 			dialog3: false,
@@ -1403,8 +1404,8 @@ tabsAndTableDetails,
 			blackScreenOpenTime: this.selectBlackScreenOnTimeHour+':'+this.selectBlackScreenOnTimeMinute,
 			blackScreenCloseTime: this.selectBlackScreenOffTimeHour+':'+this.selectBlackScreenOffTimeMinute,
 			blackScreenAuto: this.checkedSwitch,
-			blackScreenTimeOptions: this.selectedBlackScreenItem.state
-
+			blackScreenTimeOptions: this.selectedBlackScreenItem.state,
+			sunTimeOptions: this.selectedSunOptions.state
 		}
 		var updateData = this.deviceList;
 		axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
@@ -1423,6 +1424,7 @@ tabsAndTableDetails,
 					item.is_brightness_auto = jsonData.isBrightnessAuto,
 					item.is_black_screen_auto = jsonData.blackScreenAuto,
 					item.black_screen_time_options = jsonData.blackScreenTimeOptions
+					item.sun_time_options = jsonData.sunTimeOptions
 				}
 			})
 		})
@@ -1462,6 +1464,7 @@ tabsAndTableDetails,
 		this.checked = this.selectedInfoItem.is_brightness_auto;
 		this.checkedSwitch = this.selectedInfoItem.is_black_screen_auto;
 		this.selectedBlackScreenItem.state = this.selectedInfoItem.black_screen_time_options;
+		this.selectedSunOptions.state = this.selectedInfoItem.sun_time_options;
 	},
 	optionsSelect() {
 		console.log('test')

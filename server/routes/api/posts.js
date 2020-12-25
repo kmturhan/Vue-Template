@@ -178,7 +178,7 @@ client.on('connect', function () {
                     var sunsetTimeHour = item.sunset_time.split(':')[0];
                     var sunsetTimeMinute = item.sunset_time.split(':')[1];
                     var sunsetValue = item.sunset_value;
-                    console.log(`${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
+                    console.log(`Sunrise : ${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} Sunset : ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
                     if(currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
                         var jsonData = {
                             method:"rpcCommand",
@@ -213,6 +213,7 @@ client.on('connect', function () {
     client.subscribe('#', function() {
         console.log("All topics Listening")
     })
+    
 });
 
 var selectedTvID, selectedSerialNumber;
@@ -421,6 +422,11 @@ client.on('message', function (topic, message) {
                 });
             }
             break;
+            case 'home/attribute/led_novastar/'+token:
+                console.log('LED NOVASTAR test');
+                
+            break;
+            
     }
 })
 async function getCountry(ip,token,jsonTvIdList) {
@@ -599,15 +605,15 @@ router.post('/nameUpdate',function(req,res){
         })
 
     }else if(data.isBrightnessAuto && data.blackScreenAuto){
-        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.blackScreenTimeOptions,data.deviceId],(err,results,fields) => {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options = ?,sun_time_options = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.blackScreenTimeOptions,data.sunTimeOptions,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
             console.log(mysqlQuery);
         })
     }else if(data.isBrightnessAuto){
-        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?, sun_time_options = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.isBrightnessAuto,data.blackScreenAuto,data.sunTimeOptions,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
             console.log(mysqlQuery);
