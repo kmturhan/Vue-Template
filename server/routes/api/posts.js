@@ -599,8 +599,8 @@ router.post('/nameUpdate',function(req,res){
         })
 
     }else if(data.isBrightnessAuto && data.blackScreenAuto){
-        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.blackScreenTimeOptions,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
             console.log(mysqlQuery);
@@ -613,8 +613,8 @@ router.post('/nameUpdate',function(req,res){
             console.log(mysqlQuery);
         })
     } else if (data.blackScreenAuto){
-        mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
-        connection.query(mysqlQuery, [data.name,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.deviceId],(err,results,fields) => {
+        mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options = ? WHERE Id = ?";
+        connection.query(mysqlQuery, [data.name,data.blackScreenOpenTime,data.blackScreenCloseTime,data.isBrightnessAuto,data.blackScreenAuto,data.blackScreenTimeOptions,data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
             console.log(err);
             console.log(mysqlQuery);

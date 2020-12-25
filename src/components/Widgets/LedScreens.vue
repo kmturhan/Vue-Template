@@ -40,7 +40,7 @@
 									<div style="display:flex;justify-content:space-around;border:1px solid white;border-radius:10px;padding:10px;height:auto;flex-direction:column" v-if="checked">
 										
 										<v-col cols="12" sm="12">
-											<v-select :rules="form3.emptyRules" hide-details label="Always/Week" v-bind:items="itemss"  v-model="selectSunOptions"  item-value="text" ></v-select>
+											<v-select :rules="form3.emptyRules" hide-details label="Automatic / Always" v-bind:items="autoWeekOptionsArray" v-model="selectedSunOptions"  item-value="text" ></v-select>
 										</v-col>	
 										
 										<div style="display:flex;">
@@ -83,11 +83,13 @@
 											<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Sunrise Time</span>
 											</div>
 											<div style="display:flex;margin-top:-10px;">
-											<v-col cols="6" sm="6">
-												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour"   item-value="text"></v-select>
+											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<v-col cols="6" sm="6">
-												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute"   item-value="text"></v-select>
+											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
 										</div>
@@ -95,11 +97,10 @@
 										<div style="position:relative">
 										<div style="display:flex;align-items:center;margin-top:10px;">
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:white;"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
-											<v-slider v-model="sunriseItem.val" v-bind:max="255" :thumb-color="sunriseItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
+											<v-slider :rules="rulesInput.gauchSunriseRule" v-model="sunriseItem.val" v-bind:max="255" :thumb-color="sunriseItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
 										</div>
 										<label style="position:absolute;top:40px;left:80px;font-size:14px;">{{sunriseItem.val}}</label>
 										</div>
-										
 										</div>
 
 										<div style="display:flex;flex-direction:column;" class="col-6">
@@ -135,11 +136,13 @@
 											<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Sunset Time</span>
 											</div>
 											<div style="display:flex;margin-top:-10px;">
-											<v-col cols="6" sm="6">
-												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour"   item-value="text"></v-select>
+											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;" >
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<v-col cols="6" sm="6">
-												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute"   item-value="text"></v-select>
+											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
+												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
 										</div>
@@ -152,7 +155,7 @@
 										<div style="position:relative;">
 										<div style="display:flex;align-items:center;margin-top:10px;">
 										<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:white;"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
-										<v-slider v-model="sunsetItem.val" v-bind:max="255" :thumb-color="sunsetItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
+										<v-slider v-model="sunsetItem.val" :rules="rulesInput.gauchSunsetRule" v-bind:max="255" :thumb-color="sunsetItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
 										
 										</div>
 										<label style="position:absolute;top:40px;left:80px;font-size:14px;">{{sunsetItem.val}}</label>
@@ -176,7 +179,7 @@
 										
 										<div v-if="checkedSwitch" style="display:flex;border:1px solid white;border-radius:10px;padding:10px;height:271px;flex-direction:column;">
 											<v-col cols="12" sm="12">
-												<v-select :rules="form3.emptyRules" hide-details label="Always/Week"  v-bind:items="itemss"  v-model="selectBlackScreenOptions"    item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="Always / Week" @change="optionsSelect"  v-bind:items="itemss"  v-model="selectedBlackScreenItem.state"    item-value="text"></v-select>
 											<div style="display:flex;margin-top:8px;">
 											<v-col cols="6" sm="6">
 												<div style="display:flex;flex-direction:column">
@@ -187,10 +190,10 @@
 													</div>
 													<div style="display:flex;margin-top:-10px;">
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenOnTimeHour"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour" v-model="selectBlackScreenOnTimeHour" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'" item-value="text"></v-select>
 													</v-col>
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOnTimeMinute"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOnTimeMinute" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 													</v-col>
 													</div>
 												</div>
@@ -203,10 +206,10 @@
 													</div>
 													<div style="display:flex;margin-top:-10px;">
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenOffTimeHour"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenOffTimeHour" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 													</v-col>
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 													</v-col>
 													</div>
 												</div>
@@ -395,7 +398,7 @@
 						<td class="tvRemoteLock input-control" :data-tvid="item.Id" :data-value="item.screen_on_off">
             <div v-if="item.screen_on_off == 1"  :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls" >
-									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 && item.is_black_screen_auto == 0 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
+									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
 												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"  aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
@@ -412,14 +415,14 @@
 								</div>
 								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled'">
 									<span>Auto</span><br>
-									<span>Open Time: {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
-									<span>Close Time: {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
+									<span><b>ON :</b> {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
+									<span><b>OFF :</b> {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
 								</div>
 							</div>
 							
 							<div v-else-if="item.screen_on_off == 0" ref="thebutton" :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch">
-									<div class="v-input__control" :class="[item.connection_status == 1 && item.is_black_screen_auto == 0 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
+									<div class="v-input__control" :class="[item.connection_status == 1 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
 												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"   aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
@@ -435,19 +438,19 @@
 									</div>
 								</div>
 								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled'">
-									<span>Auto</span><br>
-									<span>Open Time: {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
-									<span>Close Time: {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
+									<span><b>Auto</b></span><br>
+									<span><b>ON :</b> {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
+									<span><b>OFF :</b>  {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
 								</div>
 							</div>
 						</td>
 						
-						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 && item.is_black_screen_auto == 0 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
+						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
 							<v-slider :style="[item.is_brightness_auto == 0 ? {display:'block'}:{display:'none'}]" v-model="item.brightness_value" v-bind:max="255" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
-							<div :style="[item.is_brightness_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px">
-									<span>Auto</span><br>
-									<span>Sunrise Time: {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}} - Value: {{item.sunrise_value}}</span><br>
-									<span>Sunset Time: {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}} - Value: {{item.sunset_value}}</span>
+							<div :style="[item.is_brightness_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" >
+									<span><b>Auto</b></span><br>
+									<span><b>Sunrise :</b> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}} - <b>Value :</b> {{item.sunrise_value}}</span><br>
+									<span><b>Sunset :</b> {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}} - <b>Value :</b> {{item.sunset_value}}</span>
 								</div>
 						</td>
 						
@@ -498,6 +501,12 @@
 	</div>
 </template>
 <style>
+.input-hide {
+	display: none;
+}
+.input-show {
+	display: block;
+}
 .v-picker__title {
 	height: 75px;
 	padding: 0 16px !important;
@@ -816,7 +825,7 @@ let $ = JQuery;
 export default {
 	data () {
 		return {
-			selectSunOptions:false,
+			
 			selectSunriseTimeHour:'',
 			selectSunriseTimeMinute:'',
 			selectSunsetTimeHour:'',
@@ -829,13 +838,20 @@ export default {
 				{text:"00"},{text:"01"},{text:"02"},{text:"03"},{text:"04"},{text:"05"},{text:"06"},{text:"07"},{text:"08"},{text:"09"},{text:"10"},{text:"11"},{text:"12"},{text:"13"},{text:"14"},{text:"15"},{text:"16"},{text:"17"},{text:"18"},{text:"19"},{text:"20"},{text:"21"},{text:"22"},{text:"23"}
 			],
 			timesMinutes:[
-				{text:"00"},{text:"01"},{text:"02"},{text:"03"},{text:"04"},{text:"05"},{text:"06"},{text:"07"},{text:"08"},{text:"09"},{text:"10"},{text:"11"},{text:"12"},{text:"13"},{text:"14"},{text:"15"},{text:"16"},{text:"17"},{text:"18"},{text:"19"},{text:"20"},{text:"21"},{text:"22"},{text:"23"},{text:"24"},{text:"25"},{text:"26"},{text:"27"},{text:"28"},{text:"29"},{text:"30"},{text:"31"},{text:"32"},{text:"33"},{text:"34"},{text:"35"},{text:"36"},{text:"37"},{text:"38"},{text:"39"},{text:"40"},{text:"41"},{text:"42"},{text:"43"},{text:"44"},{text:"45"},{text:"46"},{text:"47"},{text:"48"},{text:"49"},{text:"50"},{text:"51"},{text:"52"},{text:"53"},{text:"54"},{text:"55"},{text:"56"},{text:"57"},{text:"58"},{text:""},
+				{text:"00"},{text:"01"},{text:"02"},{text:"03"},{text:"04"},{text:"05"},{text:"06"},{text:"07"},{text:"08"},{text:"09"},{text:"10"},{text:"11"},{text:"12"},{text:"13"},{text:"14"},{text:"15"},{text:"16"},{text:"17"},{text:"18"},{text:"19"},{text:"20"},{text:"21"},{text:"22"},{text:"23"},{text:"24"},{text:"25"},{text:"26"},{text:"27"},{text:"28"},{text:"29"},{text:"30"},{text:"31"},{text:"32"},{text:"33"},{text:"34"},{text:"35"},{text:"36"},{text:"37"},{text:"38"},{text:"39"},{text:"40"},{text:"41"},{text:"42"},{text:"43"},{text:"44"},{text:"45"},{text:"46"},{text:"47"},{text:"48"},{text:"49"},{text:"50"},{text:"51"},{text:"52"},{text:"53"},{text:"54"},{text:"55"},{text:"56"},{text:"57"},{text:"58"},{text:"59"},
 			],
+			selectedBlackScreenItem: {state: ''},
+			selectedSunOptions:{state:''},
 			itemss: [
 				{ text: "Always",value:true},
 				{ text: "Week" ,value:false},
-				
 			],
+			autoWeekOptionsArray: [
+				{text:"Automatic",value:1},
+				{text:"Always",value:0}
+			],
+			
+			autoWeekOptionsSelected:'',
 			settingsMenu:false,
 			checkedSwitch:false,
 			selectedInfoItem:[],
@@ -894,6 +910,14 @@ export default {
 				v => !!v || "Select is required",
 			]
 		},
+	rulesInput: {
+		gauchSunsetRule: [
+			v => v < this.sunriseItem.val || ''
+		],
+		gauchSunriseRule: [
+			v => v > this.sunsetItem.val || ''
+		],
+	},
 	form1: {
         valid: false,
 		name: "",
@@ -912,7 +936,7 @@ export default {
             /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
             "E-mail must be valid"
         ]
-      },
+	},  
       form2: {
         valid: true,
 		name: "",
@@ -1379,6 +1403,7 @@ tabsAndTableDetails,
 			blackScreenOpenTime: this.selectBlackScreenOnTimeHour+':'+this.selectBlackScreenOnTimeMinute,
 			blackScreenCloseTime: this.selectBlackScreenOffTimeHour+':'+this.selectBlackScreenOffTimeMinute,
 			blackScreenAuto: this.checkedSwitch,
+			blackScreenTimeOptions: this.selectedBlackScreenItem.state
 
 		}
 		var updateData = this.deviceList;
@@ -1393,10 +1418,11 @@ tabsAndTableDetails,
 					item.black_screen_open_time = jsonData.blackScreenOpenTime,
 					item.sunrise_value = jsonData.sunriseValue,
 					item.sunrise_time = jsonData.sunriseTime,
-					item.sunsetValue = jsonData.sunsetValue,
-					item.sunsetTime = jsonData.sunsetTime,
+					item.sunset_value = jsonData.sunsetValue,
+					item.sunset_time = jsonData.sunsetTime,
 					item.is_brightness_auto = jsonData.isBrightnessAuto,
-					item.is_black_screen_auto = jsonData.blackScreenAuto
+					item.is_black_screen_auto = jsonData.blackScreenAuto,
+					item.black_screen_time_options = jsonData.blackScreenTimeOptions
 				}
 			})
 		})
@@ -1435,6 +1461,11 @@ tabsAndTableDetails,
 		this.selectBlackScreenOffTimeMinute = this.selectedInfoItem.black_screen_close_time.split(':')[1];
 		this.checked = this.selectedInfoItem.is_brightness_auto;
 		this.checkedSwitch = this.selectedInfoItem.is_black_screen_auto;
+		this.selectedBlackScreenItem.state = this.selectedInfoItem.black_screen_time_options;
+	},
+	optionsSelect() {
+		console.log('test')
+		
 	},
     clear() {
       this.$refs.form.reset();
