@@ -2,7 +2,7 @@
 
 	<div>
 	
-	<v-dialog v-model="dialog3" max-width="1000px">
+	<v-dialog v-model="dialog3" max-width="1100px">
 						<v-card>
 							<v-card-title>
 								<span>Edit Screen {{selectedName}}</span>
@@ -188,13 +188,15 @@
 													<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">On Time</span>
 													
 													</div>
-													<div style="display:flex;margin-top:-10px;">
+													<div style="margin-top:-10px;" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'">
+													<div style="display:flex">
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour" v-model="selectBlackScreenOnTimeHour" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'" item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour" v-model="selectBlackScreenOnTimeHour"  item-value="text"></v-select>
 													</v-col>
 													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOnTimeMinute" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOnTimeMinute"  item-value="text"></v-select>
 													</v-col>
+													</div>
 													</div>
 												</div>
 											</v-col>
@@ -204,16 +206,60 @@
 													<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="fill:white;width:25px;">    <path d="M 31 0 C 30.134 0 29.253766 0.04853125 28.384766 0.14453125 C 17.820766 1.3115313 9.3095313 9.826625 8.1445312 20.390625 C 7.1515312 29.393625 11.312953 37.910094 19.001953 42.621094 C 20.564953 43.579094 21.641125 45.116891 21.953125 46.837891 L 22 47.091797 L 22 53 C 22 56.519 24.614 59.431922 28 59.919922 L 28 61 C 28 62.103 28.897 63 30 63 L 32 63 C 33.103 63 34 62.103 34 61 L 34 59.919922 C 37.386 59.431922 40 56.519 40 53 L 40 47.089844 L 40.044922 46.84375 C 40.357922 45.12275 41.44625 43.577516 43.03125 42.603516 C 49.89925 38.379516 54 31.051 54 23 C 54 10.317 43.683 0 31 0 z M 31 2 C 42.58 2 52 11.421 52 23 C 52 30.351 48.256375 37.041438 41.984375 40.898438 C 40.063375 42.078437 38.698641 43.919 38.181641 46 L 34 46 L 34 44 C 34 43.447 33.553 43 33 43 C 32.447 43 32 43.447 32 44 L 32 46 L 30 46 L 30 30.65625 C 30 29.32025 29.479156 28.065094 28.535156 27.121094 L 25.121094 23.707031 C 24.731094 23.317031 24.731094 22.682969 25.121094 22.292969 L 26.292969 21.121094 C 26.683969 20.730094 27.316031 20.730094 27.707031 21.121094 L 28.878906 22.292969 C 30.011906 23.425969 31.988094 23.425969 33.121094 22.292969 L 34.292969 21.121094 C 34.683969 20.730094 35.316031 20.730094 35.707031 21.121094 L 36.878906 22.292969 C 37.268906 22.682969 37.268906 23.317031 36.878906 23.707031 L 33.464844 27.121094 C 32.520844 28.065094 32 29.32025 32 30.65625 L 32 40 C 32 40.553 32.447 41 33 41 C 33.553 41 34 40.553 34 40 L 34 30.65625 C 34 29.85425 34.311906 29.102156 34.878906 28.535156 L 38.292969 25.121094 C 39.462969 23.951094 39.462969 22.048906 38.292969 20.878906 L 37.121094 19.707031 C 35.951094 18.537031 34.048906 18.537031 32.878906 19.707031 L 31.707031 20.878906 C 31.328031 21.255906 30.671969 21.255906 30.292969 20.878906 L 29.121094 19.707031 C 27.951094 18.537031 26.048906 18.537031 24.878906 19.707031 L 23.707031 20.878906 C 22.537031 22.048906 22.537031 23.951094 23.707031 25.121094 L 27.121094 28.535156 C 27.687094 29.103156 28 29.85425 28 30.65625 L 28 46 L 23.818359 46 C 23.302359 43.916 21.949875 42.082969 20.046875 40.917969 C 13.025875 36.615969 9.2258125 28.832422 10.132812 20.607422 C 11.194812 10.966422 18.963516 3.1978125 28.603516 2.1328125 C 29.400516 2.0458125 30.207 2 31 2 z M 16 11 C 15.447 11 15 11.447 15 12 L 15 14 C 15 14.553 15.447 15 16 15 C 16.553 15 17 14.553 17 14 L 17 12 C 17 11.447 16.553 11 16 11 z M 21 11 C 20.447 11 20 11.447 20 12 L 20 14 C 20 14.553 20.447 15 21 15 C 21.553 15 22 14.553 22 14 L 22 12 C 22 11.447 21.553 11 21 11 z M 26 11 C 25.447 11 25 11.447 25 12 L 25 14 C 25 14.553 25.447 15 26 15 C 26.553 15 27 14.553 27 14 L 27 12 C 27 11.447 26.553 11 26 11 z M 31 11 C 30.447 11 30 11.447 30 12 L 30 14 C 30 14.553 30.447 15 31 15 C 31.553 15 32 14.553 32 14 L 32 12 C 32 11.447 31.553 11 31 11 z M 36 11 C 35.447 11 35 11.447 35 12 L 35 14 C 35 14.553 35.447 15 36 15 C 36.553 15 37 14.553 37 14 L 37 12 C 37 11.447 36.553 11 36 11 z M 41 11 C 40.447 11 40 11.447 40 12 L 40 14 C 40 14.553 40.447 15 41 15 C 41.553 15 42 14.553 42 14 L 42 12 C 42 11.447 41.553 11 41 11 z M 46 11 C 45.447 11 45 11.447 45 12 L 45 14 C 45 14.553 45.447 15 46 15 C 46.553 15 47 14.553 47 14 L 47 12 C 47 11.447 46.553 11 46 11 z M 24 48 L 38 48 L 38 49.117188 L 24 50.867188 L 24 48 z M 38 51.132812 L 38 53 C 38 53.041 37.989281 53.078141 37.988281 53.119141 L 27.833984 54.388672 C 27.285984 54.456672 26.897797 54.955906 26.966797 55.503906 C 27.029797 56.009906 27.460031 56.380859 27.957031 56.380859 C 27.998031 56.380859 28.040031 56.376094 28.082031 56.371094 L 37.46875 55.199219 C 36.65175 56.851219 34.964 58 33 58 L 29 58 C 26.243 58 24 55.757 24 53 L 24 52.882812 L 38 51.132812 z M 30 60 L 32.001953 60 L 32.001953 61 L 30 61 L 30 60 z"/></svg>
 													<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Off Time</span>
 													</div>
-													<div style="display:flex;margin-top:-10px;">
-													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenOffTimeHour" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
-													</v-col>
-													<v-col cols="6" sm="6">
-														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'"  item-value="text"></v-select>
-													</v-col>
+													<div style="margin-top:-10px;" :class="selectedBlackScreenItem.state == 'Week' ? 'input-hide':'input-show'">
+													<div style="display:flex;">
+														<v-col cols="6" sm="6">
+															<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenOffTimeHour"   item-value="text"></v-select>
+														</v-col>
+														<v-col cols="6" sm="6">
+															<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+														</v-col>
+													</div>
 													</div>
 												</div>
 											</v-col>
+											</div>
+											<div>
+												<div class="col-sm-6 col-6" style="display:flex;">
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<div style="display:flex;justify-content:center;">
+													<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+													</div>
+													<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+														<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+													</div>
+												</div>
+												</div>
+												</div>
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												</div>
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												</div>
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												</div>
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												</div>
+												<div style="display:flex;align-items:center;">
+												<span>Monday</span>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenOffTimeMinute"   item-value="text"></v-select>
+												</div>
 											</div>
 											<!--<div style="display:flex;margin-top:10px">
 											<v-menu

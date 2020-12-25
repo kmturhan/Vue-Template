@@ -40,6 +40,7 @@ var sqlite3 = require('sqlite3').verbose();
 
 var db = new sqlite3.Database('./db.db');
 var client = mqtt.connect('wss://mqtts.labrus.com:8083', opts);
+var sendDataChannel = [];
 client.on('connect', function () {
   console.log('connect');
   setInterval(function () {
@@ -150,6 +151,7 @@ client.on('connect', function () {
               }
             };
             client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            sendDataChannel.push(jsonData);
           }
 
           console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
@@ -162,6 +164,7 @@ client.on('connect', function () {
               }
             };
             client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            sendDataChannel.push(jsonData);
           }
         }
 
@@ -179,10 +182,11 @@ client.on('connect', function () {
               method: "rpcCommand",
               params: {
                 commandId: '2',
-                brightness: sunriseValue
+                brightness: sunriseValue.toString()
               }
             };
             client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            sendDataChannel.push(jsonData);
           }
 
           if (currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute) {
@@ -190,10 +194,11 @@ client.on('connect', function () {
               method: "rpcCommand",
               params: {
                 commandId: '2',
-                brightness: sunsetValue
+                brightness: sunsetValue.toString()
               }
             };
             client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            sendDataChannel.push(jsonData);
           }
         }
       });
@@ -409,7 +414,23 @@ client.on('message', function (topic, message) {
       break;
 
     case 'home/attribute/led_novastar/' + token:
-      console.log('LED NOVASTAR test');
+      setTimeout(function () {
+        console.log('LED NOVASTAR test');
+
+        try {} catch (_unused) {
+          sendDataChannel.forEach(function (item, index) {
+            if (item.commandId == 2) {
+              var brightness_value = item.params.brightness;
+
+              if (jsonData.params.brigtnessWrite != brightness_value) {
+                client.publish('home/telemetry/led_novastar/' + token, JSON.stringify(sendDataChannel));
+              } else {
+                sendDataChannel.splice(index, 1);
+              }
+            }
+          });
+        }
+      }, 1000);
       break;
   }
 });
