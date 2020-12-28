@@ -11,12 +11,18 @@
 		<div class="dropdown-content">
 			<div class="dropdown-top d-custom-flex justify-space-between primary">
 				<span class="white--text fw-bold">Notifications</span>
-				<span class="v-badge error">{{notificationDevice.length}} NEW</span>
+				<span class="v-badge error">{{notificationDevice.length + deviceListLed.length}} NEW</span>
 			</div>
 			<v-list class="dropdown-list">
+				<span style="margin:10px;display:flex;">Lcd Devices</span>
 				<v-list-item v-for="notification in notificationDevice" :key="notification.Id" >
 					<i class="mr-3 zmdi zmdi-email error--text"></i>
-					<span>{{notification.tv_id}} - {{notification.model}} - {{notification.connection_status == 0 ? 'Disconnect':'Close'}}</span>
+					<span>{{notification.model}} - {{notification.connection_status == 0 ? 'Disconnect':'Close'}}</span>
+				</v-list-item>
+				<span style="margin:10px;display:flex;">Led Devices</span>
+				<v-list-item v-for="item in deviceListLed" :key="item.Id">
+					<i class="mr-3 zmdi zmdi-email error--text"></i>
+					<span>{{item.model_name}} - {{item.connection_status == 0 ? 'Disconnect':'DVI-Disconnect'}}</span>
 				</v-list-item>
 			</v-list>
 		</div>
@@ -42,7 +48,9 @@ import axios from 'axios'
 		data() {
 			return {
 				deviceList:[],
+				deviceListLed :[],
 				notificationDevice: [],
+				notificationDeviceLed: [],
 				notifications: [{
 						title: "message.totalAppMemory",
 						icon: "zmdi-storage primary--text"
@@ -67,6 +75,28 @@ import axios from 'axios'
 		test() {
 			
 			console.log('test');
+		},
+		loadledDevice() {
+			var updateDataLed = [];
+			
+			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
+				resp.data.forEach(item=> {
+					console.log('resp Connection Status : ',item.connection_status);
+					
+					if(item.dvi_status != 1 && item.connection_status == 1) {
+						updateDataLed.push(item);
+					}
+					if(item.connection_status == 0) {
+						updateDataLed.push(item)
+					}
+				});
+				
+						
+				this.deviceListLed = updateDataLed;
+				this.notificationDeviceLed = updateDataLed;
+				
+				
+			});
 		},
 	loadData() {
 			var updateData = [];
@@ -105,6 +135,7 @@ import axios from 'axios'
 	
 	created: function(){
 		this.loadData();
+		this.loadledDevice();
 		this.$mqtt.subscribe('home/attributes/#',function(message){
 			console.log('Message : ',message)
 		})
