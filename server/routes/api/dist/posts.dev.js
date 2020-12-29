@@ -129,13 +129,18 @@ client.on('connect', function () {
   }, 15000);
   setInterval(function () {
     var date = new Date();
-    mysql = "SELECT Id,token,sunrise_time,sunrise_value,sunset_time,sunset_value,black_screen_open_time,black_screen_close_time,is_brightness_auto,is_black_screen_auto FROM led_devices";
+    var days = ['Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday', 'Sunday'];
+    mysql = "SELECT Id,token,sunrise_time,sunrise_value,sunset_time,sunset_value,black_screen_open_time,black_screen_close_time,is_brightness_auto,is_black_screen_auto,black_screen_time_options,blackscreen_week_options_json FROM led_devices";
     connection.query(mysql, [], function (err, result, fields) {
       result.forEach(function (item) {
         var currentTimeHour = date.getHours();
         var currentTimeMinute = date.getMinutes();
+        var currentDayIndex = date.getDay();
+        console.log('DATE : ', date.toLocaleString('en-us', {
+          weekday: 'long'
+        }));
 
-        if (item.is_black_screen_auto) {
+        if (item.is_black_screen_auto == true && item.black_screen_time_options == 'Always') {
           var openTimeHour = item.black_screen_open_time.split(":")[0];
           var openTimeMinute = item.black_screen_open_time.split(":")[1];
           var closeTimeHour = item.black_screen_close_time.split(":")[0];
@@ -165,6 +170,29 @@ client.on('connect', function () {
             };
             client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
             sendDataChannel.push(jsonData);
+          }
+        }
+
+        if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
+          console.log('WEEK BLACK SCREEN TRUE : ' + item.Id);
+          var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
+
+          if (currentTimeHour == blackScreenWeekDatas.OnTimeHour && currentTimeMinute == blackScreenWeekDatas.OnTimeMinute) {
+            var jsonData = {
+              value: '',
+              msg: 'black'
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            console.log(item.token, 'BLACK SEND');
+          }
+
+          if (currentTimeHour == blackScreenWeekDatas.OffTimeHour && currentTimeMinute == blackScreenWeekDatas.OffTimeMinute) {
+            var jsonData = {
+              value: '',
+              msg: 'normal'
+            };
+            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
+            console.log(item.token, 'NORMAL SEND');
           }
         }
 
@@ -204,7 +232,7 @@ client.on('connect', function () {
       });
     });
     console.log('HOUR : ', date.getHours(), 'MINUTE : ', date.getMinutes());
-  }, 10000);
+  }, 1000);
   client.subscribe('home', function () {
     console.log("Home topic Listening"); //var jsonMethod = '{ "method": "getTvId", "params": { } }';
     //client.publish('home/telemetry/mVThJflRGKgZYkZ18!hU', jsonMethod);
@@ -614,7 +642,7 @@ router.get('/loadDevicesGroupBy', function (req, res) {
 router.post('/nameUpdate', function (req, res) {
   var mysqlQuery;
   var data = req.body;
-  console.log(data);
+  console.log('Data : ', data);
   console.log("Name Update : ".concat(data.deviceId, " - ").concat(data.name));
 
   if (data.isBrightnessAuto == false && data.blackScreenAuto == false) {
@@ -623,26 +651,27 @@ router.post('/nameUpdate', function (req, res) {
       console.log('Name Update OK!');
     });
   } else if (data.isBrightnessAuto && data.blackScreenAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options = ?,sun_time_options = ?,blackscreen_week_options_json = ?  WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenOpenTime, data.blackScreenCloseTime, data.isBrightnessAuto, data.blackScreenAuto, data.blackScreenTimeOptions, data.sunTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = 1,is_black_screen_auto = 1,black_screen_time_options = ?,sun_time_options = ?,blackscreen_week_options_json = ?  WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenOpenTime, data.blackScreenCloseTime, data.blackScreenTimeOptions, data.sunTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);
     });
   } else if (data.isBrightnessAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?, sun_time_options = ? WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.isBrightnessAuto, data.blackScreenAuto, data.sunTimeOptions, data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = 1,is_black_screen_auto = ?, sun_time_options = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenAuto, data.sunTimeOptions, data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);
     });
   } else if (data.blackScreenAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = ?,black_screen_time_options, blackscreen_week_options_json = ? WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.blackScreenOpenTime, data.blackScreenCloseTime, data.isBrightnessAuto, data.blackScreenAuto, data.blackScreenTimeOptions, data.black, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = 1,black_screen_time_options = ?,blackscreen_week_options_json = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.blackScreenOpenTime, data.blackScreenCloseTime, data.isBrightnessAuto, data.blackScreenTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);
       console.log(data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.deviceId, data.blackScreenAuto);
+      console.log('JSON : ', JSON.stringify(data.blackScreenWeekData));
     });
   }
 

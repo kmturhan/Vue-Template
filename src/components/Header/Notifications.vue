@@ -14,12 +14,19 @@
 				<span class="v-badge error">{{notificationDevice.length + deviceListLed.length}} NEW</span>
 			</div>
 			<v-list class="dropdown-list">
-				<span style="margin:10px;display:flex;">Lcd Devices</span>
+				<div style="display:flex; align-items:center; margin:10px">
+				<img src="/static/img/svg/television.svg" style="height:30px;width:30px;margin-right:10px">
+				<span style="display:flex;">Lcd Devices</span>
+				</div>
 				<v-list-item v-for="notification in notificationDevice" :key="notification.Id" >
 					<i class="mr-3 zmdi zmdi-email error--text"></i>
 					<span>{{notification.model}} - {{notification.connection_status == 0 ? 'Disconnect':'Close'}}</span>
 				</v-list-item>
-				<span style="margin:10px;display:flex;">Led Devices</span>
+				
+				<div style="display:flex; align-items:center; margin:10px">
+					<img src="/static/img/svg/television.svg" style="height:30px;width:30px;margin-right:10px">
+					<span style="display:flex;">Led Devices</span>
+				</div>
 				<v-list-item v-for="item in deviceListLed" :key="item.Id">
 					<i class="mr-3 zmdi zmdi-email error--text"></i>
 					<span>{{item.model_name}} - {{item.connection_status == 0 ? 'Disconnect':'DVI-Disconnect'}}</span>

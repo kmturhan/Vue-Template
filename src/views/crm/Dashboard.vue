@@ -192,7 +192,7 @@ export default {
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
 
 			var db = this.deviceList;
-			console.log('DB :',db)
+			
 			var i;
 			db.forEach(item => {console.log(item);
       })
@@ -228,7 +228,7 @@ export default {
 			//var tvDurum = dataArray[1];
 			this.loadData();
 			var db = this.deviceList;
-			console.log('DB :',db)
+			
 			var i;
 			for (i = 0; i < db.length; i++) {
 				if(db[i].tv_status == 1 && db[i].connection_status == 1){
@@ -325,9 +325,7 @@ export default {
 			var updatedData = [];
 			axios.get('http://192.168.10.30:5000/api/loadLcdDevices').then(resp => {
 				this.deviceList = resp.data;
-        resp.data.forEach(item => {
-          console.log('Dash : ',item)
-			});
+       
 			updatedData = this.deviceList;
       updatedData.forEach(item => {
         if(item.tv_status == 1 && item.connection_status == 1) {

@@ -231,17 +231,17 @@
 														<span class="week__">Mon.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[0].mondayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[0].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[0].mondayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[0].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[0].mondayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[0].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[0].mondayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[0].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -250,17 +250,17 @@
 														<span>Tue.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[1].tuesdayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[1].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[1].tuesdayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[1].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[1].tuesdayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[1].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[1].tuesdayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[1].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -268,17 +268,17 @@
 														<span>Wed.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[2].wednesdayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[2].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[2].wednesdayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[2].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[2].wednesdayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[2].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[2].wednesdayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[2].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -286,17 +286,17 @@
 														<span>Thu.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[3].thursdayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[3].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[3].thursdayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[3].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[3].thursdayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[3].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[3].thursdayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[3].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -304,17 +304,17 @@
 														<span>Fri.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[4].fridayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[4].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[4].fridayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[4].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[4].fridayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[4].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[4].fridayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[4].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -322,17 +322,17 @@
 														<span>Sat.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[5].saturdayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[5].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[5].saturdayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[5].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[5].saturdayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[5].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[5].saturdayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[5].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -340,17 +340,17 @@
 														<span>Sun.</span>
 														<div style="display:flex;justify-content:center;">
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[6].sundayOnTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[6].OnTimeHour"   item-value="text"></v-select>
 																<v-col class="col-sm-2 col-2">
 																</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[6].sundayOnTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[6].OnTimeMinute"   item-value="text"></v-select>
 															</div>
 
 															<div class="col-sm-5 col-5" style="display:flex;margin-left:10px;margin-right:10px;"> 
-																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[6].sundayOffTimeHour"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectBlackScreenWeek[6].OffTimeHour"   item-value="text"></v-select>
 																	<v-col class="col-sm-2 col-2">
 																	</v-col>
-																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[6].sundayOffTimeMinute"   item-value="text"></v-select>
+																<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectBlackScreenWeek[6].OffTimeMinute"   item-value="text"></v-select>
 															</div>
 														</div>
 													</div>
@@ -1012,13 +1012,13 @@ export default {
 			selectSunsetTime:'',
 			selectBlackScreenOptions:'',
 			selectBlackScreenWeek:[
-				{mondayOnTimeHour:0,mondayOnTimeMinute:0,mondayOffTimeHour:0,mondayOffTimeMinute:0},
-				{tuesdayOnTimeHour:0,tuesdayOnTimeMinute:0,tuesdayOffTimeHour:0,tuesdayOffTimeMinute:0},
-				{wednesdayOnTimeHour:0,wednesdayOnTimeMinute:0,wednesdayOffTimeHour:0,wednesdayOffTimeMinute:0},
-				{thursdayOnTimeHour:0,thursdayOnTimeMinute:0,thursdayOffTimeHour:0,thursdayOffTimeMinute:0},
-				{fridayOnTimeHour:0,fridayOnTimeMinute:0,fridayOffTimeHour:0,fridayOffTimeMinute:0},
-				{saturdayOnTimeHour:0,saturdayOnTimeMinute:0,saturdayOffTimeHour:0,saturdayOffTimeMinute:0},
-				{sundayOnTimeHour:0,sundayOnTimeMinute:0,sundayOffTimeHour:0,sundayOffTimeMinute:0}
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0}
 			],
 			deviceName: "",
 			selectedDeviceID: 0,
@@ -1373,17 +1373,17 @@ tabsAndTableDetails,
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
-			var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
+			//var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
 			var value = event.currentTarget.getAttribute('data-value');
 			console.log('SELECTED TAG : ',selectedTag,'VALUE : ',value)
 			this.selectedTvID = tvID;
-			this.selectedPin = command;
+			//this.selectedPin = command;
 			console.log('TVID :',tvID)
 			if(value == 1){
 				commandOnOff = 'normal';
 			}
 			else if(value == 0){
-				commandOnOff = 'black';
+				commandOnOff = 'normal';
 			}
 			var jsonData = {	
 				value:'',
@@ -1438,7 +1438,7 @@ tabsAndTableDetails,
 				
 				resp.data.forEach((item)=> {
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
-					console.log('LED : ',item)
+					
 					updateData.push(item)
 					this.sendDataList.push(item);
 					
@@ -1543,6 +1543,7 @@ tabsAndTableDetails,
 		console.log("form submit");
 		console.log(this.form1.name);
 		console.log('VAL : ',this.sunriseItem.val)
+		console.log('SELECTED DEVICE ID : ',this.selectedDeviceID)
 		//console.log(e.target.value);
 		//var deviceID = e.target.getAttribute('data-device-id');
 		var jsonData = {
@@ -1623,13 +1624,13 @@ tabsAndTableDetails,
 			this.selectBlackScreenWeek = JSON.parse(this.selectedInfoItem.blackscreen_week_options_json)
 		}else{
 			this.selectBlackScreenWeek = [
-				{mondayOnTimeHour:0,mondayOnTimeMinute:0,mondayOffTimeHour:0,mondayOffTimeMinute:0},
-				{tuesdayOnTimeHour:0,tuesdayOnTimeMinute:0,tuesdayOffTimeHour:0,tuesdayOffTimeMinute:0},
-				{wednesdayOnTimeHour:0,wednesdayOnTimeMinute:0,wednesdayOffTimeHour:0,wednesdayOffTimeMinute:0},
-				{thursdayOnTimeHour:0,thursdayOnTimeMinute:0,thursdayOffTimeHour:0,thursdayOffTimeMinute:0},
-				{fridayOnTimeHour:0,fridayOnTimeMinute:0,fridayOffTimeHour:0,fridayOffTimeMinute:0},
-				{saturdayOnTimeHour:0,saturdayOnTimeMinute:0,saturdayOffTimeHour:0,saturdayOffTimeMinute:0},
-				{sundayOnTimeHour:0,sundayOnTimeMinute:0,sundayOffTimeHour:0,sundayOffTimeMinute:0}
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
+				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0}
 			]
 				
 			

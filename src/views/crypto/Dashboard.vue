@@ -170,7 +170,7 @@ export default {
       var closeDev = 0;
       var unreacheableDev = 0;
 			var db = this.deviceList;
-			console.log('DB :',db)
+			
 			var i;
 			
 			for (i = 0; i < db.length; i++) {
@@ -272,9 +272,7 @@ export default {
 			var updatedData = [];
 			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
 				this.deviceList = resp.data;
-        resp.data.forEach(item => {
-          console.log('Dash : ',item)
-			});
+        
 			updatedData = this.deviceList;
       updatedData.forEach(item => {
         if(item.dvi_status == 1 && item.connection_status == 1) {
