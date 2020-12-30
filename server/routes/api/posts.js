@@ -41,14 +41,16 @@ client.on('connect', function () {
     console.log('connect');
     console.log('GET COUNTRY ')
     async function getCountry() {
-        const sunriseSunsiteTime = await axios.get('https://api.sunrise-sunset.org/json?lat=41.0096334&lng=28.9651646&date=today');
+        const sunriseSunsiteTime = await axios.get('https://api.sunrise-sunset.org/json?lat=41.0096334&lng=28.9651646&formatted=0');
         var jsonDataTime = sunriseSunsiteTime.data.results;
-        var jsonSunriseTimeHour = jsonDataTime.sunrise.split(':')[0];
+        
+        var jsonSunriseTimeHour = parseInt(jsonDataTime.sunrise.split('T')[1].split(':')[0])+3;
         var jsonSunriseTimeMinute = jsonDataTime.sunrise.split(':')[1];
-        var jsonSunsetTimeHour = jsonDataTime.sunset.split(':')[0];
+        var jsonSunsetTimeHour = parseInt(jsonDataTime.sunset.split('T')[1].split(':')[0])+3;
         var jsonSunsetTimeMinute = jsonDataTime.sunset.split(':')[1];
-        var jsonSunriseTime = (parseInt(jsonSunriseTimeHour) + 3) +':'+ jsonSunriseTimeMinute;
-        var jsonSunsetTime = (parseInt(jsonSunsetTimeHour)+3)+':'+jsonSunsetTimeMinute;
+        var jsonSunriseTime = jsonDataTime.sunrise.split('T')[0]+'T'+jsonSunriseTimeHour + ':' + jsonSunriseTimeMinute;
+        var jsonSunsetTime = jsonDataTime.sunset.split('T')[0]+ 'T' + jsonSunsetTimeHour + ':'+ jsonSunsetTimeMinute;
+
         console.log(jsonDataTime)
         
         mysqlQuery2 = "UPDATE led_devices SET auto_sunrise_time = ?, auto_sunset_time = ?";
@@ -159,52 +161,61 @@ client.on('connect', function () {
     setInterval(() => {
         var date = new Date();
         var days = ['Monday','Tuesday','Wednesday','Thusday','Friday','Saturday','Sunday'];
-        mysql = "SELECT Id,token,sunrise_time,sunrise_value,sunset_time,sunset_value,black_screen_open_time,black_screen_close_time,is_brightness_auto,is_black_screen_auto,black_screen_time_options,blackscreen_week_options_json FROM led_devices"
+        mysql = "SELECT * FROM led_devices WHERE token='AkiGRCtbwEe9EgsSl2v8'"
         connection.query(mysql,[],(err,result,fields) => {
             result.forEach(item=> {
                 var currentTimeHour = date.getHours();
                 var currentTimeMinute = date.getMinutes();
                 var currentDayIndex = date.getDay();
+
+
+                var openTimeHour = item.black_screen_open_time.split(":")[0];
+                var openTimeMinute = item.black_screen_open_time.split(":")[1];
+                var closeTimeHour = item.black_screen_close_time.split(":")[0];
+                var closeTimeMinute = item.black_screen_close_time.split(":")[1];
+                var DateOpen = new Date(2020, 11, 30, 18, 50).getTime();
+                var DateClose = new Date(2020, 11, 30, 18, 59).getTime();
+                var currentDate = new Date(date.getFullYear(),date.getMonth(),date.getDate(),parseInt(date.getHours()+3),date.getMinutes()).getTime();
+                    
+                
+                console.log('OPEN TIME : ',DateOpen);
+                console.log('CLOSE TIME ',DateClose);
+                console.log('Current TIME : ',currentDate)
                 //console.log('DATE : ', date.toLocaleString('en-us', {weekday:'long'}))
                 if(item.connection_status == 1) {
-
-                
+                    console.log(`Current Time : ${currentTimeHour}:${currentTimeMinute} - Open Time : ${openTimeHour}:${openTimeMinute} - Close Time : ${closeTimeHour}:${closeTimeMinute}`)
+                    console.log(item.last_update)
+                    
                     if(item.is_black_screen_auto == true && item.black_screen_time_options == 'Always') {
-                        var openTimeHour = item.black_screen_open_time.split(":")[0];
-                        var openTimeMinute = item.black_screen_open_time.split(":")[1];
-                        var closeTimeHour = item.black_screen_close_time.split(":")[0];
-                        var closeTimeMinute = item.black_screen_close_time.split(":")[1];
+                        
+                        
                         //var closeTime =  item.black_screen_close_time;
                         //console.log(`OPEN HOUR : ${item.black_screen_open_time.split(":")[0]} MINUTES : ${item.black_screen_open_time.split(":")[1]}`);
                         //console.log(`CLOSE HOUR : ${item.black_screen_close_time.split(":")[0]} MINUTES : ${item.black_screen_close_time.split(":")[1]}`)
-                        if(currentTimeHour == openTimeHour && currentTimeMinute == openTimeMinute) {
+                        
+                        if(openTimeHour < closeTimeHour) {
+                            var currentDate = new Date().getTime();
+                        }
+                        if((openTimeHour >= currentTimeHour && closeTimeHour <= currentTimeHour) && (openTimeMinute >= currentTimeMinute && closeTimeMinute <= currentTimeMinute)) {
                             var jsonData = {
-                                
                                 msg:'black',
                                 value:'',
                             };
                             client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
                             jsonData.token = item.token;
 
-                            if(sendDataChannel.includes(JSON.stringify(jsonData)) == false){
+                            if(sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
                                 sendDataChannel.push(JSON.stringify(jsonData));
                             }
+                        }else {
+                            var jsonData = {
+                                msg:'normal',
+                                value:'',
+                            };
+                            client.publish('home/led_novastar/attribute/'+item.token,JSON.stringify(jsonData));
+
                         }
                         console.log('CLOSE HOUR : ',closeTimeHour, 'CLOSE MIN : ',closeTimeMinute)
-                        if(currentTimeHour == closeTimeHour && currentTimeMinute == closeTimeMinute){
-                            var jsonData = {
-                                
-                                msg: 'normal', 
-                                value: '',
-                                
-                            }
-                            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-                            jsonData.token = item.token;
-                            
-                            if(sendDataChannel.includes(JSON.stringify(jsonData)) == false){
-                                sendDataChannel.push(JSON.stringify(jsonData));
-                            }
-                        }
                     }
                     
                     
@@ -247,11 +258,8 @@ client.on('connect', function () {
                         //console.log(`Sunrise : ${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} Sunset : ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
                         if(currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
                             var jsonData = {
-                                
-                                
-                                    msg: 'bright',
-                                    value: sunriseValue.toString()
-                            
+                                msg: 'bright',
+                                value: sunriseValue.toString()
                             }
                             
                             client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
@@ -262,20 +270,15 @@ client.on('connect', function () {
                         }
                         if(currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute){
                             var jsonData = {
-                                
-                            
-                                    msg: 'bright',
-                                    value: sunsetValue.toString()
-                            
+                                msg: 'bright',
+                                value: sunsetValue.toString()
                             }
                             client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
                             jsonData.token = item.token;
                             if(sendDataChannel.includes(JSON.stringify(jsonData)) == false){
                                 sendDataChannel.push(JSON.stringify(jsonData));
                             }
-                            
                         }
-
                     }
                 }
             })
@@ -283,7 +286,7 @@ client.on('connect', function () {
         
         console.log('HOUR : ',date.getHours(),'MINUTE : ',date.getMinutes())
         
-    }, 1000);
+    }, 3000);
     client.subscribe('home', function () {
       console.log("Home topic Listening")
       //var jsonMethod = '{ "method": "getTvId", "params": { } }';
@@ -505,6 +508,13 @@ client.on('message', function (topic, message) {
                     
                     console.log('LED NOVASTAR test');
                     try{
+                        if(jsonData.type == 'dvi_status') {
+                            mysqlUpdate = "UPDATE led_devices SET last_update = ? WHERE token = ?";
+                            connection.query(mysqlUpdate,[dateTime,token],(err,result,fields)=>{
+                                console.log(token,'DateTime : ', dateTime);
+                            })
+                        }
+                        
                         console.log('SEND DATA CHANNEL : ',sendDataChannel)
                             sendDataChannel.forEach((item,index) => {
                                 console.log('Send data channel : ',sendDataChannel);
@@ -731,16 +741,17 @@ connection.query(mysqlQuery,[],(err,result,fields)=> {
 router.post('/nameUpdate',function(req,res){
     var mysqlQuery;
     var data = req.body;
+    
     //console.log('Data : ',data);
     //console.log(`Name Update : ${data.deviceId} - ${data.name}`)
     if(data.isBrightnessAuto == false && data.blackScreenAuto == false) {
+
         mysqlQuery = "UPDATE led_devices SET device_name = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
-         
         connection.query(mysqlQuery, [data.name,data.isBrightnessAuto,data.blackScreenAuto, data.deviceId],(err,results,fields) => {
-            console.log('Name Update OK!');        
+            console.log('Name Update OK!');
         })
 
-    }else if(data.isBrightnessAuto && data.blackScreenAuto){
+    }else if(data.isBrightnessAuto && data.blackScreenAuto) {
         mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = 1,is_black_screen_auto = 1,black_screen_time_options = ?,sun_time_options = ?,blackscreen_week_options_json = ?  WHERE Id = ?";
         connection.query(mysqlQuery, [data.name,data.sunriseValue,data.sunsetValue,data.sunriseTime,data.sunsetTime,data.blackScreenOpenTime,data.blackScreenCloseTime,data.blackScreenTimeOptions,data.sunTimeOptions,JSON.stringify(data.blackScreenWeekData),data.deviceId],(err,results,fields) => {
             console.log('Name Update OK!');
