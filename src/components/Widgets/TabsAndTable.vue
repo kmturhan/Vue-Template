@@ -1018,21 +1018,10 @@ export default {
 		
 		this.$mqtt.publish('home/telemetry/'+token,JSON.stringify(jsonData));
 		},	
-		websocketPub: function(tag) {
-			var jsonData = {
-				
-					method:'rpcCommand',
-					params:{
-						tvSerial: '804MASX38086',		
-						command:'up',
-						swc:1,
-						cmd: 'gc',
-						on:'01',
-						off:'00'
-					}
-			}
-			$(tag).find('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled')
-			this.$mqtt.publish('home/telemetry/mVThJflRGKgZYkZ18!hU',JSON.stringify(jsonData))
+		websocketPub: function() {
+			var jsonData = {"msg": "voltage","value":"00"}
+			//$(tag).find('.v-input__control').removeClass('input-switch-disabled').addClass('input-switch-enabled')
+			this.$mqtt.publish('home/led_novastar/attribute/AkiGRCtbwEe9EgsSl2v8',JSON.stringify(jsonData))
 		},
 		next () {
 			const active = parseInt(this.active)

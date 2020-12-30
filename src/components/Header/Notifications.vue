@@ -29,7 +29,7 @@
 				</div>
 				<v-list-item v-for="item in deviceListLed" :key="item.Id">
 					<i class="mr-3 zmdi zmdi-email error--text"></i>
-					<span>{{item.model_name}} - {{item.connection_status == 0 ? 'Disconnect':'DVI-Disconnect'}}</span>
+					<span>{{item.model_name}} - <span>{{item.connection_status == 0 ? 'Disconnect':'DVI-Disconnect'}}</span></span>
 				</v-list-item>
 			</v-list>
 		</div>
@@ -97,12 +97,8 @@ import axios from 'axios'
 						updateDataLed.push(item)
 					}
 				});
-				
-						
 				this.deviceListLed = updateDataLed;
 				this.notificationDeviceLed = updateDataLed;
-				
-				
 			});
 		},
 	loadData() {
@@ -118,10 +114,7 @@ import axios from 'axios'
 					if(item.connection_status == 0) {
 						updateData.push(item)
 					}
-					
 				});
-				
-						
 				this.deviceList = updateData
 				this.notificationDevice = updateData;
 				

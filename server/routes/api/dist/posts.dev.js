@@ -43,6 +43,39 @@ var client = mqtt.connect('wss://mqtts.labrus.com:8083', opts);
 var sendDataChannel = [];
 client.on('connect', function () {
   console.log('connect');
+  console.log('GET COUNTRY ');
+
+  function getCountry() {
+    var sunriseSunsiteTime, jsonDataTime, jsonSunriseTimeHour, jsonSunriseTimeMinute, jsonSunsetTimeHour, jsonSunsetTimeMinute, jsonSunriseTime, jsonSunsetTime;
+    return regeneratorRuntime.async(function getCountry$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return regeneratorRuntime.awrap(axios.get('https://api.sunrise-sunset.org/json?lat=41.0096334&lng=28.9651646&date=today'));
+
+          case 2:
+            sunriseSunsiteTime = _context.sent;
+            jsonDataTime = sunriseSunsiteTime.data.results;
+            jsonSunriseTimeHour = jsonDataTime.sunrise.split(':')[0];
+            jsonSunriseTimeMinute = jsonDataTime.sunrise.split(':')[1];
+            jsonSunsetTimeHour = jsonDataTime.sunset.split(':')[0];
+            jsonSunsetTimeMinute = jsonDataTime.sunset.split(':')[1];
+            jsonSunriseTime = parseInt(jsonSunriseTimeHour) + 3 + ':' + jsonSunriseTimeMinute;
+            jsonSunsetTime = parseInt(jsonSunsetTimeHour) + 3 + ':' + jsonSunsetTimeMinute;
+            console.log(jsonDataTime);
+            mysqlQuery2 = "UPDATE led_devices SET auto_sunrise_time = ?, auto_sunset_time = ?";
+            connection.query(mysqlQuery2, [jsonSunriseTime, jsonSunsetTime], function (err, result, fields) {});
+
+          case 13:
+          case "end":
+            return _context.stop();
+        }
+      }
+    });
+  }
+
+  getCountry();
   setInterval(function () {
     sql = "SELECT * FROM Device_Status";
     mysqlQuery = "SELECT * FROM lcd_devices_status";
@@ -135,98 +168,110 @@ client.on('connect', function () {
       result.forEach(function (item) {
         var currentTimeHour = date.getHours();
         var currentTimeMinute = date.getMinutes();
-        var currentDayIndex = date.getDay();
-        console.log('DATE : ', date.toLocaleString('en-us', {
-          weekday: 'long'
-        }));
+        var currentDayIndex = date.getDay(); //console.log('DATE : ', date.toLocaleString('en-us', {weekday:'long'}))
 
-        if (item.is_black_screen_auto == true && item.black_screen_time_options == 'Always') {
-          var openTimeHour = item.black_screen_open_time.split(":")[0];
-          var openTimeMinute = item.black_screen_open_time.split(":")[1];
-          var closeTimeHour = item.black_screen_close_time.split(":")[0];
-          var closeTimeMinute = item.black_screen_close_time.split(":")[1]; //var closeTime =  item.black_screen_close_time;
-          //console.log(`OPEN HOUR : ${item.black_screen_open_time.split(":")[0]} MINUTES : ${item.black_screen_open_time.split(":")[1]}`);
-          //console.log(`CLOSE HOUR : ${item.black_screen_close_time.split(":")[0]} MINUTES : ${item.black_screen_close_time.split(":")[1]}`)
+        if (item.connection_status == 1) {
+          if (item.is_black_screen_auto == true && item.black_screen_time_options == 'Always') {
+            var openTimeHour = item.black_screen_open_time.split(":")[0];
+            var openTimeMinute = item.black_screen_open_time.split(":")[1];
+            var closeTimeHour = item.black_screen_close_time.split(":")[0];
+            var closeTimeMinute = item.black_screen_close_time.split(":")[1]; //var closeTime =  item.black_screen_close_time;
+            //console.log(`OPEN HOUR : ${item.black_screen_open_time.split(":")[0]} MINUTES : ${item.black_screen_open_time.split(":")[1]}`);
+            //console.log(`CLOSE HOUR : ${item.black_screen_close_time.split(":")[0]} MINUTES : ${item.black_screen_close_time.split(":")[1]}`)
 
-          if (currentTimeHour == openTimeHour && currentTimeMinute == openTimeMinute) {
-            var jsonData = {
-              method: "rpcCommand",
-              params: {
-                commandId: '5'
+            if (currentTimeHour == openTimeHour && currentTimeMinute == openTimeMinute) {
+              var jsonData = {
+                msg: 'black',
+                value: ''
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              jsonData.token = item.token;
+
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
               }
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            sendDataChannel.push(jsonData);
-          }
+            }
 
-          console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
+            console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
 
-          if (currentTimeHour == closeTimeHour && currentTimeMinute == closeTimeMinute) {
-            var jsonData = {
-              method: "rpcCommand",
-              params: {
-                commandId: '6'
+            if (currentTimeHour == closeTimeHour && currentTimeMinute == closeTimeMinute) {
+              var jsonData = {
+                msg: 'normal',
+                value: ''
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              jsonData.token = item.token;
+
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
               }
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            sendDataChannel.push(jsonData);
-          }
-        }
-
-        if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
-          console.log('WEEK BLACK SCREEN TRUE : ' + item.Id);
-          var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
-
-          if (currentTimeHour == blackScreenWeekDatas.OnTimeHour && currentTimeMinute == blackScreenWeekDatas.OnTimeMinute) {
-            var jsonData = {
-              value: '',
-              msg: 'black'
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            console.log(item.token, 'BLACK SEND');
+            }
           }
 
-          if (currentTimeHour == blackScreenWeekDatas.OffTimeHour && currentTimeMinute == blackScreenWeekDatas.OffTimeMinute) {
-            var jsonData = {
-              value: '',
-              msg: 'normal'
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            console.log(item.token, 'NORMAL SEND');
-          }
-        }
+          if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
+            var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
 
-        if (item.is_brightness_auto) {
-          var sunriseTimeHour = item.sunrise_time.split(':')[0];
-          var sunriseTimeMinute = item.sunrise_time.split(':')[1];
-          var sunriseValue = item.sunrise_value;
-          var sunsetTimeHour = item.sunset_time.split(':')[0];
-          var sunsetTimeMinute = item.sunset_time.split(':')[1];
-          var sunsetValue = item.sunset_value;
-          console.log("Sunrise : ".concat(sunriseTimeHour, ":").concat(sunriseTimeMinute, " = ").concat(sunriseValue, " Sunset : ---").concat(sunsetTimeHour, " -").concat(sunsetTimeMinute, " -").concat(sunsetValue));
+            if (currentTimeHour == blackScreenWeekDatas.OnTimeHour && currentTimeMinute == blackScreenWeekDatas.OnTimeMinute) {
+              var jsonData = {
+                value: '',
+                msg: 'black'
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              console.log(item.token, 'BLACK SEND');
+              jsonData.token = item.token;
 
-          if (currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
-            var jsonData = {
-              method: "rpcCommand",
-              params: {
-                commandId: '2',
-                brightness: sunriseValue.toString()
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
               }
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            sendDataChannel.push(jsonData);
+            }
+
+            if (currentTimeHour == blackScreenWeekDatas.OffTimeHour && currentTimeMinute == blackScreenWeekDatas.OffTimeMinute) {
+              var jsonData = {
+                value: '',
+                msg: 'normal'
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              console.log(item.token, 'NORMAL SEND');
+
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
+              }
+            }
           }
 
-          if (currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute) {
-            var jsonData = {
-              method: "rpcCommand",
-              params: {
-                commandId: '2',
-                brightness: sunsetValue.toString()
+          if (item.is_brightness_auto) {
+            var sunriseTimeHour = item.sunrise_time.split(':')[0];
+            var sunriseTimeMinute = item.sunrise_time.split(':')[1];
+            var sunriseValue = item.sunrise_value;
+            var sunsetTimeHour = item.sunset_time.split(':')[0];
+            var sunsetTimeMinute = item.sunset_time.split(':')[1];
+            var sunsetValue = item.sunset_value; //console.log(`Sunrise : ${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} Sunset : ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
+
+            if (currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
+              var jsonData = {
+                msg: 'bright',
+                value: sunriseValue.toString()
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              jsonData.token = item.token;
+
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
               }
-            };
-            client.publish('home/telemetry/led_novastar/' + item.token, JSON.stringify(jsonData));
-            sendDataChannel.push(jsonData);
+            }
+
+            if (currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute) {
+              var jsonData = {
+                msg: 'bright',
+                value: sunsetValue.toString()
+              };
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+              jsonData.token = item.token;
+
+              if (sendDataChannel.includes(JSON.stringify(jsonData)) == false) {
+                sendDataChannel.push(JSON.stringify(jsonData));
+              }
+            }
           }
         }
       });
@@ -259,7 +304,7 @@ client.on('message', function (topic, message) {
   var date = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, "0") + '-' + String(today.getDate()).padStart(2, "0");
   var time = String(today.getHours()).padStart(2, "0") + ":" + String(today.getMinutes()).padStart(2, "0") + ":" + String(today.getSeconds()).padStart(2, "0");
   var dateTime = date + ' ' + time;
-  console.log('TETETETS', jsonData);
+  console.log('Message JSON DATA : ', jsonData);
   console.log('TOKEN : ' + token + 'TOPIC : ' + topicName);
 
   switch (topicName) {
@@ -275,7 +320,6 @@ client.on('message', function (topic, message) {
         var arrayPasswordList = [];
         connection.query(mysqlQuery, [], function (err, rows) {});
         db.all(sql, [], function (err, rows) {
-          console.log(rows);
           rows.forEach(function (item) {
             arrayPasswordList.push(item.Password);
           });
@@ -313,8 +357,8 @@ client.on('message', function (topic, message) {
 
     case 'home/attributes/' + token:
       console.log('Attr Channel');
-      var jsonID = Object.keys(jsonData);
-      console.log('ATTR : ', jsonID);
+      var jsonID = Object.keys(jsonData); //console.log('ATTR : ',jsonID);
+
       console.log('ATTR2 : ', jsonData);
       var testArray = {
         km: 'remote_lock',
@@ -324,17 +368,16 @@ client.on('message', function (topic, message) {
         dx: 'PictureMode'
       };
       var selectedPinKey = testArray[Object.keys(jsonData.params)];
-      var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
-      console.log('TVID : ', arrayIDValue[0]);
-      console.log('VALUE : ', arrayIDValue[1]);
+      var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(','); //console.log('TVID : ',arrayIDValue[0]);
+      //console.log('VALUE : ',arrayIDValue[1]);
+
       selectedTvID = arrayIDValue[0];
-      var selectedPinValue = arrayIDValue[1];
-      console.log('KEY ', selectedPinKey);
-      console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
+      var selectedPinValue = arrayIDValue[1]; //console.log('KEY ', selectedPinKey);
+      //console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
+
       sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
       mysqlQuery = "UPDATE lcd_devices_status SET " + selectedPinKey + " = ?, last_update = ? WHERE token = ? AND tv_id = ?";
-      db.all(sql, [selectedPinValue, dateTime, token, selectedTvID], function (err, rows) {
-        console.log("Token : ", token, "TVID : ", selectedTvID, "Serial Number : ", selectedSerialNumber, 'KEY : ', selectedPinKey);
+      db.all(sql, [selectedPinValue, dateTime, token, selectedTvID], function (err, rows) {//console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
       });
       connection.query(mysqlQuery, [selectedPinValue, dateTime, token, selectedTvID], function (error, results, fields) {
         if (error) throw error;
@@ -349,8 +392,7 @@ client.on('message', function (topic, message) {
       var tvDurum = dataArray[1];
       var nosignal = dataArray[2];
       var temperature = dataArray[3];
-      var firmwareVersion = dataArray[4];
-      console.log('TV DURUM : ', tvDurum);
+      var firmwareVersion = dataArray[4]; //console.log('TV DURUM : ',tvDurum);
 
       if (tvDurum == 0) {
         sql = "UPDATE Device_Status SET TvStatus = 0,Last_Update = ? WHERE Token = ? AND TvID = ?";
@@ -392,33 +434,30 @@ client.on('message', function (topic, message) {
         arraySerialNumber.splice(arraySerialNumber.length - 1, 1);
         sql = "SELECT TvID,Serial_Number FROM Device_Status WHERE Token = ? AND Serial_Number = ?";
         mysqlQuery = "SELECT tv-id,serial_number FROM lcd_devices_status WHERE token = ? AND serial_number = ?";
-        var test;
-        console.log(arraySerialNumber);
+        var test; //console.log(arraySerialNumber);
+
         arraySerialNumber.forEach(function (item, index) {
-          console.log(jsonTvIdList[index]);
+          //console.log(jsonTvIdList[index]);
           db.all(sql, [token, item], function (err, rows) {
             if (rows.length == 0) {
               sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
-              db.all(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {
-                console.log("Token : ", token, "TVID : ", jsonTvIdList[index], "Serial Number : ", item);
+              db.all(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {//console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
               });
             }
           });
           connection.query(mysqlQuery, [token, item], function (err, result, fields) {
             if (rows.length == 0) {
               mysqlQuery = "INSERT INTO lcd_devices_status(token,tv_id,serial_number,brand,ip_address) VALUES (?,?,?,?,?)";
-              connection.query(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {
-                console.log("Token : ", token, "TVID : ", jsonTvIdList[index], "Serial Number : ", item);
+              connection.query(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {//console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
               });
             }
           });
-          getCountry(ipAddress, token, jsonTvIdList[index]);
         });
       } else if (jsonData.method == 'setDeviceModel') {
         jsonTvIdList = jsonData.params.tvIds.split(',');
         tvModels = jsonData.params.tvModel.split(',');
-        jsonTvIdList.splice(jsonTvIdList.length - 1, 1);
-        console.log(jsonTvIdList);
+        jsonTvIdList.splice(jsonTvIdList.length - 1, 1); //console.log(jsonTvIdList)
+
         tvModels.splice(tvModels.length - 1, 1);
         tvModels.forEach(function (item, index) {
           var tvModelNumberHex = Buffer.from(item, 'hex');
@@ -429,76 +468,123 @@ client.on('message', function (topic, message) {
         //var tvModelNumber = tvModelNumberHex.toString("utf-8");
 
         jsonTvIdList.forEach(function (item, index) {
-          console.log(tvModels[index], item);
-          db.all(sql, [tvModels[index], dateTime, item], function (err, rows) {
-            console.log("Token : ", token, "TVID : ", jsonTvIdList[index], "Serial Number : ", tvModels[index]);
+          //console.log(tvModels[index],item);
+          db.all(sql, [tvModels[index], dateTime, item], function (err, rows) {//console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",tvModels[index]);
           });
-          connection.query(mysqlQuery, [tvModels[index], dateTime, item], function (err, result, fields) {
-            console.log('Model Number - Last Update UPDATE OK!');
+          connection.query(mysqlQuery, [tvModels[index], dateTime, item], function (err, result, fields) {//console.log('Model Number - Last Update UPDATE OK!');
           });
         });
       }
 
       break;
 
-    case 'home/attribute/led_novastar/' + token:
-      setTimeout(function () {
-        console.log('LED NOVASTAR test');
+    case 'home/led_novastar/telemetry/' + token:
+      console.log('LED NOVASTAR test');
 
-        try {} catch (_unused) {
-          sendDataChannel.forEach(function (item, index) {
-            if (item.commandId == 2) {
-              var brightness_value = item.params.brightness;
+      try {
+        console.log('SEND DATA CHANNEL : ', sendDataChannel);
+        sendDataChannel.forEach(function (item, index) {
+          console.log('Send data channel : ', sendDataChannel);
+          var jsonData = item;
 
-              if (jsonData.params.brigtnessWrite != brightness_value) {
-                client.publish('home/telemetry/led_novastar/' + token, JSON.stringify(sendDataChannel));
-              } else {
-                sendDataChannel.splice(index, 1);
-              }
-            }
-          });
+          if (jsonData.value != jsonData.msg) {
+            console.log('Tekrar Atıyor');
+            client.publish('home/led_novastar/attribute/' + jsonData.token, JSON.stringify(item));
+          } else {
+            sendDataChannel.splice(index, 1);
+          }
+        });
+
+        if (sendDataChannel.length == 0) {
+          console.log('INTREVAL SIFIRLANDI ');
         }
-      }, 1000);
+      } catch (_unused) {
+        console.log('SEND DATA CHANNEL : ', sendDataChannel);
+        sendDataChannel.forEach(function (item, index) {
+          console.log('Send data channel : ', sendDataChannel);
+          var jsonData = item;
+
+          if (jsonData.value != jsonData.msg) {
+            console.log('Tekrar Atıyor');
+            client.publish('home/led_novastar/attribute/' + jsonData.token, JSON.stringify(item));
+          } else {
+            sendDataChannel.splice(index, 1);
+          }
+        });
+
+        if (sendDataChannel.length == 0) {
+          console.log('INTREVAL SIFIRLANDI ');
+          clearInterval(sendDataInterval);
+        }
+      }
+
       break;
   }
 });
 
-function getCountry(ip, token, jsonTvIdList) {
+function getCountry(ip, token) {
   var response, jsonData;
-  return regeneratorRuntime.async(function getCountry$(_context) {
+  return regeneratorRuntime.async(function getCountry$(_context2) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_context2.prev = _context2.next) {
         case 0:
-          console.log('GET COUNTRY : ', ip, token, jsonTvIdList);
-          _context.prev = 1;
-          _context.next = 4;
+          _context2.prev = 0;
+          _context2.next = 3;
           return regeneratorRuntime.awrap(axios.get('http://ip-api.com/json/' + ip + '?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query'));
 
-        case 4:
-          response = _context.sent;
+        case 3:
+          response = _context2.sent;
           jsonData = response.data;
-          sql = "UPDATE Device_Status SET Country = ?,City = ?,Continent = ? WHERE TvID = ? AND Token = ?";
-          db.all(sql, [jsonData.country, jsonData.city, jsonData.continent, jsonTvIdList, token], function (err, rows) {
-            console.log('GET COUNTRY : ', jsonData.country, jsonData.city.toLowerCase(), jsonData.continent, jsonTvIdList, token);
+          /*sql = "UPDATE Device_Status SET Country = ?,City = ?,Continent = ? WHERE TvID = ? AND Token = ?";
+          db.all(sql,[jsonData.country,jsonData.city,jsonData.continent,jsonTvIdList,token],(err,rows)=>{
+              //console.log('GET COUNTRY : ',jsonData.country,jsonData.city.toLowerCase(),jsonData.continent,jsonTvIdList,token)
+          })*/
+
+          mysqlQuery = "UPDATE lcd_devices SET country = ?, city = ?, continent = ? WHERE token = 'eXFRrVFMJDglqeBzmFIl'";
+          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, jsonTvIdList], function (err, result, fields) {//console.log('City, country, continent UPDATE OK!')
           });
-          mysqlQuery = "UPDATE lcd_devices_status SET country = ?, city = ?, continent = ? WHERE tv_id AND token = ?";
-          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, jsonTvIdList, token], function (err, result, fields) {
-            console.log('City, country, continent UPDATE OK!');
-          });
-          _context.next = 15;
+          _context2.next = 12;
           break;
 
-        case 12:
-          _context.prev = 12;
-          _context.t0 = _context["catch"](1);
-          console.error(_context.t0);
+        case 9:
+          _context2.prev = 9;
+          _context2.t0 = _context2["catch"](0);
+          console.error(_context2.t0);
 
-        case 15:
+        case 12:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
     }
-  }, null, null, [[1, 12]]);
+  }, null, null, [[0, 9]]);
+}
+
+function getSunsetSunriseTime(ip, token) {
+  var response;
+  return regeneratorRuntime.async(function getSunsetSunriseTime$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return regeneratorRuntime.awrap(axios.get(''));
+
+        case 3:
+          response = _context3.sent;
+          _context3.next = 9;
+          break;
+
+        case 6:
+          _context3.prev = 6;
+          _context3.t0 = _context3["catch"](0);
+          console.error(_context3.t0);
+
+        case 9:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  }, null, null, [[0, 6]]);
 }
 
 var router = express.Router();
@@ -556,8 +642,7 @@ router.post('/test', function (req, res) {
   if (req.body.params.value == '') {
     sql = "UPDATE Device_Status SET Last_Update = ?, Connection_Status = 0 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
     mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?, connection_status = 0 WHERE token = ? AND tv_id = ? AND serial_number = ?";
-    db.all(sql, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (err, rows) {
-      console.log("1+Token : ", req.body.token, "TVID : ", req.body.params.tvId, "Serial Number : ", req.body.params.tvSerial, 'KEY : ', selectedPinKey, 'VALUE : ', req.body.params.value);
+    db.all(sql, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (err, rows) {//console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
     });
     connection.query(mysqlQuery, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (error, results, fields) {
       console.log('success');
@@ -565,21 +650,19 @@ router.post('/test', function (req, res) {
   } else {
     sql = "UPDATE Device_Status SET Last_Update = ?," + selectedPinKey + " = ?, Connection_Status = 1 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
     mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?," + selectedPinKey + " = ?, connection_status = 1 WHERE token = ? AND tv_id = ? AND serial_number = ?";
-    db.all(sql, [req.body.updateDate, req.body.params.value, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (err, rows) {
-      console.log("1+Token : ", req.body.token, "TVID : ", req.body.params.tvId, "Serial Number : ", req.body.params.tvSerial, 'KEY : ', selectedPinKey, 'VALUE : ', req.body.params.value);
+    db.all(sql, [req.body.updateDate, req.body.params.value, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (err, rows) {//console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
     });
     connection.query(mysqlQuery, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (error, results, fields) {
       console.log('success');
     });
-  }
+  } //console.log("1+Token : ",req.body.token,"TVID : ",req.body.params.tvId,"Serial Number : ",req.body.params.tvSerial,'KEY : ',selectedPinKey,'VALUE : ',req.body.params.value);
 
-  console.log("1+Token : ", req.body.token, "TVID : ", req.body.params.tvId, "Serial Number : ", req.body.params.tvSerial, 'KEY : ', selectedPinKey, 'VALUE : ', req.body.params.value);
+
   res.send(jsonSendData); //client.publish("home/telemetry/" + req.body.token,JSON.stringify(req.body))
 });
 router.post('/allAttributesUpdate', function (req, res) {
   console.log('POST /allAttributesUpdate ', req.body);
-  var jsonData = req.body;
-  console.log(jsonData.updateDate);
+  var jsonData = req.body; //console.log(jsonData.updateDate)
 
   if (jsonData.params.tvDurum == 0) {
     sql = "UPDATE Device_Status SET Connection_Status = 1,Last_Update = ?, TvStatus = 0 WHERE Token = ? AND TvID = ?";
@@ -604,10 +687,10 @@ router.post('/allAttributesUpdate', function (req, res) {
   res.send('testing');
 });
 router.post('/detectDevices', function (req, res) {
-  console.log('DETECT DEVICES : ' + req.body.token);
+  //console.log('DETECT DEVICES : ' + req.body.token);
   client.publish("home/telemetry/" + req.body.token, JSON.stringify(req.body)).then(function (response, request) {
-    console.log('SUCCESS POST', response);
-    console.log('SUCCESS REQUEST : ', request);
+    //console.log('SUCCESS POST',response);
+    //console.log('SUCCESS REQUEST : ',request)
     response.end();
   })["catch"](function (err) {
     console.log(err);
@@ -626,14 +709,14 @@ router.get('/loadDevicesGroupBy', function (req, res) {
     }
 
     rows.forEach(function (item) {
-      console.log(item.ID);
-      console.log(item.deviceName);
+      //console.log(item.ID);
+      //console.log(item.deviceName);
       arrayIDList.push(item.ID);
     });
     var response = {
       rows: rows
-    };
-    console.log(req.body, res.body); //res.json(rows);
+    }; //console.log(req.body,res.body)
+    //res.json(rows);
   });
   connection.query(mysqlQuery, [], function (err, result, fields) {
     res.json(result);
@@ -641,9 +724,8 @@ router.get('/loadDevicesGroupBy', function (req, res) {
 });
 router.post('/nameUpdate', function (req, res) {
   var mysqlQuery;
-  var data = req.body;
-  console.log('Data : ', data);
-  console.log("Name Update : ".concat(data.deviceId, " - ").concat(data.name));
+  var data = req.body; //console.log('Data : ',data);
+  //console.log(`Name Update : ${data.deviceId} - ${data.name}`)
 
   if (data.isBrightnessAuto == false && data.blackScreenAuto == false) {
     mysqlQuery = "UPDATE led_devices SET device_name = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";

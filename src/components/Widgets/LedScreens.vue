@@ -82,13 +82,14 @@
 											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 368 368" style="fill:white;width:22px;enable-background:new 0 0 368 368;" xml:space="preserve"><g>	<g>		<path d="M360,351.995h-56.408c-1.8-27.064-12.552-51.656-29.392-70.888l43.456-43.456c3.128-3.128,3.128-8.184,0-11.312    c-3.128-3.128-8.184-3.128-11.312,0l-43.456,43.456c-19.232-16.84-43.824-27.592-70.888-29.392v-56.408c0-4.416-3.576-8-8-8    s-8,3.584-8,8v56.408c-27.064,1.8-51.656,12.552-70.888,29.392l-43.456-43.456c-3.128-3.128-8.184-3.128-11.312,0    s-3.128,8.184,0,11.312L93.8,281.107c-16.84,19.232-27.592,43.824-29.392,70.888H8c-4.424,0-8,3.584-8,8c0,4.416,3.576,8,8,8    h63.984c0.008,0,0.016,0,0.016,0h0.016h223.96c0.008,0,0.016,0,0.016,0h0.016H360c4.424,0,8-3.584,8-8    C368,355.579,364.424,351.995,360,351.995z M80.408,351.995c4.112-53.616,48.952-96,103.592-96s99.48,42.384,103.592,96H80.408z"/>	</g></g><g>	<g>		<path d="M237.656,50.339L189.664,2.347c-0.736-0.744-1.624-1.328-2.608-1.736c-1.952-0.808-4.16-0.808-6.112,0    c-0.984,0.408-1.864,0.992-2.608,1.736l-47.992,47.992c-3.128,3.128-3.128,8.184,0,11.312s8.184,3.128,11.312,0L176,27.307    v108.688c0,4.416,3.576,8,8,8s8-3.584,8-8V27.307l34.344,34.344c1.56,1.56,3.608,2.344,5.656,2.344    c2.048,0,4.096-0.784,5.656-2.344C240.784,58.523,240.784,53.467,237.656,50.339z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 											<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Sunrise Time</span>
 											</div>
-											<div style="display:flex;margin-top:-10px;">
+											<div style="display:flex;margin-top:-10px;justify-content:center;">
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
+											<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise}}</label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API time</label>
+												
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
@@ -135,13 +136,13 @@
 											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 368 368" style="width:22px;enable-background:new 0 0 368 368;fill:white;" xml:space="preserve"><g>	<g>		<path d="M360,176h-56.408c-1.8-27.064-12.552-51.656-29.392-70.888l43.456-43.456c3.128-3.128,3.128-8.184,0-11.312    s-8.184-3.128-11.312,0L262.888,93.8C243.656,76.96,219.064,66.208,192,64.408V8c0-4.416-3.576-8-8-8s-8,3.584-8,8v56.408    c-27.064,1.8-51.656,12.552-70.888,29.392L61.656,50.344c-3.128-3.128-8.184-3.128-11.312,0s-3.128,8.184,0,11.312L93.8,105.112    C76.96,124.344,66.208,148.936,64.408,176H8c-4.424,0-8,3.584-8,8s3.576,8,8,8h63.984c0.008,0,0.016,0,0.016,0h0.016h223.96    c0.008,0,0.016,0,0.016,0h0.016H360c4.424,0,8-3.584,8-8C368,179.584,364.424,176,360,176z M80.408,176    C84.52,122.384,129.36,80,184,80s99.48,42.384,103.592,96H80.408z"/>	</g></g><g>	<g>		<path d="M237.656,306.344c-3.128-3.128-8.184-3.128-11.312,0L192,340.688V232c0-4.416-3.576-8-8-8s-8,3.584-8,8v108.688    l-34.344-34.344c-3.128-3.128-8.184-3.128-11.312,0s-3.128,8.184,0,11.312l47.992,47.992c0.736,0.744,1.624,1.328,2.608,1.736    c0.976,0.4,2.016,0.616,3.056,0.616s2.08-0.216,3.056-0.616c0.984-0.408,1.864-0.992,2.608-1.736l47.992-47.992    C240.784,314.528,240.784,309.472,237.656,306.344z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>	
 											<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Sunset Time</span>
 											</div>
-											<div style="display:flex;margin-top:-10px;">
-											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;" >
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+											<div style="display:flex;margin-top:-10px;justify-content:center;">
+											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
+											<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunset}}</label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												<label style="font-size:10px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">API Time</label>
+												
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
@@ -983,6 +984,8 @@ export default {
 			selectBlackScreenOnTimeMinute:'',
 			selectBlackScreenOffTimeHour:'',
 			selectBlackScreenOffTimeMinute:'',
+			apiTimeSunrise:'',
+			apiTimeSunset:'',
 			timesHour:[
 				{text:"00"},{text:"01"},{text:"02"},{text:"03"},{text:"04"},{text:"05"},{text:"06"},{text:"07"},{text:"08"},{text:"09"},{text:"10"},{text:"11"},{text:"12"},{text:"13"},{text:"14"},{text:"15"},{text:"16"},{text:"17"},{text:"18"},{text:"19"},{text:"20"},{text:"21"},{text:"22"},{text:"23"}
 			],
@@ -1580,6 +1583,7 @@ tabsAndTableDetails,
 					item.black_screen_time_options = jsonData.blackScreenTimeOptions,
 					item.sun_time_options = jsonData.sunTimeOptions,
 					item.blackscreen_week_options_json = jsonData.blackScreenWeekData
+					
 				}
 			})
 		})
@@ -1620,6 +1624,8 @@ tabsAndTableDetails,
 		this.checkedSwitch = this.selectedInfoItem.is_black_screen_auto;
 		this.selectedBlackScreenItem.state = this.selectedInfoItem.black_screen_time_options;
 		this.selectedSunOptions.state = this.selectedInfoItem.sun_time_options;
+		this.apiTimeSunrise = this.selectedInfoItem.auto_sunrise_time;
+		this.apiTimeSunset = this.selectedInfoItem.auto_sunset_time;
 		if(this.selectedInfoItem.blackscreen_week_options_json != null) {
 			this.selectBlackScreenWeek = JSON.parse(this.selectedInfoItem.blackscreen_week_options_json)
 		}else{
