@@ -86,7 +86,7 @@ import axios from 'axios'
 		loadledDevice() {
 			var updateDataLed = [];
 			
-			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.4:5000/api/loadLedDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					
@@ -104,7 +104,7 @@ import axios from 'axios'
 	loadData() {
 			var updateData = [];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.30:5000/api/loadLcdDevices').then(resp => {
+			axios.get('http://192.168.1.4:5000/api/loadLcdDevices').then(resp => {
 				resp.data.forEach(item=> {
 					console.log('resp Connection Status : ',item.connection_status);
 					

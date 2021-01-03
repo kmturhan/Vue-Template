@@ -1318,7 +1318,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.1.4:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -1441,7 +1441,7 @@ tabsAndTableDetails,
 		loadData() {
 			var updateData =[];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.1.4:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
 				
 				resp.data.forEach((item)=> {
@@ -1515,7 +1515,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/led_novastar/attribute/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.30:5000/api/test',jsonData)
+				axios.post('http://192.168.1.4:5000/api/test',jsonData)
 				
 				.then((response) => {
 					console.log('SUCCESS POST',response)
@@ -1570,7 +1570,7 @@ tabsAndTableDetails,
 			blackScreenWeekData: this.selectBlackScreenWeek
 		}
 		var updateData = this.deviceList;
-		axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
+		axios.post('http://192.168.1.4:5000/api/nameUpDate',jsonData)
 		.then(function (response) {
 			console.log(response)
 			updateData.forEach(item => {
@@ -1588,7 +1588,6 @@ tabsAndTableDetails,
 					item.black_screen_time_options = jsonData.blackScreenTimeOptions,
 					item.sun_time_options = jsonData.sunTimeOptions,
 					item.blackscreen_week_options_json = jsonData.blackScreenWeekData
-					
 				}
 			})
 		})
@@ -1643,8 +1642,6 @@ tabsAndTableDetails,
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0}
 			]
-				
-			
 		}
 		
 	},
