@@ -187,80 +187,63 @@ client.on('connect', function () {
         if (item.connection_status == 1) {
           console.log("Current Time : ".concat(currentTimeHour, ":").concat(currentTimeMinute, " - Open Time : ").concat(openTimeHour, ":").concat(openTimeMinute, " - Close Time : ").concat(closeTimeHour, ":").concat(closeTimeMinute));
           console.log(item.last_update);
+          /* Black Screen için Automatic seçili olduğunda yapılacak işlemler */
 
           if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Always') {
             //var closeTime =  item.black_screen_close_time;
             //console.log(`OPEN HOUR : ${item.black_screen_open_time.split(":")[0]} MINUTES : ${item.black_screen_open_time.split(":")[1]}`);
             //console.log(`CLOSE HOUR : ${item.black_screen_close_time.split(":")[0]} MINUTES : ${item.black_screen_close_time.split(":")[1]}`)
+            var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, openTimeHour, openTimeMinute);
+            var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, closeTimeHour, closeTimeMinute);
             console.log('OPEN : ', openTimeHour, 'CLOSE : ', closeTimeHour);
 
             if (closeTimeHour < openTimeHour) {
-              console.log('IF');
-              var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, openTimeHour, openTimeMinute);
               blackOnTime.setDate(blackOnTime.getDate() - 1);
-              var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, closeTimeHour, closeTimeMinute); //console.log('DATE : ',datePlus.getDate() , datePlus.getFullYear())
-
-              console.log("Black On Time : ".concat(blackOnTime.getTime(), " - Black Off Time : ").concat(blackOffTime.getTime(), " - Current Time : ").concat(currentDate));
-
-              if (currentDate > blackOnTime && currentDate < blackOffTime) {
-                var jsonData = {
-                  msg: 'black',
-                  value: ''
-                };
-              } else {
-                var jsonData = {
-                  msg: 'normal',
-                  value: ''
-                };
-              }
-
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-            } else {
-              console.log('ELSE');
-              var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, openTimeHour, openTimeMinute).getTime();
-              var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, closeTimeHour, closeTimeMinute).getTime();
-              console.log("Black On Time : ".concat(blackOnTime, " - Black Off Time : ").concat(blackOffTime, " Current Time : ").concat(currentDate));
-
-              if (currentDate >= blackOnTime && currentDate <= blackOffTime) {
-                var jsonData = {
-                  msg: 'black',
-                  value: ''
-                };
-              } else {
-                var jsonData = {
-                  msg: 'normal',
-                  value: ''
-                };
-              }
-
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
             }
 
+            console.log("Black On Time : ".concat(blackOnTime.getTime(), " - Black Off Time : ").concat(blackOffTime.getTime(), " - Current Time : ").concat(currentDate));
+
+            if (currentDate >= blackOnTime && currentDate <= blackOffTime) {
+              var jsonData = {
+                msg: 'black',
+                value: ''
+              };
+            } else {
+              var jsonData = {
+                msg: 'normal',
+                value: ''
+              };
+            }
+
+            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
             console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
           } else if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
             var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
+            var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OnTimeHour, blackScreenWeekDatas.OnTimeMinute).getTime();
+            var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OffTimeHour, blackScreenWeekDatas.OffTimeMinute).getTime();
 
-            if (currentTimeHour == blackScreenWeekDatas.OnTimeHour && currentTimeMinute == blackScreenWeekDatas.OnTimeMinute) {
-              var jsonData = {
-                value: '',
-                msg: 'black'
-              };
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-              console.log(item.token, 'BLACK SEND');
-              jsonData.token = item.token;
+            if (blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
+              blackOnTime.setDate(blackOnTime.getDate() - 1);
             }
 
-            if (currentTimeHour == blackScreenWeekDatas.OffTimeHour && currentTimeMinute == blackScreenWeekDatas.OffTimeMinute) {
+            if (currentDate >= blackOnTime && currentDate <= blackOffTime) {
               var jsonData = {
-                value: '',
-                msg: 'normal'
+                msg: 'black',
+                value: ''
               };
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-              console.log(item.token, 'NORMAL SEND');
+            } else {
+              var jsonData = {
+                msg: 'normal',
+                value: ''
+              };
             }
+
+            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
           }
+          /* Sunrise Sunset değerleri otomatik yollanmak istediğinde yapılacak işlemler*/
 
-          if (item.is_brightness_auto) {
+
+          if (item.is_brightness_auto == 1 && item.sun_time_options == "Always") {
             var sunriseTimeHour = item.sunrise_time.split(':')[0];
             var sunriseTimeMinute = item.sunrise_time.split(':')[1];
             var sunriseValue = item.sunrise_value;
@@ -268,23 +251,53 @@ client.on('connect', function () {
             var sunsetTimeMinute = item.sunset_time.split(':')[1];
             var sunsetValue = item.sunset_value; //console.log(`Sunrise : ${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} Sunset : ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
 
-            if (currentTimeHour == sunriseTimeHour && currentTimeMinute == sunriseTimeMinute) {
+            var sunriseTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunriseTimeHour, sunriseTimeMinute).getTime();
+            var sunsetTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunsetTimeHour, sunsetTimeMinute).getTime();
+
+            if (sunsetTimeHour < sunriseTimeHour) {
+              sunriseTimestamp.setDate(sunriseTimestamp.getDate() - 1);
+            }
+
+            if (currentDate >= sunriseTimestamp && currentDate <= sunsetTimestamp) {
               var jsonData = {
                 msg: 'bright',
                 value: sunriseValue.toString()
               };
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-              jsonData.token = item.token;
-            }
-
-            if (currentTimeHour == sunsetTimeHour && currentTimeMinute == sunsetTimeMinute) {
+            } else {
               var jsonData = {
                 msg: 'bright',
                 value: sunsetValue.toString()
               };
-              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
-              jsonData.token = item.token;
             }
+
+            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+          } else if (item.is_brightness_auto == 1 && item.sun_time_options == "Automatic") {
+            var sunriseTimeHour = item.auto_sunrise_time.split(':')[0];
+            var sunriseTimeMinute = item.auto_sunrise_time.split(':')[1];
+            var sunriseValue = item.sunrise_value;
+            var sunsetTimeHour = item.auto_sunset_time.split(':')[0];
+            var sunsetTimeMinute = item.auto_sunset_time.split(':')[1];
+            var sunsetValue = item.sunset_value;
+            var sunriseTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunriseTimeHour, sunriseTimeMinute).getTime();
+            var sunsetTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunsetTimeHour, sunsetTimeMinute).getTime();
+
+            if (sunsetTimeHour < sunriseTimeHour) {
+              sunriseTimestamp.setDate(sunriseTimestamp.getDate() - 1);
+            }
+
+            if (currentDate >= sunriseTimestamp && currentDate <= sunsetTimestamp) {
+              var jsonData = {
+                msg: 'bright',
+                value: sunriseValue.toString()
+              };
+            } else {
+              var jsonData = {
+                msg: 'bright',
+                value: sunsetValue.toString()
+              };
+            }
+
+            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
           }
         }
       });
