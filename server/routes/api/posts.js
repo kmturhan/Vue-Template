@@ -299,6 +299,7 @@ client.on('connect', function () {
             })
         })
         
+
         console.log('HOUR : ',date.getHours(),'MINUTE : ',date.getMinutes())
         
     }, 5000);
@@ -520,7 +521,7 @@ client.on('message', function (topic, message) {
             }
             break;
             case 'home/led_novastar/telemetry/'+token:
-                    
+                    var date = new Date();
                     console.log('LED NOVASTAR test');
                    
                         if(jsonData.type == 'dvi_status') {
@@ -588,8 +589,8 @@ client.on('message', function (topic, message) {
                 var mysqlQuery = "SELECT * FROM led_devices WHERE token = ?";
                 connection.query(mysqlQuery,[jsonData.Token],(err,result,fields) => {
                     if(result.length == 0) {
-                        var mysqlQuery = "INSERT INTO led_devices(token,device_name) VALUES (?,'Labrus New Device')"
-                        connection.query(mysqlQuery,[jsonData.Token])    
+                        var mysqlQuery = "INSERT INTO led_devices(token,device_name,brand) VALUES (?,'Labrus New Device',?)"
+                        connection.query(mysqlQuery,[jsonData.Token,jsonData.brand])    
                     }
                 })
                 getCountryLed(jsonData.ip,jsonData.Token)    

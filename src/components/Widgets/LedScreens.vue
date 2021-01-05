@@ -503,11 +503,6 @@
 				<template v-slot:item="{ item }">
 					<tr :style="[item.device_active == 0 ? {'pointer-events':'none'}:{'pointer-events':'auto'}]">
 						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{deviceList.indexOf(item) + 1}}</td>
-						<td>
-							<svg class="device-connection" v-if="item.device_active == 1"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
-							<svg class="device-connection" v-else  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-right:auto;margin-left:auto;fill:#e4002b" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
-						</td>
-						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
 						<td style="display:flex;align-items:center;justify-content:center;">
 							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 								<label>
@@ -524,8 +519,6 @@
 								</div>
 							</div>
 						</td>
-						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.brand }}</td>
-						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.model_name}}</td>
 						<td v-if="item.connection_status == 1" style="" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:none;margin-right:auto;margin-left:auto;fill:#e4002b" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
@@ -534,6 +527,17 @@
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:none;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:block;margin-right:auto;margin-left:auto;fill:#e4002b;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
+						
+						<td>
+							<svg class="device-connection" v-if="item.device_active == 1"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg xmlns="http://www.w3.org/2000/svg" v-else xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 123.05 123.05" style="enable-background:new 0 0 123.05 123.05;fill: #e4002b" xml:space="preserve"><g>	<path d="M121.325,10.925l-8.5-8.399c-2.3-2.3-6.1-2.3-8.5,0l-42.4,42.399L18.726,1.726c-2.301-2.301-6.101-2.301-8.5,0l-8.5,8.5   c-2.301,2.3-2.301,6.1,0,8.5l43.1,43.1l-42.3,42.5c-2.3,2.3-2.3,6.1,0,8.5l8.5,8.5c2.3,2.3,6.1,2.3,8.5,0l42.399-42.4l42.4,42.4   c2.3,2.3,6.1,2.3,8.5,0l8.5-8.5c2.3-2.3,2.3-6.1,0-8.5l-42.5-42.4l42.4-42.399C123.625,17.125,123.625,13.325,121.325,10.925z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
+						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
+						
+						
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.brand }}</td>
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.model_name}}</td>
+						
 						<td v-if="item.dvi_status == 1 && item.connection_status == 1" style="" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg  class="device-connection device-disconnect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:none;margin-right:auto;margin-left:auto;fill:#e4002b;"><g>	<g>		<path fill="#e4002b;" d="M562.27,511.274l305.892-305.888c1.935-1.937,1.935-5.809,0-9.68l-44.532-42.592    c-1.936-1.937-3.868-1.937-3.868-1.937c-1.94,0-1.94,0-3.872,1.937L510,459.002l-305.887-306.13    c-1.939-1.936-3.873-1.936-3.873-1.936c-1.939,0-1.939,0-3.872,1.936l-44.528,44.77c-1.939,1.935-1.939,5.808,0,9.68    L457.728,513.21L151.84,816.92c-1.939,1.936-1.939,5.808,0,9.68l42.592,44.527c1.936,1.939,3.869,1.939,3.869,1.939    s1.939,0,3.873-1.939L510,563.545l305.889,305.89c1.936,1.936,3.872,1.936,3.872,1.936s1.935,0,3.868-1.936l42.592-44.532    c1.94-1.935,1.94-5.807,0-9.68L562.27,511.274z"/>	</g></g></svg>
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
@@ -1116,15 +1120,21 @@ export default {
 					sortable: false,
 					value:"#"
 				},
-				{
-					text:"Active",
-					sortable: false,
-					value:"#"
-				},
+				
 				{
 					text: "Name",
 					sortable: false,
 					value:"name"
+				},
+				{
+					text: "Connection Status",
+					sortable: false,
+					value: "Connection Status "
+				},
+				{
+					text:"Authorization",
+					sortable: false,
+					value:"#"
 				},
 				{
 					text: "Brand",
@@ -1136,11 +1146,7 @@ export default {
 					sortable: false,
 					value: "Model Name"
 				},
-				{
-					text: "Connection Status",
-					sortable: false,
-					value: "Connection Status "
-				},
+				
 				{
 					text: "DVI Status",
 					sortable: false,
@@ -1298,13 +1304,44 @@ tabsAndTableDetails,
 				var test = String.fromCharCode.apply(null,val);
 				var jsonData = JSON.parse(test);
 				console.log('LED NOVASTAR : ',jsonData);
+				var date = new Date();
+				this.deviceList.forEach(item => {
+					if(item.Id == this.selectedTvID) {
+						clearInterval(this.interval)
+					}
+				})
 				if(jsonData.type == 'brightness_status') {
 					this.deviceList.forEach(item => {
 						if(item.token == token){
 							item.brightness_value = (jsonData.value/2.45).toFixed(0);
+							item.last_update = date;
+							item.connection_status = 1;
+						}
+						
+					})
+				}else if(jsonData.type == 'screen_on_off') {
+					this.deviceList.forEach(item => {
+						if(item.token == token && jsonData.value == 'black') {
+							item.screen_on_off = 1;
+							item.last_update = date;
+							item.connection_status = 1;
+						}else if(item.token == token && jsonData.value == 'normal'){
+							item.screen_on_off = 0;
+							item.last_update = date;
+							item.connection_status = 1;
+						}
+						
+					})
+				}else if(jsonData.type == 'dvi_status') {
+					this.deviceList.forEach(item => {
+						if(item.token == token) {
+							item.dvi_status = jsonData.value
+							item.connection_status = 1;
+							item.last_update = date;
 						}
 					})
 				}
+				
 				
 			}
 		},
@@ -1414,12 +1451,12 @@ tabsAndTableDetails,
 				msg:commandOnOff,
 			}
 		$('.v-input__control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
-		$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
+		//$('.input-gauch.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');
 		
 		var i = 0;
 		this.interval = setInterval(() => {
 			console.log(i++)
-			if(i == 7) {
+			if(i > 7) {
 				console.log('Disconnect ');
 				console.log(selectedTag)
 			$(selectedTag).toggleClass('v-input--is-label-active  success--text').toggleClass('red--text text--darken-3');
@@ -1432,7 +1469,7 @@ tabsAndTableDetails,
 			
 				clearInterval(this.interval);
 				$('.v-input__control.tv-id-'+this.selectedTvID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-				$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
+				//$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
 				
 				console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
 				if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
@@ -1531,11 +1568,11 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/led_novastar/attribute/'+token,JSON.stringify(jsonData));
-				axios.post('http://192.168.10.30:5000/api/test',jsonData)
-				
-				.then((response) => {
-					console.log('SUCCESS POST',response)
-				});
+				//axios.post('http://192.168.10.30:5000/api/test',jsonData)
+				//
+				//.then((response) => {
+				//	console.log('SUCCESS POST',response)
+				//});
 				console.log(jsonData);
 				console.log('UP : ',this.selector.getAttribute('value'));
 			})
