@@ -219,8 +219,8 @@ client.on('connect', function () {
             console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
           } else if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
             var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
-            var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OnTimeHour, blackScreenWeekDatas.OnTimeMinute).getTime();
-            var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OffTimeHour, blackScreenWeekDatas.OffTimeMinute).getTime();
+            var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OnTimeHour, blackScreenWeekDatas.OnTimeMinute);
+            var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OffTimeHour, blackScreenWeekDatas.OffTimeMinute);
 
             if (blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
               blackOnTime.setDate(blackOnTime.getDate() - 1);
@@ -251,8 +251,8 @@ client.on('connect', function () {
             var sunsetTimeMinute = item.sunset_time.split(':')[1];
             var sunsetValue = item.sunset_value; //console.log(`Sunrise : ${sunriseTimeHour}:${sunriseTimeMinute} = ${sunriseValue} Sunset : ---${sunsetTimeHour} -${sunsetTimeMinute} -${sunsetValue}`)
 
-            var sunriseTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunriseTimeHour, sunriseTimeMinute).getTime();
-            var sunsetTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunsetTimeHour, sunsetTimeMinute).getTime();
+            var sunriseTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunriseTimeHour, sunriseTimeMinute);
+            var sunsetTimestamp = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, sunsetTimeHour, sunsetTimeMinute);
 
             if (sunsetTimeHour < sunriseTimeHour) {
               sunriseTimestamp.setDate(sunriseTimestamp.getDate() - 1);
