@@ -1299,8 +1299,13 @@ tabsAndTableDetails,
 				var jsonData = JSON.parse(test);
 				console.log('LED NOVASTAR : ',jsonData);
 				if(jsonData.type == 'brightness_status') {
-					console.log('TETS : ')
+					this.deviceList.forEach(item => {
+						if(item.token == token){
+							item.brightness_value = (jsonData.value/2.45).toFixed(0);
+						}
+					})
 				}
+				
 			}
 		},
 	
