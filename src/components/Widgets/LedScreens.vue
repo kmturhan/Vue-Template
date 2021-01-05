@@ -87,7 +87,7 @@
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise.split(':')[0]}}:{{apiTimeSunrise.split(':')[1]}} </label>
+											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise}}:{{apiTimeSunrise}} </label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
@@ -141,7 +141,7 @@
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunset.split(':')[0]}}:{{apiTimeSunset.split(':')[1]}}</label>
+											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunset}}:{{apiTimeSunset}}</label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
@@ -501,11 +501,15 @@
 			<v-data-table :headers="headersForTransactionList" :items="deviceList"
 				hide-default-footer>
 				<template v-slot:item="{ item }">
-					<tr>
-						<td>{{deviceList.indexOf(item) + 1}}</td>
+					<tr :style="[item.device_active == 0 ? {'pointer-events':'none'}:{'pointer-events':'auto'}]">
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{deviceList.indexOf(item) + 1}}</td>
+						<td>
+							<svg class="device-connection" v-if="item.device_active == 1"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
+							<svg class="device-connection" v-else  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-right:auto;margin-left:auto;fill:#e4002b" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
 						<!--<td class="text-nowrap">{{ item.Id }}</td>-->
 						<td style="display:flex;align-items:center;justify-content:center;">
-							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id">
+							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 								<label>
 									<!--<a href="/default/crypto/market-cap" style="text-decoration:underline;">{{item.device_name}}</a>-->
 									{{item.device_name}}
@@ -513,39 +517,42 @@
 								<!--<svg xmlns="http://www.w3.org/2000/svg" height="15" viewBox="0 -1 401.52289 401" width="15" @click="showInput" style="fill:white;margin-left:10px;"><path d="m370.589844 250.972656c-5.523438 0-10 4.476563-10 10v88.789063c-.019532 16.5625-13.4375 29.984375-30 30h-280.589844c-16.5625-.015625-29.980469-13.4375-30-30v-260.589844c.019531-16.558594 13.4375-29.980469 30-30h88.789062c5.523438 0 10-4.476563 10-10 0-5.519531-4.476562-10-10-10h-88.789062c-27.601562.03125-49.96875 22.398437-50 50v260.59375c.03125 27.601563 22.398438 49.96875 50 50h280.589844c27.601562-.03125 49.96875-22.398437 50-50v-88.792969c0-5.523437-4.476563-10-10-10zm0 0"/><path d="m376.628906 13.441406c-17.574218-17.574218-46.066406-17.574218-63.640625 0l-178.40625 178.40625c-1.222656 1.222656-2.105469 2.738282-2.566406 4.402344l-23.460937 84.699219c-.964844 3.472656.015624 7.191406 2.5625 9.742187 2.550781 2.546875 6.269531 3.527344 9.742187 2.566406l84.699219-23.464843c1.664062-.460938 3.179687-1.34375 4.402344-2.566407l178.402343-178.410156c17.546875-17.585937 17.546875-46.054687 0-63.640625zm-220.257812 184.90625 146.011718-146.015625 47.089844 47.089844-146.015625 146.015625zm-9.40625 18.875 37.621094 37.625-52.039063 14.417969zm227.257812-142.546875-10.605468 10.605469-47.09375-47.09375 10.609374-10.605469c9.761719-9.761719 25.589844-9.761719 35.351563 0l11.738281 11.734375c9.746094 9.773438 9.746094 25.589844 0 35.359375zm0 0"/></svg>-->
 							</div>
 							<br>
-							<div style="display:none;"  id="name-change" >
+							<div style="display:none;"  id="name-change">
 								<div style="display:flex;align-items:center;">
 								<input type="text" @blur="leaveInput" :value="item.device_name" style="width:140px;height:30px;text-align:center;border:2px solid white;border-radius:10px;padding:0 5px;width:auto;" :data-device-id="item.Id"> 
 								<svg class="" xmlns="http://www.w3.org/2000/svg" @click="leaveInput" id="Bold" enable-background="new 0 0 24 24" height="15" viewBox="0 0 24 24" width="15" style="margin-left:5px;display:block;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 								</div>
 							</div>
 						</td>
-						<td>{{ item.brand }}</td>
-						<td>{{ item.model_name}}</td>
-						<td v-if="item.connection_status == 1" style="">
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.brand }}</td>
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.model_name}}</td>
+						<td v-if="item.connection_status == 1" style="" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:none;margin-right:auto;margin-left:auto;fill:#e4002b" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
-						<td v-if="item.connection_status == 0" style="margin-right:auto;margin-left:auto;">
+						<td v-if="item.connection_status == 0" style="margin-right:auto;margin-left:auto;" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:none;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:block;margin-right:auto;margin-left:auto;fill:#e4002b;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 						</td>
-						<td v-if="item.dvi_status == 1 && item.connection_status == 1" style="">
+						<td v-if="item.dvi_status == 1 && item.connection_status == 1" style="" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg  class="device-connection device-disconnect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" style="enable-background:new 0 0 612 612;height:15px;width:15px;display:none;margin-right:auto;margin-left:auto;fill:#e4002b;"><g>	<g>		<path fill="#e4002b;" d="M562.27,511.274l305.892-305.888c1.935-1.937,1.935-5.809,0-9.68l-44.532-42.592    c-1.936-1.937-3.868-1.937-3.868-1.937c-1.94,0-1.94,0-3.872,1.937L510,459.002l-305.887-306.13    c-1.939-1.936-3.873-1.936-3.873-1.936c-1.939,0-1.939,0-3.872,1.936l-44.528,44.77c-1.939,1.935-1.939,5.808,0,9.68    L457.728,513.21L151.84,816.92c-1.939,1.936-1.939,5.808,0,9.68l42.592,44.527c1.936,1.939,3.869,1.939,3.869,1.939    s1.939,0,3.873-1.939L510,563.545l305.889,305.89c1.936,1.936,3.872,1.936,3.872,1.936s1.935,0,3.868-1.936l42.592-44.532    c1.94-1.935,1.94-5.807,0-9.68L562.27,511.274z"/>	</g></g></svg>
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:block;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<!--<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612"  xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>-->
 						</td>
-						<td v-if="item.dvi_status == 0 && item.connection_status == 1" style="margin-right:auto;margin-left:auto;">
+						<td v-if="item.dvi_status == 0 && item.connection_status == 1" style="margin-right:auto;margin-left:auto;" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg  class="device-connection device-disconnect" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="1024px" height="1024px" viewBox="0 0 1024 1024" enable-background="new 0 0 1024 1024" xml:space="preserve" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-right:auto;margin-left:auto;fill:"><g>	<g>		<path fill="#e4002b;" d="M562.27,511.274l305.892-305.888c1.935-1.937,1.935-5.809,0-9.68l-44.532-42.592    c-1.936-1.937-3.868-1.937-3.868-1.937c-1.94,0-1.94,0-3.872,1.937L510,459.002l-305.887-306.13    c-1.939-1.936-3.873-1.936-3.873-1.936c-1.939,0-1.939,0-3.872,1.936l-44.528,44.77c-1.939,1.935-1.939,5.808,0,9.68    L457.728,513.21L151.84,816.92c-1.939,1.936-1.939,5.808,0,9.68l42.592,44.527c1.936,1.939,3.869,1.939,3.869,1.939    s1.939,0,3.873-1.939L510,563.545l305.889,305.89c1.936,1.936,3.872,1.936,3.872,1.936s1.935,0,3.868-1.936l42.592-44.532    c1.94-1.935,1.94-5.807,0-9.68L562.27,511.274z"/>	</g></g></svg>
 							<svg class="device-connection device-connect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="10" viewBox="0 0 24 24" width="10" style="display:none;margin-right:auto;margin-left:auto;fill:#0f9c0e;"><path d="m.828 13.336c-.261.304-.388.691-.357 1.091s.215.764.52 1.024l7.403 6.346c.275.235.616.361.974.361.044 0 .089-.002.134-.006.405-.036.77-.229 1.028-.542l12.662-15.411c.254-.31.373-.7.334-1.099-.04-.399-.231-.759-.541-1.014l-2.318-1.904c-.639-.524-1.585-.432-2.111.207l-9.745 11.861-3.916-3.355c-.628-.536-1.576-.465-2.115.163z"/></svg>
 							<!--<svg class="device-connection device-disconnect" :class="'device-status-'+item.Id"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="15px" height="15px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;height:15px;width:15px;margin-top:12px;cursor:pointer;display:block;margin-right:auto;margin-left:auto;fill:#e4002b;" xml:space="preserve"><g>	<g id="cloud-off">		<path d="M494.7,229.5c-17.851-86.7-94.351-153-188.7-153c-38.25,0-73.95,10.2-102,30.6l38.25,38.25    c17.85-12.75,40.8-17.85,63.75-17.85c76.5,0,140.25,63.75,140.25,140.25v12.75h38.25c43.35,0,76.5,33.15,76.5,76.5    c0,28.05-15.3,53.55-40.8,66.3l38.25,38.25C591.6,438.6,612,400.35,612,357C612,290.7,558.45,234.6,494.7,229.5z M76.5,109.65    l71.4,68.85C66.3,183.6,0,249.9,0,331.5c0,84.15,68.85,153,153,153h298.35l51,51l33.15-33.15L109.65,76.5L76.5,109.65z     M196.35,229.5l204,204H153c-56.1,0-102-45.9-102-102c0-56.1,45.9-102,102-102H196.35z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>-->
 						</td>
-						<td v-if="item.connection_status == 0"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: red;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></td>
-						<td>-</td>
+						<td v-if="item.connection_status == 0" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
+							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="10" height="10" viewBox="0 0 510.842 510.843" style="enable-background:new 0 0 510.842 510.843;fill: red;" xml:space="preserve"><g>	<g>		<path d="M214.646,412.929c-4.425,0-8.011,3.586-8.011,8.011v81.892c0,4.425,3.586,8.012,8.011,8.012h81.891    c4.426,0,8.012-3.587,8.012-8.012v-81.886c0-4.425-3.586-8.011-8.012-8.011h-81.891V412.929z"/>		<path d="M235.901,379.128h39.382c4.424,0,8.359-3.568,8.781-7.975l24.322-251.281V8.011c0-4.425-3.588-8.011-8.012-8.011h-89.909    c-4.425,0-8.011,3.586-8.011,8.011v111.861l24.657,251.287C227.542,375.56,231.477,379.128,235.901,379.128z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+						</td>
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">-</td>
+						
 						<td class="tvRemoteLock input-control" :data-tvid="item.Id" :data-value="item.screen_on_off">
             <div v-if="item.screen_on_off == 1"  :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls" >
-									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
+									<div class="v-input__control v-input--switch v-input--is-label-active success--text"  :class="[item.connection_status == 1 && item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
 												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"  aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
@@ -569,7 +576,7 @@
 							
 							<div v-else-if="item.screen_on_off == 0" ref="thebutton" :data-value="item.screen_on_off">
 								<div class="pin-km v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch">
-									<div class="v-input__control" :class="[item.connection_status == 1 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
+									<div class="v-input__control" :class="[item.connection_status == 1 && item.device_active == 1 ?  'input-switch-enabled' : 'input-switch-disabled','tv-id-'+item.Id]" :style="[item.is_black_screen_auto == 0 ? {display:'block'}:{display:'none'}]" :data-value="item.screen_on_off" @click="clickPub">
 										<div class="v-input__slot">
 											<div class="v-input--selection-controls__input">
 												<input class="switch-input" aria-checked="false" role="switch" type="checkbox"   aria-disabled="false" data-pin="km" data-swc="1" :data-token="item.token" :data-TvID="item.Id" checked="checked" :data-serial-number="item.serial_number" data-on="01" data-off="00" value="red darken-3">
@@ -592,8 +599,8 @@
 							</div>
 						</td>
 						
-						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
-							<v-slider :style="[item.is_brightness_auto == 0 ? {display:'block'}:{display:'none'}]" v-model="item.brightness_value" v-bind:max="255" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
+						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 && item.device_active == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
+							<v-slider :style="[item.is_brightness_auto == 0 ? {display:'block'}:{display:'none'}]" v-model="item.brightness_value" v-bind:max="100" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 							<div :style="[item.is_brightness_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" >
 									<span><b>Auto</b></span><br>
 									<span style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.667 490.667" style="enable-background:new 0 0 490.667 490.667; width:22px;margin-right:10px;" xml:space="preserve"><circle style="fill:#FFC107;" cx="245.333" cy="245.333" r="160"/><g>	<path style="fill:#FFD54F;" d="M245.333,64C251.224,64,256,59.224,256,53.333V10.667C256,4.776,251.224,0,245.333,0   c-5.891,0-10.667,4.776-10.667,10.667v42.667C234.667,59.224,239.442,64,245.333,64z"/>	<path style="fill:#FFD54F;" d="M245.333,426.667c-5.891,0-10.667,4.776-10.667,10.667V480c0,5.891,4.776,10.667,10.667,10.667   c5.891,0,10.667-4.776,10.667-10.667v-42.667C256,431.442,251.224,426.667,245.333,426.667z"/>	<path style="fill:#FFD54F;" d="M480,234.667h-42.667c-5.891,0-10.667,4.776-10.667,10.667c0,5.891,4.776,10.667,10.667,10.667H480   c5.891,0,10.667-4.776,10.667-10.667C490.667,239.442,485.891,234.667,480,234.667z"/>	<path style="fill:#FFD54F;" d="M64,245.333c0-5.891-4.776-10.667-10.667-10.667H10.667C4.776,234.667,0,239.442,0,245.333   C0,251.224,4.776,256,10.667,256h42.667C59.224,256,64,251.224,64,245.333z"/>	<path style="fill:#FFD54F;" d="M140.096,84.395c1.909,3.307,5.44,5.341,9.259,5.333c1.873,0.007,3.715-0.486,5.333-1.429   c5.102-2.946,6.849-9.469,3.904-14.571l-21.333-36.949c-2.979-5.082-9.514-6.787-14.596-3.808   c-5.035,2.951-6.763,9.401-3.878,14.474L140.096,84.395z"/>	<path style="fill:#FFD54F;" d="M350.571,406.272c-2.98-5.082-9.515-6.786-14.597-3.806c-5.033,2.952-6.761,9.4-3.878,14.473   l21.333,36.949c1.909,3.307,5.44,5.341,9.259,5.333c1.873,0.007,3.715-0.486,5.333-1.429c5.102-2.946,6.849-9.469,3.904-14.571   L350.571,406.272z"/>	<path style="fill:#FFD54F;" d="M411.605,160c1.873,0.007,3.715-0.486,5.333-1.429l36.949-21.333   c5.22-2.731,7.238-9.176,4.507-14.396c-2.731-5.22-9.176-7.238-14.396-4.507c-0.266,0.139-0.525,0.289-0.778,0.45l-36.949,21.333   c-5.102,2.946-6.849,9.47-3.904,14.571c1.905,3.3,5.426,5.333,9.237,5.333V160z"/>	<path style="fill:#FFD54F;" d="M73.728,332.096l-36.949,21.333c-5.102,2.946-6.849,9.469-3.904,14.571   c1.905,3.3,5.426,5.333,9.237,5.333c1.873,0.007,3.715-0.486,5.333-1.429l36.949-21.333c5.22-2.731,7.238-9.176,4.507-14.396   c-2.731-5.22-9.176-7.238-14.396-4.507c-0.266,0.139-0.525,0.289-0.778,0.45L73.728,332.096z"/>	<path style="fill:#FFD54F;" d="M36.779,137.237l36.949,21.333c1.613,0.939,3.446,1.433,5.312,1.429   c5.891,0,10.666-4.776,10.666-10.667c0-3.81-2.033-7.331-5.333-9.237l-36.949-21.333c-4.972-3.16-11.564-1.692-14.724,3.279   s-1.692,11.564,3.279,14.724c0.253,0.161,0.512,0.311,0.778,0.45L36.779,137.237z"/>	<path style="fill:#FFD54F;" d="M453.888,353.429l-36.949-21.333c-4.972-3.16-11.564-1.692-14.724,3.279   c-3.16,4.971-1.692,11.564,3.279,14.724c0.253,0.161,0.513,0.311,0.778,0.45l36.949,21.333c1.619,0.943,3.46,1.436,5.333,1.429   c5.891,0,10.666-4.776,10.666-10.667c0-3.811-2.033-7.332-5.333-9.237V353.429z"/>	<path style="fill:#FFD54F;" d="M336,88.299c1.619,0.943,3.46,1.436,5.333,1.429c3.818,0.008,7.349-2.027,9.259-5.333l21.333-36.949   c2.911-5.121,1.119-11.633-4.002-14.544c-5.073-2.883-11.521-1.156-14.473,3.878l-21.333,36.949   C329.168,78.824,330.906,85.346,336,88.299z"/>	<path style="fill:#FFD54F;" d="M154.667,402.368c-5.102-2.945-11.625-1.198-14.571,3.904l-21.333,36.949   c-2.945,5.102-1.198,11.625,3.904,14.571c1.619,0.943,3.46,1.436,5.333,1.429c3.818,0.008,7.35-2.027,9.259-5.333l21.333-36.949   c2.94-5.105,1.186-11.627-3.919-14.567C154.671,402.37,154.669,402.369,154.667,402.368z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}}</span>
@@ -605,10 +612,10 @@
 						<!--<td>{{ item.voltage_value}} V</td>-->
 						
 						
-						<td>{{ item.firmware_version }}</td>
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.firmware_version }}</td>
 						<!--<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>-->
-						<td>{{ String((new Date(item.last_update).getDate())).padStart(2,"0")+'-'+String(((new Date(item.last_update).getMonth()+1))).padStart(2,"0")+'-'+new Date(item.last_update).getFullYear() + " "+String((new Date(item.last_update).getHours())).padStart(2,"0") + ':'+String((new Date(item.last_update).getMinutes())).padStart(2,"0")+ ":"+String((new Date(item.last_update).getSeconds())).padStart(2,"0")}}</td>
-						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id">
+						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ String((new Date(item.last_update).getDate())).padStart(2,"0")+'-'+String(((new Date(item.last_update).getMonth()+1))).padStart(2,"0")+'-'+new Date(item.last_update).getFullYear() + " "+String((new Date(item.last_update).getHours())).padStart(2,"0") + ':'+String((new Date(item.last_update).getMinutes())).padStart(2,"0")+ ":"+String((new Date(item.last_update).getSeconds())).padStart(2,"0")}}</td>
+						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
 							<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;width:15px;height:15px;cursor:pointer;fill:white;" xml:space="preserve"><g>	<path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z"/>	<path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z"/>	<path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 							<ul class="more-list" @mousedown="menuClose" @click.stop="settingsMenu = false">
 								<a href="/default/crypto/market-cap"><li>Manage</li></a><hr>
@@ -1110,6 +1117,11 @@ export default {
 					value:"#"
 				},
 				{
+					text:"Active",
+					sortable: false,
+					value:"#"
+				},
+				{
 					text: "Name",
 					sortable: false,
 					value:"name"
@@ -1390,7 +1402,7 @@ tabsAndTableDetails,
 				commandOnOff = 'normal';
 			}
 			else if(value == 0){
-				commandOnOff = 'normal';
+				commandOnOff = 'black';
 			}
 			var jsonData = {	
 				value:'',
@@ -1509,7 +1521,7 @@ tabsAndTableDetails,
 
 
 					msg: 'bright',
-					value: (value*2.55).toFixed(0)
+					value: (value*2.45).toFixed(0)
 
 				}
 				console.log('TOKEN : ',token)

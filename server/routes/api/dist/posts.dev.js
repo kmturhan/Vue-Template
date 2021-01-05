@@ -40,41 +40,30 @@ var sqlite3 = require('sqlite3').verbose();
 
 var db = new sqlite3.Database('./db.db');
 var client = mqtt.connect('wss://mqtts.labrus.com:8083', opts);
+/*async function getCountry() {
+    const sunriseSunsiteTime = await axios.get('https://api.sunrise-sunset.org/json?lat=41.0096334&lng=28.9651646&formatted=0');
+    var jsonDataTime = sunriseSunsiteTime.data.results;
+    
+    var jsonSunriseTimeHour = parseInt(jsonDataTime.sunrise.split('T')[1].split(':')[0])+3;
+    var jsonSunriseTimeMinute = jsonDataTime.sunrise.split(':')[1];
+    var jsonSunsetTimeHour = parseInt(jsonDataTime.sunset.split('T')[1].split(':')[0])+3;
+    var jsonSunsetTimeMinute = jsonDataTime.sunset.split(':')[1];
+    var jsonSunriseTime = jsonDataTime.sunrise.split('T')[0]+'T'+jsonSunriseTimeHour + ':' + jsonSunriseTimeMinute;
+    var jsonSunsetTime = jsonDataTime.sunset.split('T')[0]+ 'T' + jsonSunsetTimeHour + ':'+ jsonSunsetTimeMinute;
+    
+    console.log(jsonDataTime)
+    
+    mysqlQuery2 = "UPDATE led_devices SET auto_sunrise_time = ?, auto_sunset_time = ?";
+
+        connection.query(mysqlQuery2,[jsonSunriseTime,jsonSunsetTime],(err,result,fields) => {   
+
+    })
+}*/
+
 client.on('connect', function () {
   console.log('connect');
-  console.log('GET COUNTRY ');
+  console.log('GET COUNTRY '); //getCountry();
 
-  function getCountry() {
-    var sunriseSunsiteTime, jsonDataTime, jsonSunriseTimeHour, jsonSunriseTimeMinute, jsonSunsetTimeHour, jsonSunsetTimeMinute, jsonSunriseTime, jsonSunsetTime;
-    return regeneratorRuntime.async(function getCountry$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return regeneratorRuntime.awrap(axios.get('https://api.sunrise-sunset.org/json?lat=41.0096334&lng=28.9651646&formatted=0'));
-
-          case 2:
-            sunriseSunsiteTime = _context.sent;
-            jsonDataTime = sunriseSunsiteTime.data.results;
-            jsonSunriseTimeHour = parseInt(jsonDataTime.sunrise.split('T')[1].split(':')[0]) + 3;
-            jsonSunriseTimeMinute = jsonDataTime.sunrise.split(':')[1];
-            jsonSunsetTimeHour = parseInt(jsonDataTime.sunset.split('T')[1].split(':')[0]) + 3;
-            jsonSunsetTimeMinute = jsonDataTime.sunset.split(':')[1];
-            jsonSunriseTime = jsonDataTime.sunrise.split('T')[0] + 'T' + jsonSunriseTimeHour + ':' + jsonSunriseTimeMinute;
-            jsonSunsetTime = jsonDataTime.sunset.split('T')[0] + 'T' + jsonSunsetTimeHour + ':' + jsonSunsetTimeMinute;
-            console.log(jsonDataTime);
-            mysqlQuery2 = "UPDATE led_devices SET auto_sunrise_time = ?, auto_sunset_time = ?";
-            connection.query(mysqlQuery2, [jsonSunriseTime, jsonSunsetTime], function (err, result, fields) {});
-
-          case 13:
-          case "end":
-            return _context.stop();
-        }
-      }
-    });
-  }
-
-  getCountry();
   setInterval(function () {
     sql = "SELECT * FROM Device_Status";
     mysqlQuery = "SELECT * FROM lcd_devices_status";
@@ -168,7 +157,7 @@ client.on('connect', function () {
     var currentTimeHour = date.getHours();
     var currentTimeMinute = date.getMinutes();
     var days = ['Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday', 'Sunday'];
-    mysql = "SELECT * FROM led_devices WHERE token='AkiGRCtbwEe9EgsSl2v8'";
+    mysql = "SELECT * FROM led_devices";
     connection.query(mysql, [], function (err, result, fields) {
       result.forEach(function (item) {
         var openTimeHour = item.black_screen_open_time.split(":")[0];
@@ -508,79 +497,186 @@ client.on('message', function (topic, message) {
       console.log('LED NOVASTAR test');
 
       if (jsonData.type == 'dvi_status') {
-        mysqlUpdate = "UPDATE led_devices SET last_update = ? WHERE token = ?";
-        connection.query(mysqlUpdate, [dateTime, token], function (err, result, fields) {
-          console.log(token, 'DateTime : ', dateTime);
+        mysqlUpdate = "UPDATE led_devices SET last_update = ?,dvi_status = ? WHERE token = ?";
+        connection.query(mysqlUpdate, [dateTime, jsonData.value, token], function (err, result, fields) {});
+      } else if (jsonData.type == 'screen_on_off') {
+        if (jsonData.value == 'black') {
+          mysqlUpdate = "UPDATE led_devices SET last_update = ?,screen_on_off = 1 WHERE token = ?";
+        } else {
+          mysqlUpdate = "UPDATE led_devices SET last_update = ?,screen_on_off = 0 WHERE token = ?";
+        }
+
+        connection.query(mysqlUpdate, [dateTime, token], function (err, result, fields) {});
+      } else if (jsonData.type == 'brightness_status') {
+        mysqlUpdate = "UPDATE led_devices SET last_update = ?,brightness_value = ? WHERE token = ?";
+        connection.query(mysqlUpdate, [dateTime, jsonData.value, token], function (err, result, fields) {});
+      } else if (jsonData.type == 'firmware_version') {
+        mysqlUpdate = "UPDATE led_devices SET last_update = ?,firmware_version = ? WHERE token = ?";
+        connection.query(mysqlUpdate, [dateTime, jsonData.value, token], function (err, result, fields) {});
+      } else if (jsonData.type == 'model_id') {
+        mysqlUpdate = "UPDATE led_devices SET last_update = ?,model_name = ? WHERE token = ?";
+        connection.query(mysqlUpdate, [dateTime, jsonData.value, token], function (err, result, fields) {});
+      } else if (jsonData.type == 'voltage' && jsonData.value !== 'Finish') {
+        var getDataQuery = "SELECT * FROM led_devices_status WHERE token = ? AND sender_id = ? AND receiver_id = ?";
+        connection.query(getDataQuery, [token, jsonData.sender_id, jsonData.receiver_id], function (err, result, fields) {
+          if (result.length == 0) {
+            var insertData = "INSERT INTO led_devices_status(token,sender_id,receiver_id,voltage_value) VALUES(?,?,?,?)";
+            connection.query(insertData, [token, jsonData.sender_id, jsonData.receiver_id, jsonData.value]);
+          } else {
+            mysqlUpdate = "UPDATE led_devices_status SET last_update = ?,voltage_value = ? WHERE token = ? AND sender_id = ? AND receiver_id = ?";
+            connection.query(mysqlUpdate, [dateTime, jsonData.value, token, jsonData.sender_id, jsonData.receiver_id], function (err, result, fields) {});
+          }
+
+          console.log(result.length, jsonData);
+        });
+      } else if (jsonData.type == 'temperature' && jsonData.value !== 'Finish') {
+        var getDataQuery = "SELECT * FROM led_devices_status WHERE token = ? AND sender_id = ? AND receiver_id = ?";
+        connection.query(getDataQuery, [token, jsonData.sender_id, jsonData.receiver_id], function (err, result, fields) {
+          if (result.length == 0) {
+            var insertData = "INSERT INTO led_devices_status(token,sender_id,receiver_id,temperature_value) VALUES(?,?,?,?)";
+            connection.query(insertData, [token, jsonData.sender_id, jsonData.receiver_id, jsonData.value]);
+          } else {
+            mysqlUpdate = "UPDATE led_devices_status SET last_update = ?,temperature_value = ? WHERE token = ? AND sender_id = ? AND receiver_id = ?";
+            connection.query(mysqlUpdate, [dateTime, jsonData.value, token, jsonData.sender_id, jsonData.receiver_id], function (err, result, fields) {
+              console.log('TEST ');
+            });
+          }
+
+          console.log(result.length, jsonData);
         });
       }
 
+      break;
+
+    case 'createDevice':
+      var mysqlQuery = "SELECT * FROM led_devices WHERE token = ?";
+      connection.query(mysqlQuery, [jsonData.Token], function (err, result, fields) {
+        if (result.length == 0) {
+          var mysqlQuery = "INSERT INTO led_devices(token,device_name) VALUES (?,'Labrus New Device')";
+          connection.query(mysqlQuery, [jsonData.Token]);
+        }
+      });
+      getCountryLed(jsonData.ip, jsonData.Token);
+      break;
+
+    case 'home/led_novastar/attribute/' + token:
       break;
   }
 });
 
 function getCountry(ip, token) {
   var response, jsonData;
-  return regeneratorRuntime.async(function getCountry$(_context2) {
+  return regeneratorRuntime.async(function getCountry$(_context) {
     while (1) {
-      switch (_context2.prev = _context2.next) {
+      switch (_context.prev = _context.next) {
         case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
-          return regeneratorRuntime.awrap(axios.get('http://ip-api.com/json/' + ip + '?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query'));
+          _context.prev = 0;
+          _context.next = 3;
+          return regeneratorRuntime.awrap(axios.get('http://ip-api.com/json/' + ip + '?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query').then());
 
         case 3:
-          response = _context2.sent;
+          response = _context.sent;
           jsonData = response.data;
           /*sql = "UPDATE Device_Status SET Country = ?,City = ?,Continent = ? WHERE TvID = ? AND Token = ?";
           db.all(sql,[jsonData.country,jsonData.city,jsonData.continent,jsonTvIdList,token],(err,rows)=>{
               //console.log('GET COUNTRY : ',jsonData.country,jsonData.city.toLowerCase(),jsonData.continent,jsonTvIdList,token)
           })*/
 
-          mysqlQuery = "UPDATE lcd_devices SET country = ?, city = ?, continent = ? WHERE token = 'eXFRrVFMJDglqeBzmFIl'";
-          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, jsonTvIdList], function (err, result, fields) {//console.log('City, country, continent UPDATE OK!')
+          mysqlQuery = "UPDATE lcd_devices SET country = ?, city = ?, continent = ? WHERE token = ?";
+          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, token], function (err, result, fields) {//console.log('City, country, continent UPDATE OK!')
           });
-          _context2.next = 12;
+          _context.next = 12;
           break;
 
         case 9:
-          _context2.prev = 9;
-          _context2.t0 = _context2["catch"](0);
-          console.error(_context2.t0);
+          _context.prev = 9;
+          _context.t0 = _context["catch"](0);
+          console.error(_context.t0);
 
         case 12:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
     }
   }, null, null, [[0, 9]]);
 }
 
-function getSunsetSunriseTime(ip, token) {
+function getCountryLed(ip, token) {
   var response;
-  return regeneratorRuntime.async(function getSunsetSunriseTime$(_context3) {
+  return regeneratorRuntime.async(function getCountryLed$(_context2) {
     while (1) {
-      switch (_context3.prev = _context3.next) {
+      switch (_context2.prev = _context2.next) {
         case 0:
-          _context3.prev = 0;
-          _context3.next = 3;
-          return regeneratorRuntime.awrap(axios.get(''));
+          _context2.prev = 0;
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(axios.get('http://ip-api.com/json/' + ip + '?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query').then(function (res) {
+            console.log('RES : ', res.data); //getSunriseSunsetLed(res.lat,res.lon,token)
+
+            getSunriseSunsetLed(res.data.lat, res.data.lon, token);
+            var jsonData = res.data;
+            mysqlQuery2 = "UPDATE led_devices SET country = ?, city = ?, continent = ? WHERE token = ?";
+            connection.query(mysqlQuery2, [jsonData.country, jsonData.city, jsonData.continent, token], function (err, result, fields) {});
+          }));
 
         case 3:
-          response = _context3.sent;
-          _context3.next = 9;
+          response = _context2.sent;
+          _context2.next = 9;
           break;
 
         case 6:
-          _context3.prev = 6;
-          _context3.t0 = _context3["catch"](0);
-          console.error(_context3.t0);
+          _context2.prev = 6;
+          _context2.t0 = _context2["catch"](0);
+          console.error(_context2.t0);
 
         case 9:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  }, null, null, [[0, 6]]);
+}
+
+function getSunriseSunsetLed(lat, lon, token) {
+  var sunriseSunsiteTime;
+  return regeneratorRuntime.async(function getSunriseSunsetLed$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return regeneratorRuntime.awrap(axios.get('https://api.sunrise-sunset.org/json?lat=' + lat + '&lng=' + lon + '&formatted=0').then(function (res) {
+            var date = new Date();
+            var currentTimeYear = date.getFullYear();
+            var currentTimeMonth = date.getMonth();
+            var currentTimeDay = date.getDate(); //var currentDayIndex = date.getDay();
+            //var currentTimeHour = date.getHours();
+            //var currentTimeMinute = date.getMinutes();
+
+            console.log('RES : ', date);
+            var jsonDataTime = res.data.results;
+            console.log(new Date(jsonDataTime.sunrise));
+            /*var jsonSunriseTimeHour = jsonDataTime.sunrise.split('T')[1].split(':')[0];
+            var jsonSunriseTimeMinute = jsonDataTime.sunrise.split(':')[1];
+            var jsonSunsetTimeHour = jsonDataTime.sunset.split('T')[1].split(':')[0];
+            var jsonSunsetTimeMinute = jsonDataTime.sunset.split(':')[1];
+            
+            var jsonSunriseTime = jsonSunriseTimeHour+':'+jsonSunriseTimeMinute;
+            var jsonSunsetTime = jsonSunsetTimeHour+':'+jsonSunsetTimeMinute;*/
+
+            var selectedDateSunrise = new Date(jsonDataTime.sunrise);
+            var selectedDateSunset = new Date(jsonDataTime.sunset);
+            var mysqlQuery2 = "UPDATE led_devices SET auto_sunrise_time = ?,auto_sunset_time = ? WHERE token = ?";
+            connection.query(mysqlQuery2, [selectedDateSunrise, selectedDateSunset, token], function (err, result, fields) {});
+          }));
+
+        case 2:
+          sunriseSunsiteTime = _context3.sent;
+
+        case 3:
         case "end":
           return _context3.stop();
       }
     }
-  }, null, null, [[0, 6]]);
+  });
 }
 
 var router = express.Router();
