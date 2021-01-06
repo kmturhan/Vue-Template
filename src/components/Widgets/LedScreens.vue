@@ -96,7 +96,6 @@
 											</v-col>
 											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise}}:{{apiTimeSunrise}} </label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
-												
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
 											</div>
@@ -178,7 +177,7 @@
 											
 										<v-checkbox
 											class=""
-											:label="$t('Black Screen On/Off')"
+											:label="$t('message.blackScreenOnOff')"
 											color="primary"
 											v-model="checkedSwitch"
 										></v-checkbox>
@@ -451,7 +450,7 @@
 										style="width:40%;"
 										>
 										
-										{{$t("Save")}}
+										{{$t("message.save")}}
 									</v-btn>
 									<v-btn
 										@click.stop="dialog3 = false"
@@ -461,7 +460,7 @@
 										style="width:40%;"
 										>
 										
-										{{$t("Cancel")}}
+										{{$t("message.cancel")}}
 									</v-btn>
 									</div>
 								</v-form>
@@ -1032,6 +1031,7 @@ export default {
 			],
 			deviceName: "",
 			selectedDeviceID: 0,
+			selectedDeviceToken:'',
 			dialog3: false,
 			ex:'ON',
 			deviceList: [],
@@ -1089,7 +1089,6 @@ export default {
 	form1: {
         valid: false,
 		name: "",
-		time:"15:30",
 		timeRules: [
 			v => !!v || "Time is required",
 		],
@@ -1097,32 +1096,17 @@ export default {
           v => !!v || "Name is required",
           v => v.length <= 30 || "Name must be less than 30 characters"
         ],
-        email: "",
-        emailRules: [
-          v => !!v || "E-mail is required",
-          v =>
-            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-            "E-mail must be valid"
-        ]
 	},  
       form2: {
         valid: true,
 		name: "",
 		day_light: "",
 		day_sun_set: "",
-        nameRules: [
-          v => !!v || "Name is required",
-          v => (v && v.length <= 30) || "Name must be less than 20 characters"
-        ],
+        
         email: "",
-        emailRules: [
-          v => !!v || "E-mail is required",
-          v =>
-            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-            "E-mail must be valid"
-        ],
+        
         select: null,
-        items: ["05min", "10min", "15min", "20min"],
+        
         checkbox: false
       },
 			headersForTransactionList: [
@@ -1270,7 +1254,7 @@ tabsAndTableDetails,
 					}
 				})
 			})
-			}else if (jsonData.type == 'screen_on_off' && jsonData.type ){
+			}else if (jsonData.type == 'screen_on_off' && jsonData.type) {
 				console.log("SCREEN ON OFF 1")
 				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
 				console.log('pin-km : ',item)
@@ -1310,7 +1294,6 @@ tabsAndTableDetails,
 	
 			'home/led_novastar/telemetry/#': function(val,topic){
 				var token = topic.split('/')[3];
-				console.log('TESTSETSETSE')
 				console.log('TOKEN : ',token);
 				var test = String.fromCharCode.apply(null,val);
 				var jsonData = JSON.parse(test);
@@ -1443,6 +1426,7 @@ tabsAndTableDetails,
 			console.log('Event current:',$(event.currentTarget));
 			var commandOnOff;
 			var token = event.currentTarget.querySelector('input').getAttribute('data-token');
+			
 			var serialNumber = event.currentTarget.querySelector('input').getAttribute('data-serial-number');
 			var tvID = event.currentTarget.querySelector('input').getAttribute('data-tvID');
 			//var command = event.currentTarget.querySelector('input').getAttribute('data-pin');
@@ -1616,6 +1600,17 @@ tabsAndTableDetails,
 		console.log(this.form1.name);
 		console.log('VAL : ',this.sunriseItem.val)
 		console.log('SELECTED DEVICE ID : ',this.selectedDeviceID)
+		if(this.authorizationCheck != false) {
+			var updateFieldsArray = [
+				{"msg":"firmware","value":"00"},
+				{"msg":"modelID","value":"00"},
+				{"msg":"voltage","value":"00"},
+			];
+			updateFieldsArray.forEach(item => {
+				this.$mqtt.publish('home/led_novastar/attribute/'+this.selectedDeviceToken,JSON.stringify(item));
+			})
+		}
+		
 		//console.log(e.target.value);
 		//var deviceID = e.target.getAttribute('data-device-id');
 		var jsonData = {
@@ -1675,6 +1670,7 @@ tabsAndTableDetails,
 		this.form1.name = e.target.getAttribute('data-device-name');
 		this.deviceList.forEach(item => {
 			if(item.Id == this.selectedDeviceID) {
+				this.selectedDeviceToken = item.token;
 				this.selectedInfoItem = item;
 				console.log('ASSIGN DEVICE ID : ',item);
 			}

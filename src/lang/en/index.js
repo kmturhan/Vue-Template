@@ -7,6 +7,9 @@ export default {
   map: 'Dashboard',
   sunriseSunset: 'Sunrise / Sunset',
   authorizationCheck: 'Authorization',
+  blackScreenOnOff:'Black Screen On/Off',
+  save:'Save',
+  cancel: 'Cancel',
   //*************
   general: 'General',
   overview: 'Overview',
@@ -104,7 +107,7 @@ export default {
   step2: 'Step 2',
   step3: 'Step 3',
   continue: 'Continue',
-  cancel: 'Cancel',
+  
   totalEarnings: 'Total Earnings',
   onlineRevenue: 'Online Revenue',
   offlineRevenue: 'Offline Revenue',

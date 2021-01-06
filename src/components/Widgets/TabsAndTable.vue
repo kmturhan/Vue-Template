@@ -643,14 +643,14 @@ export default {
 					if(item.getAttribute('data-tvid') == TVID) {
 						var testTag = item.closest('.pin-' + command)
 						if(value == 1) {
-								$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
-								$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
-								$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
-								$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
-								$(testTag).find('.v-input--switch__track span').text('On');
-								$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
-								$(testTag).find('svg').removeClass('tv-close-svg');
-								$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')	
+							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
+							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
+							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
+							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
+							$(testTag).find('.v-input--switch__track span').text('On');
+							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
+							$(testTag).find('svg').removeClass('tv-close-svg');
+							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')	
 						} else {
 							$(testTag).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
