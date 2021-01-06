@@ -5,6 +5,8 @@ export default {
   ledScreens: 'Led Screens',
   lcdScreens: 'Lcd Screens',
   map: 'Dashboard',
+  sunriseSunset: 'Sunrise / Sunset',
+  authorizationCheck: 'Authorization',
   //*************
   general: 'General',
   overview: 'Overview',

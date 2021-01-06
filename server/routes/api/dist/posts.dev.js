@@ -821,27 +821,27 @@ router.post('/nameUpdate', function (req, res) {
   //console.log(`Name Update : ${data.deviceId} - ${data.name}`)
 
   if (data.isBrightnessAuto == false && data.blackScreenAuto == false) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?,is_brightness_auto = ?,is_black_screen_auto = ? WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.isBrightnessAuto, data.blackScreenAuto, data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,is_brightness_auto = ?,is_black_screen_auto = ?,device_active = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.isBrightnessAuto, data.blackScreenAuto, data.deviceActive, data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
     });
   } else if (data.isBrightnessAuto && data.blackScreenAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = 1,is_black_screen_auto = 1,black_screen_time_options = ?,sun_time_options = ?,blackscreen_week_options_json = ?  WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenOpenTime, data.blackScreenCloseTime, data.blackScreenTimeOptions, data.sunTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = 1,is_black_screen_auto = 1,black_screen_time_options = ?,sun_time_options = ?,blackscreen_week_options_json = ?, device_active = ?  WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenOpenTime, data.blackScreenCloseTime, data.blackScreenTimeOptions, data.sunTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceActive, data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);
     });
   } else if (data.isBrightnessAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = 1,is_black_screen_auto = ?, sun_time_options = ? WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenAuto, data.sunTimeOptions, data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?,sunrise_value = ?, sunset_value = ?, sunrise_time = ?, sunset_time = ?,is_brightness_auto = 1,is_black_screen_auto = ?, sun_time_options = ?, device_active = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.sunriseValue, data.sunsetValue, data.sunriseTime, data.sunsetTime, data.blackScreenAuto, data.sunTimeOptions, data.deviceActive, data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);
     });
   } else if (data.blackScreenAuto) {
-    mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = 1,black_screen_time_options = ?,blackscreen_week_options_json = ? WHERE Id = ?";
-    connection.query(mysqlQuery, [data.name, data.blackScreenOpenTime, data.blackScreenCloseTime, data.isBrightnessAuto, data.blackScreenTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceId], function (err, results, fields) {
+    mysqlQuery = "UPDATE led_devices SET device_name = ?, black_screen_open_time = ?, black_screen_close_time = ?,is_brightness_auto = ?,is_black_screen_auto = 1,black_screen_time_options = ?,blackscreen_week_options_json = ?, device_active = ? WHERE Id = ?";
+    connection.query(mysqlQuery, [data.name, data.blackScreenOpenTime, data.blackScreenCloseTime, data.isBrightnessAuto, data.blackScreenTimeOptions, JSON.stringify(data.blackScreenWeekData), data.deviceActive, data.deviceId], function (err, results, fields) {
       console.log('Name Update OK!');
       console.log(err);
       console.log(mysqlQuery);

@@ -24,14 +24,21 @@
 										:rules="form1.nameRules"
 										:counter="30"
 										required></v-text-field>
+										<v-checkbox
+											class=""
+											:label="$t('message.authorizationCheck')"
+											color="primary"
+											v-model="authorizationCheck"
+										></v-checkbox>
 										<div style="display:flex;margin-top:30px;">
+											
 									<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6" style="display:flex;flex-direction:column;">
 									
 									
 										<div style="position:relative;display:flex;">
 										<v-checkbox
 											class=""
-											:label="$t('Sunrise / Sunset')"
+											:label="$t('message.sunriseSunset')"
 											color="primary"
 											v-model="checked"
 										></v-checkbox>
@@ -134,7 +141,7 @@
 										<div style="display:flex;flex-direction:column">
 											<div style="display:flex;flex-direction:column;align-items:center;">
 											<!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 368 368" style="width:22px;enable-background:new 0 0 368 368;fill:white;" xml:space="preserve"><g>	<g>		<path d="M360,176h-56.408c-1.8-27.064-12.552-51.656-29.392-70.888l43.456-43.456c3.128-3.128,3.128-8.184,0-11.312    s-8.184-3.128-11.312,0L262.888,93.8C243.656,76.96,219.064,66.208,192,64.408V8c0-4.416-3.576-8-8-8s-8,3.584-8,8v56.408    c-27.064,1.8-51.656,12.552-70.888,29.392L61.656,50.344c-3.128-3.128-8.184-3.128-11.312,0s-3.128,8.184,0,11.312L93.8,105.112    C76.96,124.344,66.208,148.936,64.408,176H8c-4.424,0-8,3.584-8,8s3.576,8,8,8h63.984c0.008,0,0.016,0,0.016,0h0.016h223.96    c0.008,0,0.016,0,0.016,0h0.016H360c4.424,0,8-3.584,8-8C368,179.584,364.424,176,360,176z M80.408,176    C84.52,122.384,129.36,80,184,80s99.48,42.384,103.592,96H80.408z"/>	</g></g><g>	<g>		<path d="M237.656,306.344c-3.128-3.128-8.184-3.128-11.312,0L192,340.688V232c0-4.416-3.576-8-8-8s-8,3.584-8,8v108.688    l-34.344-34.344c-3.128-3.128-8.184-3.128-11.312,0s-3.128,8.184,0,11.312l47.992,47.992c0.736,0.744,1.624,1.328,2.608,1.736    c0.976,0.4,2.016,0.616,3.056,0.616s2.08-0.216,3.056-0.616c0.984-0.408,1.864-0.992,2.608-1.736l47.992-47.992    C240.784,314.528,240.784,309.472,237.656,306.344z"/>	</g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>	-->
-											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" enable-background="new 0 0 512 512" height="22" viewBox="0 0 512 512" width="22" ><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="256" x2="256" y1="398.515" y2="106"><stop offset="0" stop-color="#fd5900"></stop><stop offset="1" stop-color="#ffde00"></stop></linearGradient><linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="256" x2="256" y1="406" y2="376"><stop offset="0" stop-color="#ffe59a"></stop><stop offset="1" stop-color="#ffffd5"></stop></linearGradient><g><g><g><path d="m256 196c-74.443 0-135 60.557-135 135 0 23.73 6.255 47.065 18.076 67.515h233.848c11.821-20.45 18.076-43.785 18.076-67.515 0-74.443-60.557-135-135-135zm0-30c8.291 0 15-6.709 15-15v-30c0-8.291-6.709-15-15-15s-15 6.709-15 15v30c0 8.291 6.709 15 15 15zm-180 150h-30c-8.291 0-15 6.709-15 15s6.709 15 15 15h30c8.291 0 15-6.709 15-15s-6.709-15-15-15zm390 0h-30c-8.291 0-15 6.709-15 15s6.709 15 15 15h30c8.291 0 15-6.709 15-15s-6.709-15-15-15zm-15.146-97.5c-4.16-7.192-13.374-9.668-20.493-5.493l-25.972 15c-7.178 4.146-9.639 13.315-5.493 20.493 4.149 7.184 13.34 9.625 20.493 5.493l25.972-15c7.177-4.145 9.638-13.315 5.493-20.493zm-112.354-30.396c7.139 4.124 16.337 1.704 20.493-5.493l15-25.972c4.146-7.178 1.685-16.348-5.493-20.493-7.163-4.175-16.348-1.699-20.493 5.493l-15 25.972c-4.146 7.178-1.685 16.348 5.493 20.493zm-185.493-5.493c4.149 7.184 13.34 9.625 20.493 5.493 7.178-4.146 9.639-13.315 5.493-20.493l-15-25.972c-4.175-7.192-13.345-9.668-20.493-5.493-7.178 4.146-9.639 13.315-5.493 20.493zm-45.396 45.396-25.972-15c-7.178-4.175-16.333-1.699-20.493 5.493-4.146 7.178-1.685 16.348 5.493 20.493l25.972 15c7.139 4.124 16.337 1.704 20.493-5.493 4.146-7.178 1.685-16.348-5.493-20.493z" fill="url(#SVGID_1_)"></path></g></g><g><g><path d="m497 376h-482c-8.291 0-15 6.709-15 15s6.709 15 15 15h482c8.291 0 15-6.709 15-15s-6.709-15-15-15z" fill="url(#SVGID_2_)"></path></g></g></g></svg>
+											<img src="/static/img/svg/morning.svg">
 											<span style="font-size:14px;text-align:center;margin-bottom:5px;margin-top:10px;">Sunset Time</span>
 											</div>
 											<div style="display:flex;margin-top:-10px;justify-content:center;">
@@ -501,7 +508,7 @@
 			<v-data-table :headers="headersForTransactionList" :items="deviceList"
 				hide-default-footer>
 				<template v-slot:item="{ item }">
-					<tr :style="[item.device_active == 0 ? {'pointer-events':'none'}:{'pointer-events':'auto'}]">
+					<tr>
 						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{deviceList.indexOf(item) + 1}}</td>
 						<td style="display:flex;align-items:center;justify-content:center;">
 							<div style="display:flex;align-items:center;height:100%;" id="name-info" :data-device-id="item.Id" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
@@ -607,8 +614,8 @@
 							<v-slider :style="[item.is_brightness_auto == 0 ? {display:'block'}:{display:'none'}]" v-model="item.brightness_value" v-bind:max="100" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 							<div :style="[item.is_brightness_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" >
 									<span><b>Auto</b></span><br>
-									<span style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 490.667 490.667" style="enable-background:new 0 0 490.667 490.667; width:22px;margin-right:10px;" xml:space="preserve"><circle style="fill:#FFC107;" cx="245.333" cy="245.333" r="160"/><g>	<path style="fill:#FFD54F;" d="M245.333,64C251.224,64,256,59.224,256,53.333V10.667C256,4.776,251.224,0,245.333,0   c-5.891,0-10.667,4.776-10.667,10.667v42.667C234.667,59.224,239.442,64,245.333,64z"/>	<path style="fill:#FFD54F;" d="M245.333,426.667c-5.891,0-10.667,4.776-10.667,10.667V480c0,5.891,4.776,10.667,10.667,10.667   c5.891,0,10.667-4.776,10.667-10.667v-42.667C256,431.442,251.224,426.667,245.333,426.667z"/>	<path style="fill:#FFD54F;" d="M480,234.667h-42.667c-5.891,0-10.667,4.776-10.667,10.667c0,5.891,4.776,10.667,10.667,10.667H480   c5.891,0,10.667-4.776,10.667-10.667C490.667,239.442,485.891,234.667,480,234.667z"/>	<path style="fill:#FFD54F;" d="M64,245.333c0-5.891-4.776-10.667-10.667-10.667H10.667C4.776,234.667,0,239.442,0,245.333   C0,251.224,4.776,256,10.667,256h42.667C59.224,256,64,251.224,64,245.333z"/>	<path style="fill:#FFD54F;" d="M140.096,84.395c1.909,3.307,5.44,5.341,9.259,5.333c1.873,0.007,3.715-0.486,5.333-1.429   c5.102-2.946,6.849-9.469,3.904-14.571l-21.333-36.949c-2.979-5.082-9.514-6.787-14.596-3.808   c-5.035,2.951-6.763,9.401-3.878,14.474L140.096,84.395z"/>	<path style="fill:#FFD54F;" d="M350.571,406.272c-2.98-5.082-9.515-6.786-14.597-3.806c-5.033,2.952-6.761,9.4-3.878,14.473   l21.333,36.949c1.909,3.307,5.44,5.341,9.259,5.333c1.873,0.007,3.715-0.486,5.333-1.429c5.102-2.946,6.849-9.469,3.904-14.571   L350.571,406.272z"/>	<path style="fill:#FFD54F;" d="M411.605,160c1.873,0.007,3.715-0.486,5.333-1.429l36.949-21.333   c5.22-2.731,7.238-9.176,4.507-14.396c-2.731-5.22-9.176-7.238-14.396-4.507c-0.266,0.139-0.525,0.289-0.778,0.45l-36.949,21.333   c-5.102,2.946-6.849,9.47-3.904,14.571c1.905,3.3,5.426,5.333,9.237,5.333V160z"/>	<path style="fill:#FFD54F;" d="M73.728,332.096l-36.949,21.333c-5.102,2.946-6.849,9.469-3.904,14.571   c1.905,3.3,5.426,5.333,9.237,5.333c1.873,0.007,3.715-0.486,5.333-1.429l36.949-21.333c5.22-2.731,7.238-9.176,4.507-14.396   c-2.731-5.22-9.176-7.238-14.396-4.507c-0.266,0.139-0.525,0.289-0.778,0.45L73.728,332.096z"/>	<path style="fill:#FFD54F;" d="M36.779,137.237l36.949,21.333c1.613,0.939,3.446,1.433,5.312,1.429   c5.891,0,10.666-4.776,10.666-10.667c0-3.81-2.033-7.331-5.333-9.237l-36.949-21.333c-4.972-3.16-11.564-1.692-14.724,3.279   s-1.692,11.564,3.279,14.724c0.253,0.161,0.512,0.311,0.778,0.45L36.779,137.237z"/>	<path style="fill:#FFD54F;" d="M453.888,353.429l-36.949-21.333c-4.972-3.16-11.564-1.692-14.724,3.279   c-3.16,4.971-1.692,11.564,3.279,14.724c0.253,0.161,0.513,0.311,0.778,0.45l36.949,21.333c1.619,0.943,3.46,1.436,5.333,1.429   c5.891,0,10.666-4.776,10.666-10.667c0-3.811-2.033-7.332-5.333-9.237V353.429z"/>	<path style="fill:#FFD54F;" d="M336,88.299c1.619,0.943,3.46,1.436,5.333,1.429c3.818,0.008,7.349-2.027,9.259-5.333l21.333-36.949   c2.911-5.121,1.119-11.633-4.002-14.544c-5.073-2.883-11.521-1.156-14.473,3.878l-21.333,36.949   C329.168,78.824,330.906,85.346,336,88.299z"/>	<path style="fill:#FFD54F;" d="M154.667,402.368c-5.102-2.945-11.625-1.198-14.571,3.904l-21.333,36.949   c-2.945,5.102-1.198,11.625,3.904,14.571c1.619,0.943,3.46,1.436,5.333,1.429c3.818,0.008,7.35-2.027,9.259-5.333l21.333-36.949   c2.94-5.105,1.186-11.627-3.919-14.567C154.671,402.37,154.669,402.369,154.667,402.368z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}}</span>
-									<span style="display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" enable-background="new 0 0 512 512" height="22" viewBox="0 0 512 512" width="22" style="margin-right:12px"><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="256" x2="256" y1="398.515" y2="106"><stop offset="0" stop-color="#fd5900"/><stop offset="1" stop-color="#ffde00"/></linearGradient><linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="256" x2="256" y1="406" y2="376"><stop offset="0" stop-color="#ffe59a"/><stop offset="1" stop-color="#ffffd5"/></linearGradient><g><g><g><path d="m256 196c-74.443 0-135 60.557-135 135 0 23.73 6.255 47.065 18.076 67.515h233.848c11.821-20.45 18.076-43.785 18.076-67.515 0-74.443-60.557-135-135-135zm0-30c8.291 0 15-6.709 15-15v-30c0-8.291-6.709-15-15-15s-15 6.709-15 15v30c0 8.291 6.709 15 15 15zm-180 150h-30c-8.291 0-15 6.709-15 15s6.709 15 15 15h30c8.291 0 15-6.709 15-15s-6.709-15-15-15zm390 0h-30c-8.291 0-15 6.709-15 15s6.709 15 15 15h30c8.291 0 15-6.709 15-15s-6.709-15-15-15zm-15.146-97.5c-4.16-7.192-13.374-9.668-20.493-5.493l-25.972 15c-7.178 4.146-9.639 13.315-5.493 20.493 4.149 7.184 13.34 9.625 20.493 5.493l25.972-15c7.177-4.145 9.638-13.315 5.493-20.493zm-112.354-30.396c7.139 4.124 16.337 1.704 20.493-5.493l15-25.972c4.146-7.178 1.685-16.348-5.493-20.493-7.163-4.175-16.348-1.699-20.493 5.493l-15 25.972c-4.146 7.178-1.685 16.348 5.493 20.493zm-185.493-5.493c4.149 7.184 13.34 9.625 20.493 5.493 7.178-4.146 9.639-13.315 5.493-20.493l-15-25.972c-4.175-7.192-13.345-9.668-20.493-5.493-7.178 4.146-9.639 13.315-5.493 20.493zm-45.396 45.396-25.972-15c-7.178-4.175-16.333-1.699-20.493 5.493-4.146 7.178-1.685 16.348 5.493 20.493l25.972 15c7.139 4.124 16.337 1.704 20.493-5.493 4.146-7.178 1.685-16.348-5.493-20.493z" fill="url(#SVGID_1_)"/></g></g><g><g><path d="m497 376h-482c-8.291 0-15 6.709-15 15s6.709 15 15 15h482c8.291 0 15-6.709 15-15s-6.709-15-15-15z" fill="url(#SVGID_2_)"/></g></g></g></svg> {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}}</span>
+									<span style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><img src="/static/img/svg/sunny.svg" class="brightness-info-icon"> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}}</span>
+									<span style="display:flex;align-items:center;justify-content:center;"><img src="/static/img/svg/morning.svg" class="brightness-info-icon"> {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}}</span>
 								</div>
 						</td>
 						
@@ -619,7 +626,7 @@
 						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ item.firmware_version }}</td>
 						<!--<td>{{new Date(item.last_update).toLocaleDateString()}} {{new Date(item.last_update).toLocaleTimeString()}}</td>-->
 						<td :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">{{ String((new Date(item.last_update).getDate())).padStart(2,"0")+'-'+String(((new Date(item.last_update).getMonth()+1))).padStart(2,"0")+'-'+new Date(item.last_update).getFullYear() + " "+String((new Date(item.last_update).getHours())).padStart(2,"0") + ':'+String((new Date(item.last_update).getMinutes())).padStart(2,"0")+ ":"+String((new Date(item.last_update).getSeconds())).padStart(2,"0")}}</td>
-						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id" :class="[item.device_active == 1 ? 'input-switch-enabled' : 'input-switch-disabled']">
+						<td @click="dropdownMoreMenu" class="td-options" style="display:flex;align-items:center;justify-content:center;" :data-name="item.device_name" :data-id="item.Id">
 							<svg  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;width:15px;height:15px;cursor:pointer;fill:white;" xml:space="preserve"><g>	<path d="M30,16c4.411,0,8-3.589,8-8s-3.589-8-8-8s-8,3.589-8,8S25.589,16,30,16z"/>	<path d="M30,44c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,44,30,44z"/>	<path d="M30,22c-4.411,0-8,3.589-8,8s3.589,8,8,8s8-3.589,8-8S34.411,22,30,22z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
 							<ul class="more-list" @mousedown="menuClose" @click.stop="settingsMenu = false">
 								<a href="/default/crypto/market-cap"><li>Manage</li></a><hr>
@@ -639,6 +646,10 @@
 	</div>
 </template>
 <style>
+.brightness-info-icon {
+	width:22px;
+	margin-right:10px;
+}
 .week__item {
 	display: flex;
 	align-items: center;
@@ -971,7 +982,7 @@ let $ = JQuery;
 export default {
 	data () {
 		return {
-			
+			authorizationCheck: '',
 			selectSunriseTimeHour:'',
 			selectSunriseTimeMinute:'',
 			selectSunsetTimeHour:'',
@@ -1620,7 +1631,8 @@ tabsAndTableDetails,
 			blackScreenAuto: this.checkedSwitch,
 			blackScreenTimeOptions: this.selectedBlackScreenItem.state,
 			sunTimeOptions: this.selectedSunOptions.state,
-			blackScreenWeekData: this.selectBlackScreenWeek
+			blackScreenWeekData: this.selectBlackScreenWeek,
+			deviceActive: this.authorizationCheck
 		}
 		var updateData = this.deviceList;
 		axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
@@ -1640,7 +1652,8 @@ tabsAndTableDetails,
 					item.is_black_screen_auto = jsonData.blackScreenAuto,
 					item.black_screen_time_options = jsonData.blackScreenTimeOptions,
 					item.sun_time_options = jsonData.sunTimeOptions,
-					item.blackscreen_week_options_json = jsonData.blackScreenWeekData
+					item.blackscreen_week_options_json = jsonData.blackScreenWeekData,
+					item.device_active = jsonData.deviceActive
 				}
 			})
 		})
@@ -1683,6 +1696,7 @@ tabsAndTableDetails,
 		this.selectedSunOptions.state = this.selectedInfoItem.sun_time_options;
 		this.apiTimeSunrise = this.selectedInfoItem.auto_sunrise_time;
 		this.apiTimeSunset = this.selectedInfoItem.auto_sunset_time;
+		this.authorizationCheck = this.selectedInfoItem.device_active;
 		if(this.selectedInfoItem.blackscreen_week_options_json != null) {
 			this.selectBlackScreenWeek = JSON.parse(this.selectedInfoItem.blackscreen_week_options_json)
 		}else{

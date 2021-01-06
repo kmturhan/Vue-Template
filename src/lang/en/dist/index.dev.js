@@ -6,6 +6,13 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 //messages.js
 var _default = {
+  //*************NEW FIELD
+  ledScreens: 'Led Screens',
+  lcdScreens: 'Lcd Screens',
+  map: 'Dashboard',
+  sunriseSunset: 'Sunrise / Sunset',
+  authorizationCheck: 'Authorization',
+  //*************
   general: 'General',
   overview: 'Overview',
   customizer: 'Customizer',

@@ -175,7 +175,6 @@
 	</div>
 </template>
 <style>
-
 .input-switch {
 	transition: all .5 ease;
 }
