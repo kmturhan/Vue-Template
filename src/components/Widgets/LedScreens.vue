@@ -1667,7 +1667,7 @@ tabsAndTableDetails,
 	assignDeviceID(e) {
 		this.loadData();
 		this.selectedDeviceID = e.target.getAttribute('data-device-id')
-		console.log('selectedDeviceID : ',this.selectedDeviceID) 
+		console.log('selectedDeviceID : ',this.selectedDeviceID)
 		this.selectedName = e.target.getAttribute('data-device-name');
 		this.form1.name = e.target.getAttribute('data-device-name');
 		this.deviceList.forEach(item => {
@@ -1678,6 +1678,7 @@ tabsAndTableDetails,
 				console.log('ASSIGN DEVICE ID : ',item);
 			}
 		})
+		//Pop-up ekranındaki alanlar 
 		this.form1.name = this.selectedInfoItem.device_name;
 		this.selectSunriseTimeHour = this.selectedInfoItem.sunrise_time.split(':')[0];
 		this.selectSunriseTimeMinute = this.selectedInfoItem.sunrise_time.split(':')[1];

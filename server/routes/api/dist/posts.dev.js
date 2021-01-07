@@ -98,7 +98,7 @@ client.on('connect', function () {
     connection.query(mysqlQuery, [], function (err, rows) {
       //console.log('GETDATA : ',rows);
       if (err) {
-        throw err;
+        console.log(err);
       }
 
       rows.forEach(function (item) {
@@ -208,25 +208,49 @@ client.on('connect', function () {
             console.log('CLOSE HOUR : ', closeTimeHour, 'CLOSE MIN : ', closeTimeMinute);
           } else if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
             var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex - 1];
-            var blackScrennWeekNextDayData = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex];
-            console.log(blackScreenWeekDatas, blackScrennWeekNextDayData);
+            console.log(blackScreenWeekDatas);
             var blackOnTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OnTimeHour, blackScreenWeekDatas.OnTimeMinute);
             var blackOffTime = new Date(currentTimeYear, currentTimeMonth, currentTimeDay, blackScreenWeekDatas.OffTimeHour, blackScreenWeekDatas.OffTimeMinute);
+            /*if(blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
+                blackOnTime.setDate(blackOnTime.getDate()-1);
+            }*/
 
-            if (blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
-              blackOnTime.setDate(blackOnTime.getDate() - 1);
-            }
+            var mysqlQuery = "SELECT * FROM led_devices ";
+            console.log(blackOnTime.getTime(), blackOffTime.getTime(), currentDate);
+            var diff1 = currentDate - blackOnTime.getTime();
+            var diff2 = currentDate - blackOffTime.getTime();
+            var diff3 = Math.abs(diff1);
+            var diff4 = Math.abs(diff2);
+            console.log(diff3, diff4);
 
-            if (currentDate >= blackOnTime && currentDate <= blackOffTime) {
-              var jsonData = {
-                msg: 'black',
-                value: ''
-              };
+            if (diff3 < diff4) {
+              if (currentDate <= blackOnTime.getTime()) {
+                console.log('current date - ontimedan küçük');
+                var jsonData = {
+                  msg: 'normal',
+                  value: ''
+                };
+              } else {
+                console.log('current date - ontimedan büyük');
+                var jsonData = {
+                  msg: 'black',
+                  value: ''
+                };
+              }
             } else {
-              var jsonData = {
-                msg: 'normal',
-                value: ''
-              };
+              if (currentDate <= blackOffTime.getTime()) {
+                console.log('current date - offtimedan küçük');
+                var jsonData = {
+                  msg: 'black',
+                  value: ''
+                };
+              } else {
+                console.log('current date - offtimedan büyük');
+                var jsonData = {
+                  msg: 'normal',
+                  value: ''
+                };
+              }
             }
 
             client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
