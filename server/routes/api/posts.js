@@ -222,7 +222,8 @@ client.on('connect', function () {
                         console.log('CLOSE HOUR : ',closeTimeHour, 'CLOSE MIN : ',closeTimeMinute)
                     } else if (item.is_black_screen_auto == 1 && item.black_screen_time_options == 'Week') {
                         var blackScreenWeekDatas = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex-1];
-                        
+                        var blackScrennWeekNextDayData = JSON.parse(item.blackscreen_week_options_json)[currentDayIndex]
+                        console.log(blackScreenWeekDatas,blackScrennWeekNextDayData)
                         var blackOnTime = new Date(currentTimeYear,currentTimeMonth,currentTimeDay,blackScreenWeekDatas.OnTimeHour,blackScreenWeekDatas.OnTimeMinute);
                         var blackOffTime = new Date(currentTimeYear,currentTimeMonth,currentTimeDay,blackScreenWeekDatas.OffTimeHour,blackScreenWeekDatas.OffTimeMinute);
                         if(blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
@@ -596,9 +597,22 @@ client.on('message', function (topic, message) {
                 getCountryLed(jsonData.ip,jsonData.Token)    
                 
             break;
-            
+
             case 'home/led_novastar/attribute/'+token:
 
+            break;
+            case 'home/led_linsn/telemetry/'+token:
+                if(jsonData.device == 'Device Connected') {
+                    var mysqlGetdata = "SELECT brightness_value FROM led_devices WHERE token = ?";  
+                    connection.query(mysqlGetdata,[token],(err,result,fields)=>{
+                        var jsonData = {
+                            msg: 'bright',
+					        value: result[0].brightness_value
+                        }
+                        console.log('BRIGNESS VALUE : ',jsonData)
+                        client.publish('home/led_linsn/attribute/'+token, JSON.stringify(jsonData));
+                    })
+                }
             break;
     }
 })

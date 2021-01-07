@@ -775,23 +775,23 @@ export default {
 							var testTag = item.closest('.pin-ka');
 							console.log('TESTTAGGG : ',testTag);
 							if(tvDurum == 1) {
-							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
-							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('On');
-							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
-							console.log('ONNN ::CLOSE : ',this.closeDeviceLength,'OPEN : ',this.openDeviceLength);
+								$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
+								$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
+								$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
+								$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
+								$(testTag).find('.v-input--switch__track span').text('On');
+								$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
+								console.log('ONNN ::CLOSE : ',this.closeDeviceLength,'OPEN : ',this.openDeviceLength);
 							}
 							else {
-							$(testTag).removeClass('v-input--is-label-active success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
-							$(testTag).find('.v-input--switch__track span').removeClass('open-switch-text').addClass('close-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('Off');
-							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
-							
-							console.log('OFF : CLOSE : ',this.closeDeviceLength,'OPEN : ', this.openDeviceLength);
+								$(testTag).removeClass('v-input--is-label-active success--text').addClass('red--text text--darken-3');
+								$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
+								$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
+								$(testTag).find('.v-input--switch__track span').removeClass('open-switch-text').addClass('close-switch-text');
+								$(testTag).find('.v-input--switch__track span').text('Off');
+								$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
+								
+								console.log('OFF : CLOSE : ',this.closeDeviceLength,'OPEN : ', this.openDeviceLength);
 							}
 						}
 					})
@@ -944,8 +944,8 @@ export default {
 				this.interval = setInterval(() => {
 					i++;
 					console.log(i);
-					if(i == 15){
-						/*$(selectedTag).toggleClass('v-input--is-label-active success--text').toggleClass('red--text text--darken-3');
+					if(i >= 15){
+						$(selectedTag).toggleClass('v-input--is-label-active success--text').toggleClass('red--text text--darken-3');
 						$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
 						$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
 						$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
@@ -959,7 +959,7 @@ export default {
 						
 						
 						console.log($(selectedTag))
-						*/
+						
 						this.websocketPub(selectedTag);
 						clearInterval(this.interval);
 						
@@ -979,7 +979,7 @@ export default {
 			
 		})
 		
-		
+	
 
 
 		//$('.input-control.tv-id-'+tvID).removeClass('input-switch-enabled').addClass('input-switch-disabled');

@@ -12,7 +12,7 @@
                      <span class="d-inline-block">{{ item.brand }}</span>
                      <span class="d-inline-block ml-1 mr-1">/</span> 
                      <span class="d-inline-block">{{ item.serial_number }}</span>
-                     <span>{{  }}</span>
+                     
                   </div>
                   <div>
                      <span :class="item.color" class="fw-bold d-flex align-items-center">

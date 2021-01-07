@@ -25,6 +25,8 @@
 										:counter="30"
 										required></v-text-field>
 										<v-checkbox
+											:rules="testCheck1 || testCheck2"
+											@click="testClickCheck"
 											class=""
 											:label="$t('message.authorizationCheck')"
 											color="primary"
@@ -48,8 +50,7 @@
 										
 										<v-col cols="12" sm="12">
 											<v-select :rules="form3.emptyRules" hide-details label="Automatic / Always" v-bind:items="autoWeekOptionsArray" v-model="selectedSunOptions.state"  item-value="text" ></v-select>
-										</v-col>	
-										
+										</v-col>
 										<div style="display:flex;">
 										<div style="display:flex;flex-direction:column" class="col-6">
 										
@@ -577,7 +578,7 @@
 										</div>
 									</div>
 								</div>
-								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled'">
+								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 && item.device_active == 1 ? 'input-switch-enabled':'input-switch-disabled'">
 									<span>Auto</span><br>
 									<span><b>ON :</b> {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
 									<span><b>OFF :</b> {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
@@ -601,7 +602,7 @@
 										</div>
 									</div>
 								</div>
-								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 ? 'input-switch-enabled':'input-switch-disabled'">
+								<div :style="[item.is_black_screen_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" :class="item.connection_status == 1 && item.device_active == 1 ? 'input-switch-enabled':'input-switch-disabled'">
 									<span><b>Auto</b></span><br>
 									<span><b>ON :</b> {{item.black_screen_open_time.split(':')[0]+':'+item.black_screen_open_time.split(':')[1]}}</span><br>
 									<span><b>OFF :</b>  {{item.black_screen_close_time.split(':')[0]+':'+item.black_screen_close_time.split(':')[1]}}</span>
@@ -612,10 +613,10 @@
 						<td class="pin-kh input-gauch " data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.serial_number" :class="[item.connection_status == 1 && item.device_active == 1 ? 'input-switch-enabled':'input-switch-disabled','tv-id-'+item.Id]">
 							<v-slider :style="[item.is_brightness_auto == 0 ? {display:'block'}:{display:'none'}]" v-model="item.brightness_value" v-bind:max="100" :thumb-color="ex3.color" thumb-label @mousedown="mousedownn" @mouseup="mouseupp" data-pin="kh" :data-token="item.token" :data-TvID="item.Id" :data-serial-number="item.Serial_Number" aria-disabled="false"></v-slider>
 							<div :style="[item.is_brightness_auto == 1 ? {display:'block'}:{display:'none'}]" style="font-size:12px" >
-									<span><b>Auto</b></span><br>
-									<span style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><img src="/static/img/svg/sunny.svg" class="brightness-info-icon"> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}}</span>
-									<span style="display:flex;align-items:center;justify-content:center;"><img src="/static/img/svg/morning.svg" class="brightness-info-icon"> {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}}</span>
-								</div>
+								<span><b>Auto</b></span><br>
+								<span style="display:flex;align-items:center;justify-content:center;margin-bottom:5px;"><img src="/static/img/svg/sunny.svg" class="brightness-info-icon"> {{item.sunrise_time.split(':')[0]+':'+item.sunrise_time.split(':')[1]}}</span>
+								<span style="display:flex;align-items:center;justify-content:center;"><img src="/static/img/svg/morning.svg" class="brightness-info-icon"> {{item.sunset_time.split(':')[0]+':'+item.sunset_time.split(':')[1]}}</span>
+							</div>
 						</td>
 						
 						<!--<td>{{ item.temperature_value }} °C</td>-->
@@ -1028,6 +1029,8 @@ export default {
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0},
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0}
+
+				
 			],
 			deviceName: "",
 			selectedDeviceID: 0,
@@ -1078,6 +1081,13 @@ export default {
 				v => !!v || "Select is required",
 			]
 		},
+		activeDeviceLimit:0,
+		testCheck1:[
+			//v => v ==true,
+		],
+		testCheck2:[
+			this.activeDeviceLimit < 30 || 'Limit Sınırlaması',
+		],
 	rulesInput: {
 		gauchSunsetRule: [
 			v => v < this.sunriseItem.val || 'test'
@@ -1335,8 +1345,6 @@ tabsAndTableDetails,
 						}
 					})
 				}
-				
-				
 			}
 		},
 	
@@ -1494,7 +1502,6 @@ tabsAndTableDetails,
 				
 				resp.data.forEach((item)=> {
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
-					
 					updateData.push(item)
 					this.sendDataList.push(item);
 					
@@ -1555,11 +1562,8 @@ tabsAndTableDetails,
 				var value = this.selector.getAttribute('value');
 				console.log('VALUE : ',value,dateTime)
 				var jsonData = {
-
-
 					msg: 'bright',
 					value: (value*2.45).toFixed(0)
-
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/led_novastar/attribute/'+token,JSON.stringify(jsonData));
@@ -1575,8 +1579,6 @@ tabsAndTableDetails,
 		mousedownn() {
 		console.log('DOWNN')
 		this.selector = event.currentTarget.querySelector('input');
-		
-		
 		console.log('DOWN : ',this.selector);
 		console.log(this.val0);
 	},
@@ -1671,6 +1673,7 @@ tabsAndTableDetails,
 		this.deviceList.forEach(item => {
 			if(item.Id == this.selectedDeviceID) {
 				this.selectedDeviceToken = item.token;
+				this.activeDeviceLimit = item.device_active_limit;
 				this.selectedInfoItem = item;
 				console.log('ASSIGN DEVICE ID : ',item);
 			}
@@ -1710,6 +1713,10 @@ tabsAndTableDetails,
 	},
 	optionsSelect() {
 		console.log('test')
+		
+	},
+	testClickCheck() {
+		console.log('TestClickCHECK : ',this.authorizationCheck)
 		
 	},
     clear() {
