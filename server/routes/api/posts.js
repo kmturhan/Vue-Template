@@ -219,44 +219,46 @@ client.on('connect', function () {
                         /*if(blackScreenWeekDatas.OffTimeHour < blackScreenWeekDatas.OnTimeHour) {
                             blackOnTime.setDate(blackOnTime.getDate()-1);
                         }*/
-                        var mysqlQuery = "SELECT * FROM led_devices ";
-
+                        
                         console.log(blackOnTime.getTime(), blackOffTime.getTime(), currentDate)
                         var diff1 = currentDate - blackOnTime.getTime();
                         var diff2 = currentDate - blackOffTime.getTime();
-                        var diff3 = Math.abs(diff1)
-                        var diff4 = Math.abs(diff2) 
-                        console.log(diff3,diff4)
-                        if(diff3 < diff4) {
+                        Math.abs(diff1)
+                        Math.abs(diff2) 
+                        if(diff1 < diff2) {
                             if(currentDate <= blackOnTime.getTime()){
-                                console.log('current date - ontimedan küçük')
                                 var jsonData = {
                                     msg:'normal',
-                                    value:''
+                                    value:'',
+                                    control:0
                                 };
-                            }else{
-                                console.log('current date - ontimedan büyük')
+                            }else{                                
                                 var jsonData = {
                                     msg:'black',
-                                    value:''
+                                    value:'',
+                                    control:1
                                 };
                             }
                         }else{
                             if(currentDate <= blackOffTime.getTime()){
-                                console.log('current date - offtimedan küçük')
                                 var jsonData = {
                                     msg:'black',
-                                    value:''
+                                    value:'',
+                                    control:1
                                 };
                             }else{
-                                console.log('current date - offtimedan büyük')
                                 var jsonData = {
                                     msg:'normal',
-                                    value:''
+                                    value:'',
+                                    control:0
                                 };
                             }
                         }
-                        client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+                        
+                        if(jsonData.control != item.screen_on_off){
+                            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+                        }
+                        
                     } 
                     /* Sunrise Sunset değerleri otomatik yollanmak istediğinde yapılacak işlemler*/
                     if(item.is_brightness_auto == 1 && item.sun_time_options == "Always"){
@@ -504,10 +506,8 @@ client.on('message', function (topic, message) {
                             //console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
                         })
                     }
-                })
-                
+                }) 
             });
-            
             }
             else if(jsonData.method == 'setDeviceModel') {
                 jsonTvIdList = jsonData.params.tvIds.split(',');
@@ -515,7 +515,6 @@ client.on('message', function (topic, message) {
                 jsonTvIdList.splice(jsonTvIdList.length-1,1);
                 //console.log(jsonTvIdList)
                 tvModels.splice(tvModels.length-1,1);
-                
                 tvModels.forEach(function(item,index) { 
                     var tvModelNumberHex = Buffer.from(item,'hex');
                     tvModels[index] = tvModelNumberHex.toString("utf-8");
@@ -538,7 +537,6 @@ client.on('message', function (topic, message) {
             case 'home/led_novastar/telemetry/'+token:
                     var date = new Date();
                     console.log('LED NOVASTAR test');
-                   
                         if(jsonData.type == 'dvi_status') {
                             mysqlUpdate = "UPDATE led_devices SET last_update = ?,dvi_status = ? WHERE token = ?";
                             connection.query(mysqlUpdate,[dateTime,jsonData.value,token],(err,result,fields)=>{
@@ -565,7 +563,6 @@ client.on('message', function (topic, message) {
                         }else if(jsonData.type == 'model_id') {
                             mysqlUpdate = "UPDATE led_devices SET last_update = ?,model_name = ? WHERE token = ?"
                             connection.query(mysqlUpdate,[dateTime,jsonData.value,token],(err,result,fields)=>{
-                                
                             })
                         }else if(jsonData.type == 'voltage' && jsonData.value !== 'Finish') {
                             var getDataQuery = "SELECT * FROM led_devices_status WHERE token = ? AND sender_id = ? AND receiver_id = ?"
@@ -575,8 +572,7 @@ client.on('message', function (topic, message) {
                                     connection.query(insertData,[token,jsonData.sender_id,jsonData.receiver_id,jsonData.value]);
                                 }else{
                                     mysqlUpdate = "UPDATE led_devices_status SET last_update = ?,voltage_value = ? WHERE token = ? AND sender_id = ? AND receiver_id = ?"
-                                    connection.query(mysqlUpdate,[dateTime,jsonData.value,token,jsonData.sender_id,jsonData.receiver_id],(err,result,fields)=>{
-                                        
+                                    connection.query(mysqlUpdate,[dateTime,jsonData.value,token,jsonData.sender_id,jsonData.receiver_id],(err,result,fields)=>{ 
                                     })
                                 }
                                 console.log(result.length,jsonData);
@@ -645,7 +641,6 @@ async function getCountry(ip,token) {
         connection.query(mysqlQuery,[jsonData.country,jsonData.city,jsonData.continent,token],(err,result,fields)=> {
             //console.log('City, country, continent UPDATE OK!')
         })
-        
   } catch (error) {
     console.error(error);
   }

@@ -25,7 +25,7 @@
 										:counter="30"
 										required></v-text-field>
 										<v-checkbox
-											:rules="testCheck1 || testCheck2"
+											:rules="testCheck2"
 											@click="testClickCheck"
 											class=""
 											:label="$t('message.authorizationCheck')"
@@ -1086,7 +1086,14 @@ export default {
 			//v => v ==true,
 		],
 		testCheck2:[
-			this.activeDeviceLimit < 30 || 'Limit Sınırlaması',
+			value => {
+				if(this.activeDeviceLimit < 30 && value == true){
+					return 'ERROR'
+				}else if(value == false) {
+					return true
+
+				}
+			},
 		],
 	rulesInput: {
 		gauchSunsetRule: [
@@ -1196,8 +1203,6 @@ tabsAndTableDetails,
 				}
 			]
 		}
-			
-		
 	},
 	mounted(){
 
@@ -1243,9 +1248,7 @@ tabsAndTableDetails,
 				}
 			}
 			if(jsonData.type == 'screen_on_off' && jsonData.value == 'normal') {
-				console.log("Screen ON OFF : 0")
 				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
-				console.log('pin-km : ',item)
 				$(item).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 				$(item).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
 				$(item).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
@@ -1265,9 +1268,7 @@ tabsAndTableDetails,
 				})
 			})
 			}else if (jsonData.type == 'screen_on_off' && jsonData.type) {
-				console.log("SCREEN ON OFF 1")
 				this.$el.querySelectorAll('.v-input__control.tv-id-'+this.selectedTvID).forEach(item => {
-				console.log('pin-km : ',item)
 				$(item).addClass('v-input--is-label-active  success--text').removeClass('red--text text--darken-3');
 				$(item).find('.v-input--selection-controls__ripple').addClass('success--text').removeClass('red--text text--darken-3');
 				$(item).find('.v-input--switch__track').addClass('success--text').removeClass('red--text text--darken-3');
@@ -1321,7 +1322,6 @@ tabsAndTableDetails,
 							item.last_update = date;
 							item.connection_status = 1;
 						}
-						
 					})
 				}else if(jsonData.type == 'screen_on_off') {
 					this.deviceList.forEach(item => {
@@ -1334,7 +1334,6 @@ tabsAndTableDetails,
 							item.last_update = date;
 							item.connection_status = 1;
 						}
-						
 					})
 				}else if(jsonData.type == 'dvi_status') {
 					this.deviceList.forEach(item => {
@@ -1373,7 +1372,7 @@ tabsAndTableDetails,
 				name: e.target.value,
 				deviceId: deviceID
 			}
-			axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
+			axios.post('http://192.168.10.31:5000/api/nameUpDate',jsonData)
 			.then(function (response) {
 				console.log(response)
 
@@ -1460,21 +1459,19 @@ tabsAndTableDetails,
 		this.interval = setInterval(() => {
 			console.log(i++)
 			if(i > 7) {
-				console.log('Disconnect ');
-				console.log(selectedTag)
 			$(selectedTag).toggleClass('v-input--is-label-active  success--text').toggleClass('red--text text--darken-3');
 			$(selectedTag).find('.v-input--selection-controls__ripple').toggleClass('success--text').toggleClass('red--text text--darken-3');
 			$(selectedTag).find('.v-input--switch__track').toggleClass('success--text').toggleClass('red--text text--darken-3');
 			$(selectedTag).find('.v-input--switch__thumb').toggleClass('success--text').toggleClass('red--text text--darken-3');
 			$(selectedTag).find('.v-input--switch__track span').toggleClass('close-switch-text').toggleClass('open-switch-text');
 			$(selectedTag).find('svg').removeClass('tv-close-svg').addClass('tv-open-svg');
-			console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
+			
 			
 				clearInterval(this.interval);
 				$('.v-input__control.tv-id-'+this.selectedTvID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 				//$('.input-gauch').removeClass('input-switch-enabled').addClass('input-switch-disabled');
 				
-				console.log('CLICK PUB : ',$(selectedTag).closest('tr'));
+				
 				if($(selectedTag).find('.v-input--switch__track span').text() == "On") {
 					$(selectedTag).find('.v-input--switch__track span').text('Off');
 				} else {
@@ -1489,7 +1486,6 @@ tabsAndTableDetails,
 			}
 		})
 			}
-			
 		}, 1000);
 		console.log('JSONDATA : ',jsonData,serialNumber)
 		this.$mqtt.publish('home/led_novastar/attribute/'+token,JSON.stringify(jsonData));
@@ -1497,14 +1493,12 @@ tabsAndTableDetails,
 		loadData() {
 			var updateData =[];
 			this.unreachableDevices = 0;
-			axios.get('http://192.168.10.30:5000/api/loadLedDevices').then(resp => {
+			axios.get('http://192.168.10.31:5000/api/loadLedDevices').then(resp => {
 				console.log('LED DEVICES : ',resp)
-				
 				resp.data.forEach((item)=> {
 					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
 					updateData.push(item)
 					this.sendDataList.push(item);
-					
 				});
 				
 				this.deviceList = updateData;
@@ -1567,7 +1561,7 @@ tabsAndTableDetails,
 				}
 				console.log('TOKEN : ',token)
 				this.$mqtt.publish('home/led_novastar/attribute/'+token,JSON.stringify(jsonData));
-				//axios.post('http://192.168.10.30:5000/api/test',jsonData)
+				//axios.post('http://192.168.10.31:5000/api/test',jsonData)
 				//
 				//.then((response) => {
 				//	console.log('SUCCESS POST',response)
@@ -1632,7 +1626,7 @@ tabsAndTableDetails,
 			deviceActive: this.authorizationCheck
 		}
 		var updateData = this.deviceList;
-		axios.post('http://192.168.10.30:5000/api/nameUpDate',jsonData)
+		axios.post('http://192.168.10.31:5000/api/nameUpDate',jsonData)
 		.then(function (response) {
 			console.log(response)
 			updateData.forEach(item => {
@@ -1710,14 +1704,13 @@ tabsAndTableDetails,
 				{OnTimeHour:0,OnTimeMinute:0,OffTimeHour:0,OffTimeMinute:0}
 			]
 		}
-		
 	},
 	optionsSelect() {
 		console.log('test')
 		
 	},
 	testClickCheck() {
-		console.log('TestClickCHECK : ',this.authorizationCheck)
+		
 		
 	},
     clear() {

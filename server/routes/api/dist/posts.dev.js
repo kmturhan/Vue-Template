@@ -215,45 +215,45 @@ client.on('connect', function () {
                 blackOnTime.setDate(blackOnTime.getDate()-1);
             }*/
 
-            var mysqlQuery = "SELECT * FROM led_devices ";
             console.log(blackOnTime.getTime(), blackOffTime.getTime(), currentDate);
             var diff1 = currentDate - blackOnTime.getTime();
             var diff2 = currentDate - blackOffTime.getTime();
-            var diff3 = Math.abs(diff1);
-            var diff4 = Math.abs(diff2);
-            console.log(diff3, diff4);
+            Math.abs(diff1);
+            Math.abs(diff2);
 
-            if (diff3 < diff4) {
+            if (diff1 < diff2) {
               if (currentDate <= blackOnTime.getTime()) {
-                console.log('current date - ontimedan küçük');
                 var jsonData = {
                   msg: 'normal',
-                  value: ''
+                  value: '',
+                  control: 0
                 };
               } else {
-                console.log('current date - ontimedan büyük');
                 var jsonData = {
                   msg: 'black',
-                  value: ''
+                  value: '',
+                  control: 1
                 };
               }
             } else {
               if (currentDate <= blackOffTime.getTime()) {
-                console.log('current date - offtimedan küçük');
                 var jsonData = {
                   msg: 'black',
-                  value: ''
+                  value: '',
+                  control: 1
                 };
               } else {
-                console.log('current date - offtimedan büyük');
                 var jsonData = {
                   msg: 'normal',
-                  value: ''
+                  value: '',
+                  control: 0
                 };
               }
             }
 
-            client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+            if (jsonData.control != item.screen_on_off) {
+              client.publish('home/led_novastar/attribute/' + item.token, JSON.stringify(jsonData));
+            }
           }
           /* Sunrise Sunset değerleri otomatik yollanmak istediğinde yapılacak işlemler*/
 
