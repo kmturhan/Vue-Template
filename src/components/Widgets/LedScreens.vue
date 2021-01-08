@@ -1088,10 +1088,9 @@ export default {
 		testCheck2:[
 			value => {
 				if(this.activeDeviceLimit < 30 && value == true){
-					return 'ERROR'
+					return 'Active Device Limit Reached'
 				}else if(value == false) {
 					return true
-
 				}
 			},
 		],
