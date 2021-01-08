@@ -95,7 +95,7 @@
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunriseTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise}}:{{apiTimeSunrise}} </label>
+											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunrise.split(':')[0]}}:{{apiTimeSunrise.split(':')[1]}} </label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunriseTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
@@ -105,7 +105,7 @@
 										<div style="position:relative">
 										<div style="display:flex;align-items:center;margin-top:10px;">
 											<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 511.99998 511.99998" style="width:20px;height:20px;fill:rgb(255, 193, 7);"><path d="m271 112.011719c-4.929688-.507813-9.929688-.769531-15-.769531-79.824219 0-144.757812 64.933593-144.757812 144.757812 0 79.820312 64.933593 144.753906 144.757812 144.753906 5.070312 0 10.070312-.257812 15-.769531 72.800781-7.527344 129.765625-69.222656 129.765625-143.984375s-56.964844-136.457031-129.765625-143.988281zm0 257.765625v-227.558594c56.222656 7.371094 99.769531 55.578125 99.769531 113.78125s-43.546875 106.410156-99.769531 113.777344zm0 0"/><path d="m256 89.542969c8.28125 0 15-6.71875 15-15v-59.542969c0-8.285156-6.71875-15-15-15-8.285156 0-15 6.714844-15 15v59.542969c0 8.28125 6.714844 15 15 15zm0 0"/><path d="m256 422.457031c-8.285156 0-15 6.71875-15 15v59.542969c0 8.285156 6.714844 15 15 15 8.28125 0 15-6.714844 15-15v-59.542969c0-8.285156-6.714844-15-15-15zm0 0"/><path d="m89.542969 256c0-8.285156-6.71875-15-15-15h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.28125 0 15-6.714844 15-15zm0 0"/><path d="m497 241h-59.542969c-8.285156 0-15 6.714844-15 15 0 8.28125 6.714844 15 15 15h59.542969c8.285156 0 15-6.71875 15-15 0-8.285156-6.714844-15-15-15zm0 0"/><path d="m113.484375 134.695312c2.929687 2.929688 6.769531 4.394532 10.605469 4.394532 3.839844 0 7.675781-1.464844 10.605468-4.394532 5.855469-5.859374 5.855469-15.355468 0-21.210937l-43.285156-43.285156c-5.855468-5.859375-15.355468-5.859375-21.210937 0-5.859375 5.855469-5.859375 15.351562 0 21.210937zm0 0"/><path d="m398.515625 377.304688c-5.855469-5.859376-15.351563-5.859376-21.210937 0-5.855469 5.855468-5.855469 15.351562 0 21.210937l43.285156 43.285156c2.929687 2.929688 6.769531 4.394531 10.605468 4.394531 3.839844 0 7.675782-1.464843 10.605469-4.394531 5.855469-5.859375 5.855469-15.355469 0-21.210937zm0 0"/><path d="m113.484375 377.304688-43.285156 43.285156c-5.855469 5.855468-5.855469 15.351562 0 21.210937 2.929687 2.929688 6.765625 4.394531 10.605469 4.394531 3.835937 0 7.675781-1.464843 10.605468-4.394531l43.285156-43.285156c5.855469-5.859375 5.855469-15.355469 0-21.210937-5.855468-5.859376-15.355468-5.859376-21.210937 0zm0 0"/><path d="m387.910156 139.089844c3.839844 0 7.675782-1.464844 10.605469-4.394532l43.285156-43.285156c5.855469-5.859375 5.855469-15.355468 0-21.210937-5.855469-5.859375-15.355469-5.859375-21.210937 0l-43.285156 43.285156c-5.859376 5.855469-5.859376 15.351563 0 21.210937 2.929687 2.929688 6.765624 4.394532 10.605468 4.394532zm0 0"/></svg>
-											<v-slider :rules="rulesInput.gauchSunriseRule || rulesInput.gauchSunsetRule" v-model="sunriseItem.val" v-bind:max="100" :thumb-color="sunriseItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
+											<v-slider :rules="rulesInput.gauchSunsetRule" v-model="sunriseItem.val" v-bind:max="100" :thumb-color="sunriseItem.color" thumb-label data-pin="kh" data-id="34" aria-disabled="false"></v-slider>
 										</div>
 										<label style="position:absolute;top:45px;left:130px;font-size:14px;">{{sunriseItem.val}} %</label>
 										</div>
@@ -148,7 +148,7 @@
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="H"  v-bind:items="timesHour"  v-model="selectSunsetTimeHour" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
-											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunset}}:{{apiTimeSunset}}</label>
+											<label style="font-size:12px;margin-top:10px;" :class="selectedSunOptions.state == 'Automatic' ? 'input-show':'input-hide'">{{apiTimeSunset.split(':')[0]}}:{{apiTimeSunset.split(':')[1]}}</label>
 											<v-col cols="6" sm="6" style="display:flex;align-items:center;flex-direction:column;justify-content:center;">
 												<v-select :rules="form3.emptyRules" hide-details label="M"  v-bind:items="timesMinutes"  v-model="selectSunsetTimeMinute" :class="selectedSunOptions.state == 'Automatic' ? 'input-hide':'input-show'"  item-value="text"></v-select>
 											</v-col>
@@ -1096,7 +1096,12 @@ export default {
 		],
 	rulesInput: {
 		gauchSunsetRule: [
-			v => v < this.sunriseItem.val || 'test'
+			v => {
+				if(v > this.sunriseItem.val){
+					console.log(v,this.sunriseItem.val,this.sunsetItem.val)
+					return 'TEST'
+				}
+			}
 		],
 		gauchSunriseRule: [
 			v => v > this.sunsetItem.val || 'test2'
