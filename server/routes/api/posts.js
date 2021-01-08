@@ -727,7 +727,7 @@ connection.query(mysqlQuery,[],(err,result,fields) => {
 })
 
 router.get('/loadLedDevices',(req,res)=>{
-    var mysqlQuery = "SELECT * FROM led_devices";
+    var mysqlQuery = "SELECT * FROM led_devices INNER JOIN users ON led_devices.foreign_key_user = users.Id WHERE users.Id = 1";//SELECT * FROM led_devices
     connection.query(mysqlQuery,[],(err,result,fields) => {
         
         res.json(result);
