@@ -1,5 +1,7 @@
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var _require = require('core-js'),
     Object = _require.Object;
 
@@ -61,8 +63,7 @@ var client = mqtt.connect('wss://mqtts.labrus.com:8083', opts);
 }*/
 
 client.on('connect', function () {
-  console.log('connect');
-  console.log('GET COUNTRY '); //getCountry();
+  console.log('connect'); //getCountry();
 
   setInterval(function () {
     sql = "SELECT * FROM Device_Status";
@@ -75,26 +76,6 @@ client.on('connect', function () {
     var time = String(today.getHours()).padStart(2, "0") + ":" + String(today.getMinutes()).padStart(2, "0") + ":" + String(today.getSeconds()).padStart(2, "0");
     var dateTime = date + ' ' + time;
     console.log('DATETIME : ', dateTime, time);
-    db.all(sql, [], function (err, rows) {
-      //console.log('GETDATA : ',rows);
-      if (err) {
-        throw err;
-      }
-
-      rows.forEach(function (item) {
-        var date1 = new Date(item.Last_Update);
-        var date2 = new Date(dateTime);
-        var diff = date2.getTime() - date1.getTime();
-
-        if (diff > 950000) {
-          sql = "UPDATE Device_Status SET Connection_Status = 0 WHERE Token = ? AND TvID = ?";
-          db.all(sql, [item.Token, item.TvID], function (err, rows) {});
-        } else {
-          sql = "UPDATE Device_Status SET Connection_Status = 1 WHERE Token = ? AND TvID = ?";
-          db.all(sql, [item.Token, item.TvID], function (err, rows) {});
-        }
-      });
-    });
     connection.query(mysqlQuery, [], function (err, rows) {
       //console.log('GETDATA : ',rows);
       if (err) {
@@ -159,7 +140,7 @@ client.on('connect', function () {
     var days = ['Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Friday', 'Saturday', 'Sunday'];
     mysql = "SELECT * FROM led_devices";
     connection.query(mysql, [], function (err, result, fields) {
-      result.forEach(function (item) {
+      if (_typeof(result) != undefined) result.forEach(function (item) {
         var openTimeHour = item.black_screen_open_time.split(":")[0];
         var openTimeMinute = item.black_screen_open_time.split(":")[1];
         var closeTimeHour = item.black_screen_close_time.split(":")[0];
@@ -355,27 +336,27 @@ client.on('message', function (topic, message) {
 
       if (token != "" && password != "") {
         console.log('Token : ', token);
-        var sql = 'SELECT * FROM Settings';
-        var mysqlQuery = 'SELECT * FROM Settings';
+        var sql = 'SELECT * FROM settings';
+        var mysqlQuery = 'SELECT * FROM settings';
         var arrayIDList = [];
         var arrayPasswordList = [];
-        connection.query(mysqlQuery, [], function (err, rows) {});
-        db.all(sql, [], function (err, rows) {
+        connection.query(mysqlQuery, [], function (err, rows) {
           rows.forEach(function (item) {
-            arrayPasswordList.push(item.Password);
+            arrayPasswordList.push(item.password);
+            console.log('ARRAY : ', item);
           });
 
           if (arrayPasswordList.includes(password)) {
             console.log('Şifre Doğru');
-            sql = 'SELECT * FROM devices WHERE Token = ?';
+            sql = 'SELECT * FROM lcd_devices_status WHERE Token = ?';
             var arrayTokenList = [];
-            db.all(sql, [token], function (err, rows) {
+            connection.query(sql, [token], function (err, rows) {
               console.log(rows.length);
 
               if (rows.length == 0) {
                 console.log('Token Yok');
-                sql = "INSERT INTO devices(Name,Password,Token,Last_Update) VALUES ('labrusNeww',?,?,?)";
-                db.all(sql, [password, token, dateTime], function (err, rows) {
+                sql = "INSERT INTO lcd_devices_status(Name,Password,Token,Last_Update) VALUES ('labrusNeww',?,?,?)";
+                connection.query(sql, [password, token, dateTime], function (err, rows) {
                   console.log('SUCCESS');
                   var jsonMethod = '{ "method": "getTvId", "params": { } }';
                   client.publish('home/telemetry/' + token, jsonMethod);
@@ -390,13 +371,44 @@ client.on('message', function (topic, message) {
             console.log('Şifre Yanlış');
           }
         });
+        connection.query(sql, [], function (err, rows) {
+          rows.forEach(function (item) {
+            arrayPasswordList.push(item.password);
+          });
+
+          if (arrayPasswordList.includes(password)) {
+            console.log('Şifre Doğru');
+            sql = 'SELECT * FROM lcd_devices WHERE token = ?';
+            var arrayTokenList = [];
+            connection.query(sql, [token], function (err, rows) {
+              console.log(rows.length);
+
+              if (rows.length == 0) {
+                console.log('Token Yok');
+                sql = "INSERT INTO lcd_devices(token) VALUES (?)";
+                connection.query(sql, [token], function (err, rows) {
+                  console.log(err);
+                  console.log('SUCCESS');
+                  var jsonMethod = '{ "method": "getTvId", "params": { } }';
+                  client.publish('home/philips_tv/telemetry/' + token, jsonMethod);
+                });
+              } else {
+                console.log('Token Var');
+                var jsonMethod = '{ "method": "getTvId", "params": { } }';
+                client.publish('home/philips_tv/telemetry/' + token, jsonMethod);
+              }
+            });
+          } else {
+            console.log('Şifre Yanlış');
+          }
+        });
       } else {
         console.log('HATA');
       }
 
       break;
 
-    case 'home/attributes/' + token:
+    case 'home/lg_tv/attribute/' + token:
       console.log('Attr Channel');
       var jsonID = Object.keys(jsonData); //console.log('ATTR : ',jsonID);
 
@@ -408,22 +420,99 @@ client.on('message', function (topic, message) {
         kh: 'brightness_value',
         dx: 'PictureMode'
       };
-      var selectedPinKey = testArray[Object.keys(jsonData.params)];
-      var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(','); //console.log('TVID : ',arrayIDValue[0]);
+      var selectedPinKey = testArray[Object.keys(jsonData.params)]; //console.log('TVID : ',arrayIDValue[0]);
       //console.log('VALUE : ',arrayIDValue[1]);
 
-      selectedTvID = arrayIDValue[0];
-      var selectedPinValue = arrayIDValue[1]; //console.log('KEY ', selectedPinKey);
-      //console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
+      console.log('KEY ', selectedPinKey);
+      console.log('TEST : ', testArray[Object.keys(jsonData.params)]); //console.log('VALUE ', jsonData.params[Object.keys(jsonData.params)]);
+      //console.log('selectedPinKey : ',selectedPinKey)
 
+      console.log(testArray[Object.keys(jsonData.params)] == selectedPinKey);
+
+      if (testArray[Object.keys(jsonData.params)] == selectedPinKey && typeof selectedPinKey != 'undefined') {
+        var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
+        selectedTvID = arrayIDValue[0];
+        console.log('ArrayIDVALUE :', arrayIDValue);
+        var selectedPinValue = arrayIDValue[1];
+        sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
+        mysqlQuery = "UPDATE lcd_devices_status SET " + selectedPinKey + " = ?, last_update = ? WHERE token = ? AND tv_id = ?";
+        db.all(sql, [selectedPinValue, dateTime, token, selectedTvID], function (err, rows) {
+          console.log("Token : ", token, "TVID : ", selectedTvID, "Serial Number : ", selectedPinValue, 'KEY : ', selectedPinKey);
+        });
+        connection.query(mysqlQuery, [selectedPinValue, dateTime, token, selectedTvID], function (error, results, fields) {
+          if (error) throw error;
+          console.log('success');
+        });
+      } else if (jsonData.params.serial == 'Device Connected') {
+        mysqlQuery = "SELECT * FROM lcd_devices_status WHERE token = ?";
+        connection.query(mysqlQuery, [token], function (err, results, fields) {
+          results.forEach(function (item) {
+            var json = {
+              method: 'rpcCommand',
+              params: {
+                command: 'pl',
+                tvId: item.tv_id,
+                swc: 1,
+                getCmd: '19'
+              },
+              values: ['6', item.tv_id, '0', '18', item.tv_status, '1D']
+            };
+            client.publish('home/telemetry/' + token, JSON.stringify(json));
+          });
+        });
+      }
+
+      break;
+
+    case 'home/philips_tv/attribute/' + token:
+      var testArray = {
+        km: 'remote_lock',
+        ka: 'tv_status',
+        kf: 'voice_value',
+        kh: 'brightness_value',
+        dx: 'PictureMode'
+      };
+      var selectedPinKey = testArray[Object.keys(jsonData.params)];
       sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
-      mysqlQuery = "UPDATE lcd_devices_status SET " + selectedPinKey + " = ?, last_update = ? WHERE token = ? AND tv_id = ?";
-      db.all(sql, [selectedPinValue, dateTime, token, selectedTvID], function (err, rows) {//console.log("Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
-      });
-      connection.query(mysqlQuery, [selectedPinValue, dateTime, token, selectedTvID], function (error, results, fields) {
-        if (error) throw error;
-        console.log('success');
-      });
+
+      if (testArray[Object.keys(jsonData.params)] == selectedPinKey && typeof selectedPinKey != 'undefined') {
+        var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
+        selectedTvID = arrayIDValue[0];
+        console.log('ArrayIDVALUE :', arrayIDValue);
+        var selectedPinValue = arrayIDValue[1];
+
+        if (selectedPinValue == 1) {
+          selectedPinValue = 0;
+        } else {
+          selectedPinValue = 1;
+        }
+
+        mysqlQuery = "UPDATE lcd_devices_status SET " + selectedPinKey + " = ?, last_update = ? WHERE token = ? AND tv_id = ?";
+        connection.query(mysqlQuery, [selectedPinValue, dateTime, token, selectedTvID], function (error, results, fields) {
+          if (error) throw error;
+          console.log('success');
+          console.log('SELECTED PIN VALUE', selectedPinValue);
+        });
+      } else if (jsonData.params.serial == 'Device Connected') {
+        mysqlQuery = "SELECT * FROM lcd_devices_status WHERE token = ?";
+        var tvIDArray = [];
+        connection.query(mysqlQuery, [token], function (err, results, fields) {
+          results.forEach(function (item) {
+            tvIDArray.push(item.tv_id.toString());
+          });
+          var json = {
+            method: 'rpcCommand',
+            params: {
+              command: 'pl',
+              swc: 2,
+              getCmd: '19'
+            },
+            values: tvIDArray
+          };
+          client.publish('home/philips_tv/telemetry/' + token, JSON.stringify(json));
+        });
+      }
+
       break;
 
     case 'home/attributesUp/' + token:
@@ -436,19 +525,13 @@ client.on('message', function (topic, message) {
       var firmwareVersion = dataArray[4]; //console.log('TV DURUM : ',tvDurum);
 
       if (tvDurum == 0) {
-        sql = "UPDATE Device_Status SET TvStatus = 0,Last_Update = ? WHERE Token = ? AND TvID = ?";
         mysqlQuery = "UPDATE lcd_devices_status SET tv_status = 0, last_update = ? WHERE token = ? AND tv_id = ?";
-        db.all(sql, [dateTime, token, TvID], function (err, rows) {//console.log("Success AttributesUp Update : "+"Token : ",token,"TVID : ",selectedTvID,"Serial Number : ",selectedSerialNumber,'KEY : ',selectedPinKey);
-        });
         connection.query(mysqlQuery, [dateTime, token, TvID], function (error, results, fields) {
           if (error) throw error;
           console.log('success');
         });
       } else {
-        sql = "UPDATE Device_Status SET Last_Update = ?,TvStatus = 1, NoSignal = ?, TempetureValue = ?, firmwareVersion = ? WHERE Token = ? AND TvID = ?";
         mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?,tv_status = 1, no_signal = ?, temperature_value = ?, firmware_version = ? WHERE token = ? AND tv_id = ?";
-        db.all(sql, [dateTime, parseInt(nosignal), temperature, firmwareVersion, token, TvID], function (err, rows) {//console.log("Success AttributesUp Update ALL");
-        });
         connection.query(mysqlQuery, [dateTime, nosignal, temperature, firmwareVersion, token, TvID], function (error, results, fields) {
           if (error) throw error;
           console.log('success');
@@ -456,6 +539,58 @@ client.on('message', function (topic, message) {
       }
 
       console.log('TVID : ', TvID, 'TvDurum : ', tvDurum, 'No Signal : ', nosignal, 'Temp : ', temperature, 'firmwareVersion : ', firmwareVersion);
+      break;
+
+    case 'home/philips_tv/create/' + token:
+      if (jsonData.method == 'setDevice') {
+        var dbTvIdList = [];
+        var arraySerialNumber = [];
+        var dbSerialNumber = [];
+        var ipAddress = jsonData.params.ip;
+        var tvBrand = jsonData.params.tvName;
+        jsonTvIdList = jsonData.params.tvIds.split(',');
+        jsonTvIdList.splice(jsonTvIdList.length - 1, 1);
+        sql = "SELECT tv_id,serial_number FROM lcd_devices_status WHERE token = ? AND serial_number = ?";
+        mysqlQuery = "SELECT tv_id,serial_number FROM lcd_devices_status WHERE token = ?";
+        jsonTvIdList.forEach(function (item, index) {
+          console.log('jsonTVIDLIST : ', item);
+          connection.query(mysqlQuery, [token], function (err, result, fields) {
+            console.log('philips', result);
+
+            if (result.length == 0) {
+              mysqlQuery = "INSERT INTO lcd_devices_status(token,tv_id,brand,ip_address) VALUES (?,?,?,?)";
+              connection.query(mysqlQuery, [token, item, tvBrand, ipAddress], function (err, rows) {
+                console.log(err);
+                console.log('TESTASDF: ', token, item, tvBrand, ipAddress); //console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
+              });
+            } else {
+              mysqlQuery = "UPDATE lcd_devices_status SET brand = ?, ip_address = ? WHERE token = ? AND tv_id = ?";
+              connection.query(mysqlQuery, [tvBrand, ipAddress, token, item]);
+            }
+          });
+        });
+      } else if (jsonData.method == 'setDeviceModel') {
+        jsonTvIdList = jsonData.params.tvIds.split(',');
+        tvModels = jsonData.params.tvModel.split(',');
+        jsonTvIdList.splice(jsonTvIdList.length - 1, 1); //console.log(jsonTvIdList)
+
+        tvModels.splice(tvModels.length - 1, 1);
+        /*tvModels.forEach(function(item,index) { 
+            var tvModelNumberHex = Buffer.from(item,'hex');
+            tvModels[index] = tvModelNumberHex.toString("utf-8");
+        })*/
+
+        mysqlQuery = "UPDATE lcd_devices_status SET model = ?, last_update = ? WHERE tv_id = ? AND token = ?"; //var tvModelNumberHex = Buffer.from(jsonTvIdList[index],'hex');
+        //var tvModelNumber = tvModelNumberHex.toString("utf-8");
+
+        jsonTvIdList.forEach(function (item, index) {
+          //console.log(tvModels[index],item);
+          console.log('setDEVICEMODEL : ', tvModels[index], dateTime, item);
+          connection.query(mysqlQuery, [tvModels[index], dateTime, item, token], function (err, result, fields) {//console.log('Model Number - Last Update UPDATE OK!');
+          });
+        });
+      }
+
       break;
 
     case 'home/create/' + token:
@@ -471,25 +606,27 @@ client.on('message', function (topic, message) {
         var tvBrand = jsonData.params.tvName;
         jsonTvIdList = jsonData.params.tvIds.split(',');
         jsonTvIdList.splice(jsonTvIdList.length - 1, 1);
-        arraySerialNumber = jsonData.params.tvSerial.split(',');
-        arraySerialNumber.splice(arraySerialNumber.length - 1, 1);
-        sql = "SELECT TvID,Serial_Number FROM Device_Status WHERE Token = ? AND Serial_Number = ?";
-        mysqlQuery = "SELECT tv-id,serial_number FROM lcd_devices_status WHERE token = ? AND serial_number = ?";
-        var test; //console.log(arraySerialNumber);
+        arraySerialNumber = jsonData.params.tvModel.split(',');
+        arraySerialNumber.splice(arraySerialNumber.length - 1, 1); //sql = "SELECT TvID,Serial_Number FROM Device_Status WHERE Token = ? AND Serial_Number = ?";
 
+        mysqlQuery = "SELECT tv_id,serial_number FROM lcd_devices_status WHERE token = ?";
+        console.log('ARRAY SERIAL NUMBER', arraySerialNumber);
         arraySerialNumber.forEach(function (item, index) {
           //console.log(jsonTvIdList[index]);
-          db.all(sql, [token, item], function (err, rows) {
-            if (rows.length == 0) {
-              sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
-              db.all(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {//console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
-              });
-            }
-          });
+          //db.all(sql,[token,item],(err,rows) => {
+          //    if(rows.length == 0){
+          //        sql = "INSERT INTO Device_Status(Token,TvID,Serial_Number,Brand,IP_Address) VALUES (?,?,?,?,?)";
+          //        db.all(sql,[token,jsonTvIdList[index],item,tvBrand,ipAddress],(err,rows)=>{
+          //            //console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
+          //        })
+          //    }
+          //})
           connection.query(mysqlQuery, [token, item], function (err, result, fields) {
-            if (rows.length == 0) {
+            if (result.length == 0) {
               mysqlQuery = "INSERT INTO lcd_devices_status(token,tv_id,serial_number,brand,ip_address) VALUES (?,?,?,?,?)";
-              connection.query(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {//console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
+              connection.query(sql, [token, jsonTvIdList[index], item, tvBrand, ipAddress], function (err, rows) {
+                console.log(err);
+                getCountry(ipAddress, token); //console.log("Token : ",token,"TVID : ",jsonTvIdList[index],"Serial Number : ",item);
               });
             }
           });
@@ -624,8 +761,9 @@ function getCountry(ip, token) {
               //console.log('GET COUNTRY : ',jsonData.country,jsonData.city.toLowerCase(),jsonData.continent,jsonTvIdList,token)
           })*/
 
-          mysqlQuery = "UPDATE lcd_devices SET country = ?, city = ?, continent = ? WHERE token = ?";
-          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, token], function (err, result, fields) {//console.log('City, country, continent UPDATE OK!')
+          mysqlQuery = "UPDATE lcd_devic  es SET country = ?, city = ?, continent = ? WHERE token = ?";
+          connection.query(mysqlQuery, [jsonData.country, jsonData.city, jsonData.continent, token], function (err, result, fields) {
+            console.log('City, country, continent UPDATE OK!', result);
           });
           _context.next = 12;
           break;

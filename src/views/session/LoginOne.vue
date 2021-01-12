@@ -139,7 +139,35 @@ export default {
     },
     signinWithAuth0() {
       login();
-    }
+	},
+	loadData() {
+			var updateData =[];
+			this.unreachableDevices = 0;
+			var testActiveDevice = 0;
+			axios.get('http://192.168.10.31:5000/api/loadLedDevices').then(resp => {
+				console.log('LED DEVICES : ',resp)
+				resp.data.forEach((item)=> {
+					console.log('Led Devices resp Connection Status : ',item.Connection_Status);
+					updateData.push(item)
+					this.sendDataList.push(item);
+					if(item.device_active == 1) {
+						testActiveDevice++; 
+					}
+				});
+				this.activeDeviceCount = testActiveDevice;
+				console.log('ACTIVE DEVICE COUNT : ',this.activeDeviceCount);
+				
+				this.deviceList = updateData;
+
+				console.log('Data.js : ',resp.data);
+				console.log(this.deviceList);
+				console.log('SEND DATA LIST : ',this.sendDataList);
+			});
+			
+		},
+  },
+  created: function() {
+	  this.loadData();
   }
 };
 </script>
