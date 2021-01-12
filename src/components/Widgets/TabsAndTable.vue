@@ -558,7 +558,8 @@ export default {
 		'home/telemetry/#': function() {
 			
 		},*/
-		'home/philips_tv/attribute/#' : function(val) {
+		'home/lg_tv/attribute/#' : function(val) {
+			console.log('tesssst');
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);
@@ -570,12 +571,14 @@ export default {
 			var TVID = jsonData.params[command].split(',')[0];
 			var value = jsonData.params[command].split(',')[1];
       var notification = [];
-			if(value == 0) {
+			
         var json = {
           datetime: dateTime,
           tvid: TVID,
           value: value
-        };
+		};
+	
+		console.log('JSON DATA = ',json);
 		if(command != "ka") {
 			setTimeout(() => {
 			this.loadData();
@@ -584,8 +587,8 @@ export default {
 			this.loadData();
 		}
 		notification.push(json);
-		}
-		if(command == "ka" && value == 1) {
+	
+		if(command == "ka" && value == 1 ) {
 			console.log('AÇIK')
 			setTimeout(() => {
 				$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
@@ -593,7 +596,7 @@ export default {
 				$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 				$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 			}, 4000);
-			clearInterval(this.interval)
+			//clearInterval(this.interval)
 		} else if(command == "ka" && value == 0){
 			console.log('KAPALI ')
 			$('#notificationIcon').addClass('animated infinite wobble')
@@ -604,9 +607,12 @@ export default {
 				$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-enabled').addClass('input-switch-disabled');	
 			}, 4000);
 			clearInterval(this.interval)
-		}else if(command != "kf" || command != "kh") {
-			$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
-			$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+		}else if(command != "kf" || command != "kh" ) {
+			
+				$('.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+				$('.input-gauch.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
+			
+			
 		}
 			console.log('Notification : ',notification)
 			console.log('COMMAND : ',command,'TVID : ',TVID,'VALUE : ',value);
@@ -650,24 +656,26 @@ export default {
 
 			
 			console.log('ATTR CHANNEL')
+			console.log('COMMAND : ',command, )
 			this.$el.querySelectorAll('.pin-'+command+ ' input').forEach(item => {
 					if(item.getAttribute('data-tvid') == TVID) {
+						console.log('TVID : ',TVID)
 						var testTag = item.closest('.pin-' + command)
 						if(value == 1) {
-							/*$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
+							$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('.v-input--switch__track span').removeClass('close-switch-text').addClass('open-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('On');
+							$(testTag).find('.v-input--switch__track span').text('Off');
 							$(testTag).find('.v-input--switch__thumb').removeClass('red--text text--darken-3').addClass('success--text');
 							$(testTag).find('svg').removeClass('tv-close-svg');
-							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')*/	
+							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('1')	
 						} else {
 							$(testTag).removeClass('v-input--is-label-active  success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--selection-controls__ripple').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--switch__track').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('.v-input--switch__track span').removeClass('open-switch-text').addClass('close-switch-text');
-							$(testTag).find('.v-input--switch__track span').text('Off');
+							$(testTag).find('.v-input--switch__track span').text('On');
 							$(testTag).find('.v-input--switch__thumb').removeClass('success--text').addClass('red--text text--darken-3');
 							$(testTag).find('svg').addClass('tv-close-svg');
 							$(testTag).closest('td.tvstatus').children('span.tvstatus-value').text('0')
@@ -690,7 +698,7 @@ export default {
 							})	
 						}, 2000);*/
 						
-						axios.post('http://192.168.10.31:5000/api/test', {
+						/*axios.post('http://192.168.10.31:5000/api/test', {
 							token:token,
 							updateDate:dateTime,
 							method:"rpcCommand",
@@ -707,7 +715,7 @@ export default {
 						})
 						.catch(function (error) {
 							console.log(error);
-						});
+						});*/
             var updateDeviceList = this.deviceList;
 						var connectDevicesIcons = [];
 						this.$el.querySelectorAll('.device-connection').forEach(item => {
@@ -786,6 +794,7 @@ export default {
 							var testTag = item.closest('.pin-ka');
 							console.log('TESTTAGGG : ',testTag);
 							if(tvDurum == 1) {
+								console.log
 								$(testTag).removeClass('red--text text--darken-3').addClass('v-input--is-label-active success--text');
 								$(testTag).find('.v-input--selection-controls__ripple').removeClass('red--text text--darken-3').addClass('success--text');
 								$(testTag).find('.v-input--switch__track').removeClass('red--text text--darken-3').addClass('success--text');
@@ -986,7 +995,7 @@ export default {
 					on:'01',
 					off:'00'
 		}};*/
-			if(command == "ka") {
+			/*if(command == "ka") {
 				var i= 0;
 				this.interval = setInterval(() => {
 					i++;
@@ -1012,7 +1021,7 @@ export default {
 						
 					}
 				}, 1000);
-			}
+			}*/
 			this.$el.querySelectorAll('.input-control .v-input__control.tv-id-'+tvID).forEach(item => {
 			console.log('Input Control : ',item)
 			
@@ -1062,7 +1071,7 @@ export default {
 		
 		var value;
 		this.deviceList.forEach(item => {
-			if(item.token == token) {
+			if(item.token == token && item.tv_id == tvID) {
 				if(item.tv_status == 0) {
 					value = 2;
 				}else {

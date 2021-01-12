@@ -311,8 +311,8 @@ client.on('connect', function () {
 var selectedTvID, selectedSerialNumber;
 client.on('message', function (topic, message) {
   // message is Buffer
-  var topicName = topic.toString();
-  console.log(topic.toString());
+  var topicName = topic.toString(); //console.log(topic.toString());
+
   console.log(message.toString());
   var jsonData = JSON.parse(message);
   var topicArray = topicName.split('/');
@@ -469,8 +469,7 @@ client.on('message', function (topic, message) {
         kh: 'brightness_value',
         dx: 'PictureMode'
       };
-      var selectedPinKey = testArray[Object.keys(jsonData.params)];
-      sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
+      var selectedPinKey = testArray[Object.keys(jsonData.params)]; //sql = "UPDATE Device_Status SET " + selectedPinKey + " = ?, Last_Update = ? WHERE Token = ? AND TvID = ?";
 
       if (testArray[Object.keys(jsonData.params)] == selectedPinKey && typeof selectedPinKey != 'undefined') {
         var arrayIDValue = jsonData.params[Object.keys(jsonData.params)].split(',');
@@ -493,11 +492,14 @@ client.on('message', function (topic, message) {
       } else if (jsonData.params.serial == 'Device Connected') {
         mysqlQuery = "SELECT * FROM lcd_devices_status WHERE token = ?";
         var tvIDArray = [];
+        var json = {};
         connection.query(mysqlQuery, [token], function (err, results, fields) {
           results.forEach(function (item) {
-            tvIDArray.push(item.tv_id.toString());
-          });
-          var json = {
+            console.log(item);
+            tvIDArray.push(item.tv_id);
+          }); //console.log('TVID ARRAY : ',tvIDArray);
+
+          json = {
             method: 'rpcCommand',
             params: {
               command: 'pl',
@@ -506,6 +508,8 @@ client.on('message', function (topic, message) {
             },
             values: tvIDArray
           };
+          console.log('TV AID ', tvIDArray);
+          console.log(json);
           client.publish('home/philips_tv/telemetry/' + token, JSON.stringify(json));
         });
       }
@@ -878,13 +882,13 @@ router.post('/test', function (req, res) {
   };
 
   if (req.body.params.value == '') {
-    sql = "UPDATE Device_Status SET Last_Update = ?, Connection_Status = 0 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+    //sql = "UPDATE Device_Status SET Last_Update = ?, Connection_Status = 0 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
     mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?, connection_status = 0 WHERE token = ? AND tv_id = ? AND serial_number = ?";
     connection.query(mysqlQuery, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (error, results, fields) {
       console.log('success');
     });
   } else {
-    sql = "UPDATE Device_Status SET Last_Update = ?," + selectedPinKey + " = ?, Connection_Status = 1 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
+    //sql = "UPDATE Device_Status SET Last_Update = ?," + selectedPinKey + " = ?, Connection_Status = 1 WHERE Token = ? AND TvID = ? AND Serial_Number = ?";
     mysqlQuery = "UPDATE lcd_devices_status SET last_update = ?," + selectedPinKey + " = ?, connection_status = 1 WHERE token = ? AND tv_id = ? AND serial_number = ?";
     connection.query(mysqlQuery, [req.body.updateDate, req.body.token, req.body.params.tvId, req.body.params.tvSerial], function (error, results, fields) {
       console.log('success');
