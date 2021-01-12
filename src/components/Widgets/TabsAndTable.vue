@@ -596,7 +596,7 @@ export default {
 				$('.tvRemoteLock.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 				$('.tvstatus.input-control .v-input__control.tv-id-'+TVID).removeClass('input-switch-disabled').addClass('input-switch-enabled');
 			}, 4000);
-			//clearInterval(this.interval)
+			clearInterval(this.interval)
 		} else if(command == "ka" && value == 0){
 			console.log('KAPALI ')
 			$('#notificationIcon').addClass('animated infinite wobble')
