@@ -179,7 +179,7 @@ export default {
       //StatsCardV6
    },
    mqtt: {
-		'home/attributes/#' : function(val) {this.loadData();
+		'home/philips_tv/attribute/#' : function(val) {this.loadData();
 			var test = String.fromCharCode.apply(null,val);
 			var jsonData = JSON.parse(test);
 			console.log(jsonData);

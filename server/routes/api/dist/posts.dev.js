@@ -319,7 +319,7 @@ client.on('message', function (topic, message) {
   var token = '';
   topicArray.forEach(function (item) {
     if (item.length == 20) {
-      token = item;
+      token = item; //her gelen mesajı dinlediğim için token'ı burda alıyorum.
     }
   });
   var today = new Date();
@@ -327,10 +327,11 @@ client.on('message', function (topic, message) {
   var time = String(today.getHours()).padStart(2, "0") + ":" + String(today.getMinutes()).padStart(2, "0") + ":" + String(today.getSeconds()).padStart(2, "0");
   var dateTime = date + ' ' + time;
   console.log('Message JSON DATA : ', jsonData);
-  console.log('TOKEN : ' + token + 'TOPIC : ' + topicName);
+  console.log('TOKEN : ' + token + 'TOPIC : ' + topicName); //topicName'lere göre case'ler oluşturdum ve her bir case için farklı görevleri var.
 
   switch (topicName) {
     case 'home/' + token:
+      //Cihaz ilk bağlandığında buraya girecek
       console.log('Home Channel');
       var password = jsonData.params.password;
 
@@ -340,37 +341,39 @@ client.on('message', function (topic, message) {
         var mysqlQuery = 'SELECT * FROM settings';
         var arrayIDList = [];
         var arrayPasswordList = [];
-        connection.query(mysqlQuery, [], function (err, rows) {
-          rows.forEach(function (item) {
-            arrayPasswordList.push(item.password);
-            console.log('ARRAY : ', item);
-          });
+        /*connection.query(mysqlQuery,[],(err,rows) => {
+            rows.forEach(item => {
+                arrayPasswordList.push(item.password);
+                console.log('ARRAY : ',item)
+                })
+                if (arrayPasswordList.includes(password)) {
+                    console.log('Şifre Doğru');
+                    sql = 'SELECT * FROM lcd_devices_status WHERE Token = ?';
+                    var arrayTokenList = [];
+                          connection.query(sql,[token],(err,rows)=>{
+                        console.log(rows.length);
+                        if (rows.length == 0){
+                            console.log('Token Yok')
+                            
+                            sql = "INSERT INTO lcd_devices_status(Name,Password,Token,Last_Update) VALUES ('labrusNeww',?,?,?)";
+                            connection.query(sql, [password,token,dateTime], (err, rows) => {
+                                console.log('SUCCESS')
+                                var jsonMethod = '{ "method": "getTvId", "params": { } }';
+                                client.publish('home/telemetry/' + token, jsonMethod);
+                            })
+                        }
+                        else{
+                            console.log('Token Var');
+                            var jsonMethod = '{ "method": "getTvId", "params": { } }';
+                            client.publish('home/telemetry/' + token, jsonMethod);
+                        }
+                    })
+                }
+                else {
+                    console.log('Şifre Yanlış');
+                }
+            })*/
 
-          if (arrayPasswordList.includes(password)) {
-            console.log('Şifre Doğru');
-            sql = 'SELECT * FROM lcd_devices_status WHERE Token = ?';
-            var arrayTokenList = [];
-            connection.query(sql, [token], function (err, rows) {
-              console.log(rows.length);
-
-              if (rows.length == 0) {
-                console.log('Token Yok');
-                sql = "INSERT INTO lcd_devices_status(Name,Password,Token,Last_Update) VALUES ('labrusNeww',?,?,?)";
-                connection.query(sql, [password, token, dateTime], function (err, rows) {
-                  console.log('SUCCESS');
-                  var jsonMethod = '{ "method": "getTvId", "params": { } }';
-                  client.publish('home/telemetry/' + token, jsonMethod);
-                });
-              } else {
-                console.log('Token Var');
-                var jsonMethod = '{ "method": "getTvId", "params": { } }';
-                client.publish('home/telemetry/' + token, jsonMethod);
-              }
-            });
-          } else {
-            console.log('Şifre Yanlış');
-          }
-        });
         connection.query(sql, [], function (err, rows) {
           rows.forEach(function (item) {
             arrayPasswordList.push(item.password);
@@ -390,7 +393,7 @@ client.on('message', function (topic, message) {
                   console.log(err);
                   console.log('SUCCESS');
                   var jsonMethod = '{ "method": "getTvId", "params": { } }';
-                  client.publish('home/philips_tv/telemetry/' + token, jsonMethod);
+                  client.publish('home/philips_tv/telemetry/' + token, jsonMethod); //TVID'leri çekebilmek için gerekli publish'i atıyorum
                 });
               } else {
                 console.log('Token Var');
@@ -490,6 +493,7 @@ client.on('message', function (topic, message) {
           console.log('SELECTED PIN VALUE', selectedPinValue);
         });
       } else if (jsonData.params.serial == 'Device Connected') {
+        query = "UPDATE ";
         mysqlQuery = "SELECT * FROM lcd_devices_status WHERE token = ?";
         var tvIDArray = [];
         var json = {};
@@ -587,7 +591,11 @@ client.on('message', function (topic, message) {
         jsonTvIdList.forEach(function (item, index) {
           //console.log(tvModels[index],item);
           console.log('setDEVICEMODEL : ', tvModels[index], dateTime, item);
-          connection.query(mysqlQuery, [tvModels[index], dateTime, item, token], function (err, result, fields) {//console.log('Model Number - Last Update UPDATE OK!');
+          connection.query(mysqlQuery, [tvModels[index], dateTime, item, token], function (err, result, fields) {
+            console.log(err);
+            console.log(result);
+            console.log(fields);
+            console.log(mysqlQuery); //console.log('Model Number - Last Update UPDATE OK!');
           });
         });
       }
